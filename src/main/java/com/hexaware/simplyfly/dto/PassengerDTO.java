@@ -1,36 +1,19 @@
-package com.hexaware.simplyfly.entities;
+package com.hexaware.simplyfly.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.hexaware.simplyfly.entities.Gender;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-
-
-@Entity
-public class Passengers {
-	@Id
+public class PassengerDTO {
 	private Integer passengerId;
 	private String firstName;
 	private String lastName;
 	private Integer age;
 	private Gender gender;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="bookings_passengers_table" , joinColumns = {@JoinColumn(name="passengerId")} ,
-       inverseJoinColumns = {@JoinColumn(name="bookingId")} )
-    private  Set<Bookings> bookings  = new HashSet<Bookings>();
-	
-	public Passengers() {
+	public PassengerDTO() {
 		super();
 	}
 
-	public Passengers(Integer passengerId, String firstName, String lastName, Integer age, Gender gender) {
+	public PassengerDTO(Integer passengerId, String firstName, String lastName, Integer age, Gender gender) {
 		super();
 		this.passengerId = passengerId;
 		this.firstName = firstName;
@@ -78,5 +61,6 @@ public class Passengers {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
+	
 	
 }

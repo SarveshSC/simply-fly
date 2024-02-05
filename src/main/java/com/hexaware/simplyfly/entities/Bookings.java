@@ -8,26 +8,33 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-
 
 @Entity
 public class Bookings {
 	@Id
-	Integer bookingId;
-	Double amount;
-	LocalDateTime bookingDateTime;
+	private Integer bookingId;
+	private Double amount;
+	private LocalDateTime bookingDateTime;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "flightDetailId")
 	private FlightDetails flightdetails;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-	private Set<BookingPassengers> bookings = new HashSet<BookingPassengers>();
-	
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
+//	private Set<BookingPassengers> bookings = new HashSet<BookingPassengers>();
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "payment_bookings")
 	private Set<Payments> payments_bookings = new HashSet<Payments>();
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "customerId")
+	private Customer customer;
+	
+	@ManyToMany(mappedBy = "bookings")
+	private Set<Passengers> passengers = new HashSet<Passengers>();
 
 	BookingStatus status;
 

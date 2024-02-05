@@ -20,8 +20,8 @@ public class Seats {
 	@JoinColumn(name="flightId")
 	Flights flight;
 //	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "seat")
-	private Set<BookingPassengers> seats = new HashSet<BookingPassengers>(); 
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "seat")
+//	private Set<BookingPassengers> seats = new HashSet<BookingPassengers>(); 
 	
 	public Seats() {
 		super();
