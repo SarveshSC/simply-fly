@@ -51,9 +51,10 @@ public class CustomerServiceImpl implements ICustomerService {
 		return bookingRepo.save(booking);
 	}
 	
+	//validation from user yet to be implemented.
 	public List<Bookings> getAllBookings(String username){
 		List<Bookings> list = new ArrayList<>();
-		
+		list = bookingRepo.findAll();
 		return list;
 	}
 
