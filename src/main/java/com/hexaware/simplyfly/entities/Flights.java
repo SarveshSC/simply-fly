@@ -28,9 +28,6 @@ public class Flights {
 	@JoinColumn(name="destinationIATACode")
 	private Airports destination;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flight")
-	private  Set<Seats>  Seats = new HashSet<Seats>(); 
-	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flights")
 	private  Set<FlightDetails>  FlightDetails = new HashSet<FlightDetails>(); 
 	

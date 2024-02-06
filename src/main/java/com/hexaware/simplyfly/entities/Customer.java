@@ -1,30 +1,44 @@
 package com.hexaware.simplyfly.entities;
 
-public class Customers {
-	String customerId;
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
+public class Customer {
+	@Id
+	String username;
 	String name;
 	String email;
 	String password;
 	String contact;
 	
-	public Customers() {
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+	private Set<Bookings> bookings = new HashSet<Bookings>();
+	
+	
+	public Customer() {
 		super();
 	}
 	
-	public Customers(String customerId, String name, String email, String password, String contact) {
+	public Customer(String username, String name, String email, String password, String contact) {
 		super();
-		this.customerId = customerId;
+		this.username = username;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.contact = contact;
 	}
 
-	public String getCustomerId() {
-		return customerId;
+	public String getUsername() {
+		return username;
 	}
-	public void setUsername(String customerId) {
-		this.customerId = customerId;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getName() {
 		return name;
