@@ -51,6 +51,7 @@ public class Bookings {
 		this.flightdetails = flightdetails;
 		this.status = status;
 	}
+	
 
 	public Integer getBookingId() {
 		return bookingId;
@@ -92,4 +93,16 @@ public class Bookings {
 		this.status = status;
 	}
 
+	
+	public Set<Passengers> getPassengers() {
+		return passengers;
+	}
+
+	public void setPassengers(Set<Passengers> passengers) {
+		this.passengers = passengers;
+	}
+
+	public void addPassenger(Passengers passenger) {
+		this.getPassengers().add(passenger);
+	}
 }

@@ -1,5 +1,7 @@
 package com.hexaware.simplyfly.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +34,10 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public boolean deleteAccount(String username) {
-		boolean flag = true;
-		Customer customer = custRepo.findById(username).orElse(null);
-		if(customer == null) {
-			flag = false;
-		}
+	public String deleteAccount(String username) {
 		custRepo.deleteById(username);
 		
-		return flag;
+		return "Account Deleted";
 	}
 
 	@Override
@@ -53,17 +50,24 @@ public class CustomerServiceImpl implements ICustomerService {
 		
 		return bookingRepo.save(booking);
 	}
+	
+	public List<Bookings> getAllBookings(String username){
+		List<Bookings> list = new ArrayList<>();
+		
+		return list;
+	}
 
 	@Override
-	public boolean cancelBooking(Integer bookingId) {
-		boolean flag = true;
+	public String cancelBooking(Integer bookingId) {
+		String str = "";
 		Bookings booking = bookingRepo.findById(bookingId).orElse(null);
 		
-		if(booking == null) flag = false;
+		if(booking == null) str = "No bookings found";
 		else {
 			booking.setStatus(BookingStatus.Cancelled);
+			str = "Booking Cancelled";
 		}		
-		return flag;
+		return str;
 	}
 
 }
