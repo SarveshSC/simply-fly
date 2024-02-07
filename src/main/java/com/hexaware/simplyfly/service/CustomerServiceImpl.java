@@ -40,35 +40,4 @@ public class CustomerServiceImpl implements ICustomerService {
 		return "Account Deleted";
 	}
 
-	@Override
-	public Bookings bookFlight(BookingsDTO dto) {
-		Bookings booking = new Bookings();
-		booking.setBookingId(dto.getBookingId());
-		booking.setBookingDateTime(dto.getBookingDateTime());
-		booking.setAmount(dto.getAmount());
-		booking.setStatus(BookingStatus.Booked);
-		
-		return bookingRepo.save(booking);
-	}
-	
-	//validation from user yet to be implemented.
-	public List<Bookings> getAllBookings(String username){
-		List<Bookings> list = new ArrayList<>();
-		list = bookingRepo.findAll();
-		return list;
-	}
-
-	@Override
-	public String cancelBooking(Integer bookingId) {
-		String str = "";
-		Bookings booking = bookingRepo.findById(bookingId).orElse(null);
-		
-		if(booking == null) str = "No bookings found";
-		else {
-			booking.setStatus(BookingStatus.Cancelled);
-			str = "Booking Cancelled";
-		}		
-		return str;
-	}
-
 }

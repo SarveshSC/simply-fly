@@ -11,7 +11,5 @@ public interface ICustomerService {
 	public Customer editAccountInfo(Customer customer);
 	public String deleteAccount(String username);
 	
-	public Bookings bookFlight(BookingsDTO bookings);
-	public List<Bookings> getAllBookings(String username);
-	public String cancelBooking(Integer bookingId);
+	
 }

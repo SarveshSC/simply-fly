@@ -41,11 +41,11 @@ public class Airports {
 		this.name = name;
 	}
 
-	public String getAbbrevation() {
+	public String getCode() {
 		return iataCode;
 	}
 
-	public void setAbbrevation(String abbrevation) {
+	public void setCode(String abbrevation) {
 		this.iataCode = abbrevation;
 	}
 

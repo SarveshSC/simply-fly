@@ -6,6 +6,8 @@ import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
@@ -15,6 +17,7 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Bookings {
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer bookingId;
 	private Double amount;
 	private LocalDateTime bookingDateTime;
