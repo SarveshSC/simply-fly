@@ -1,104 +1,66 @@
-package com.hexaware.simplyfly.entities;
+package com.hexaware.simplyfly.dto;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+public class FlightDetailsDTO {
 
-
-@Entity
-public class FlightDetails {
-	@Id
+	
 	Integer flightDetailId;
-	@NotNull
 	LocalDateTime departure;
-	@NotNull
 	LocalDateTime arrival;
-	@NotNull
-	@Min(value=1000)
 	Double ticketPrice;
-	@NotNull
-	@Min(value=0)
 	Integer filledSeats;
 	Integer baggage;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="flightCode")
-	Flights flights;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flightdetails")
-	private Set<Bookings> bookings = new HashSet<Bookings>();
-	
-	public FlightDetails() {
-		super();
-	}
-
-	public FlightDetails(Integer flightDetailId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
-			Integer filledSeats, Flights flights) {
+	public FlightDetailsDTO(Integer flightDetailId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
+			Integer filledSeats, Integer baggage) {
 		super();
 		this.flightDetailId = flightDetailId;
 		this.departure = departure;
 		this.arrival = arrival;
 		this.ticketPrice = ticketPrice;
 		this.filledSeats = filledSeats;
-		this.flights = flights;
+		this.baggage = baggage;
 	}
-
+	public FlightDetailsDTO() {
+		super();
+	}
 	public Integer getFlightDetailId() {
 		return flightDetailId;
 	}
-
 	public void setFlightDetailId(Integer flightDetailId) {
 		this.flightDetailId = flightDetailId;
 	}
-
 	public LocalDateTime getDeparture() {
 		return departure;
 	}
-
 	public void setDeparture(LocalDateTime departure) {
 		this.departure = departure;
 	}
-
 	public LocalDateTime getArrival() {
 		return arrival;
 	}
-
 	public void setArrival(LocalDateTime arrival) {
 		this.arrival = arrival;
 	}
-
 	public Double getTicketPrice() {
 		return ticketPrice;
 	}
-
 	public void setTicketPrice(Double ticketPrice) {
 		this.ticketPrice = ticketPrice;
 	}
-
 	public Integer getFilledSeats() {
 		return filledSeats;
 	}
-
 	public void setFilledSeats(Integer filledSeats) {
 		this.filledSeats = filledSeats;
 	}
-
-	public Flights getFlights() {
-		return flights;
+	public Integer getBaggage() {
+		return baggage;
 	}
-
-	public void setFlights(Flights flights) {
-		this.flights = flights;
+	public void setBaggage(Integer baggage) {
+		this.baggage = baggage;
 	}
+	
 	
 	
 }

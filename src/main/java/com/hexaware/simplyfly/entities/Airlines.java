@@ -7,11 +7,15 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Airlines {
 	@Id
+	@Pattern(regexp ="[A-Z]{2,3}")
 	String airlineId;
+	@NotNull
 	String airlineName;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "airline")

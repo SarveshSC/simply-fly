@@ -9,22 +9,29 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Flights {
 	@Id
+	@Pattern(regexp = "[A-Z]{3}-[0-9]{2}")
 	private String flightCode;
+	@Min(value=100)
 	private Integer totalSeats;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	//cascade = CascadeType.ALL//removed this in below
+	@ManyToOne()
 	@JoinColumn(name="airlineId")
 	private Airlines airline;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	//cascade=CascadeType.ALL
+	@ManyToOne()
 	@JoinColumn(name="sourceIATACode")
 	private Airports source;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	//cascade = CascadeType.ALL
+	@ManyToOne()
 	@JoinColumn(name="destinationIATACode")
 	private Airports destination;
 	
@@ -83,6 +90,14 @@ public class Flights {
 	public void setDestination(Airports destination) {
 		this.destination = destination;
 	}
+
+	@Override
+	public String toString() {
+		return "Flights [flightCode=" + flightCode + ", totalSeats=" + totalSeats + ", airline=" + airline + ", source="
+				+ source + ", destination=" + destination + ", FlightDetails=" + FlightDetails + "]";
+	}
+
+
 	
 	
 }
