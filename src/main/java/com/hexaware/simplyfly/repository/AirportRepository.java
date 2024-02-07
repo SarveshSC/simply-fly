@@ -8,6 +8,6 @@ import com.hexaware.simplyfly.entities.Airports;
 @Repository
 public interface AirportRepository extends JpaRepository<Airports, String>{
 
-	
+	public Airports findByLocation(String Location);
 	
 }
