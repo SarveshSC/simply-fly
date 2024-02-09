@@ -22,10 +22,10 @@ public class Airports {
 	String location;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "source")
-	private Set<Flights> flights_source = new HashSet<Flights>();
+	private Set<FlightTrip> flightsSource = new HashSet<FlightTrip>();
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "destination")
-	private Set<Flights> flights_destination = new HashSet<Flights>();
+	private Set<FlightTrip> flightsDestination = new HashSet<FlightTrip>();
 	
 	public Airports() {
 		super();
@@ -70,21 +70,23 @@ public class Airports {
 		this.iataCode = iataCode;
 	}
 
-	public Set<Flights> getFlights_source() {
-		return flights_source;
+	public Set<FlightTrip> getFlightsSource() {
+		return flightsSource;
 	}
 
-	public void setFlights_source(Set<Flights> flights_source) {
-		this.flights_source = flights_source;
+	public void setFlightsSource(Set<FlightTrip> flightsSource) {
+		this.flightsSource = flightsSource;
 	}
 
-	public Set<Flights> getFlights_destination() {
-		return flights_destination;
+	public Set<FlightTrip> getFlightsDestination() {
+		return flightsDestination;
 	}
 
-	public void setFlights_destination(Set<Flights> flights_destination) {
-		this.flights_destination = flights_destination;
+	public void setFlightsDestination(Set<FlightTrip> flightsDestination) {
+		this.flightsDestination = flightsDestination;
 	}
+	
+	
 	
 	
 }

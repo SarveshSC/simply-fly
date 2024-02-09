@@ -1,23 +1,25 @@
 package com.hexaware.simplyfly.dto;
 
-public class CustomersDTO {
+public class CustomerDTO {
 	private String username;
 	private String name;
 	private String email;
 	private String password;
 	private String contact;
+	private int age;
 	
-	public CustomersDTO() {
+	public CustomerDTO() {
 		super();
 	}
 
-	public CustomersDTO(String username, String name, String email, String password, String contact) {
+	public CustomerDTO(String username, String name, String email, String password, String contact, int age) {
 		super();
 		this.username = username;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.contact = contact;
+		this.age = age;
 	}
 
 	public String getUsername() {
@@ -59,7 +61,14 @@ public class CustomersDTO {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
-	
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 	
 	
 }

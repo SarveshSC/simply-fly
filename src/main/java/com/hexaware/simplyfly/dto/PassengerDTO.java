@@ -1,25 +1,25 @@
 package com.hexaware.simplyfly.dto;
 
-import com.hexaware.simplyfly.entities.Gender;
+import com.hexaware.simplyfly.entities.Seats;
 
 public class PassengerDTO {
 	private Integer passengerId;
-	private String firstName;
-	private String lastName;
+	private String name;
 	private Integer age;
-	private Gender gender;
+	private String gender;
+	private Seats seat;
 	
 	public PassengerDTO() {
 		super();
 	}
 
-	public PassengerDTO(Integer passengerId, String firstName, String lastName, Integer age, Gender gender) {
+	public PassengerDTO(Integer passengerId, String name, Integer age, String gender, Seats seat) {
 		super();
 		this.passengerId = passengerId;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.name = name;
 		this.age = age;
 		this.gender = gender;
+		this.seat = seat;
 	}
 
 	public Integer getPassengerId() {
@@ -30,20 +30,12 @@ public class PassengerDTO {
 		this.passengerId = passengerId;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Integer getAge() {
@@ -54,12 +46,20 @@ public class PassengerDTO {
 		this.age = age;
 	}
 
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public Seats getSeat() {
+		return seat;
+	}
+
+	public void setSeat(Seats seat) {
+		this.seat = seat;
 	}
 	
 	

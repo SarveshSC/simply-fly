@@ -9,4 +9,5 @@ public interface IAdminService {
 	public Airports updateAirport(AirportDTO airportDTO) throws AirportNotFoundException;
 	public void removeAirport(String airportCode);
 	
+//	get all customer;
 }

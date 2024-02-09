@@ -10,14 +10,47 @@ import jakarta.persistence.ManyToOne;
 public class Payments {
 	@Id
 	Integer paymentId;
-	PaymentStatus status;
+	String status;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="bookingId")
-	private Bookings payment_bookings;
+	private Bookings paymentBookings;
 	
 	public Payments() {
 		super();
 	}
+
+	public Payments(Integer paymentId, String status, Bookings paymentBookings) {
+		super();
+		this.paymentId = paymentId;
+		this.status = status;
+		this.paymentBookings = paymentBookings;
+	}
+
+	public Integer getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(Integer paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Bookings getPaymentBookings() {
+		return paymentBookings;
+	}
+
+	public void setPaymentBookings(Bookings paymentBookings) {
+		this.paymentBookings = paymentBookings;
+	}
+	
+	
 	
 }

@@ -10,31 +10,34 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
 public class Passengers {
 	@Id
 	private Integer passengerId;
-	private String firstName;
-	private String lastName;
+	private String name;
 	private Integer age;
-	private Gender gender;
+	private String gender;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="bookings_passengers_table" , joinColumns = {@JoinColumn(name="passengerId")} ,
+    @JoinTable(name="bookings_passengers" , joinColumns = {@JoinColumn(name="passengerId")} ,
        inverseJoinColumns = {@JoinColumn(name="bookingId")} )
     private  Set<Bookings> bookings  = new HashSet<Bookings>();
+	
+	@OneToOne
+	@JoinColumn(name="seatNo")
+	private Seats seat;
 	
 	public Passengers() {
 		super();
 	}
 
-	public Passengers(Integer passengerId, String firstName, String lastName, Integer age, Gender gender) {
+	public Passengers(Integer passengerId, String name, Integer age, String gender) {
 		super();
 		this.passengerId = passengerId;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.name = name;
 		this.age = age;
 		this.gender = gender;
 	}
@@ -47,20 +50,12 @@ public class Passengers {
 		this.passengerId = passengerId;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Integer getAge() {
@@ -71,11 +66,11 @@ public class Passengers {
 		this.age = age;
 	}
 
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 	

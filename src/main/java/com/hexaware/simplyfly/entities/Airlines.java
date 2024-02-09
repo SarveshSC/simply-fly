@@ -7,6 +7,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -20,6 +21,9 @@ public class Airlines {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "airline")
 	private  Set<Flights>  Flights = new HashSet<Flights>();  
+	
+	@OneToOne(mappedBy = "airlineFromUser")
+	private User user;
 	
 	public Airlines() {
 		super();
