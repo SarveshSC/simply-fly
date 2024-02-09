@@ -24,13 +24,10 @@ public class Bookings {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "flightDetailId")
-	private FlightDetails flightdetails;
+	private FlightTrip flightdetails;
 
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-//	private Set<BookingPassengers> bookings = new HashSet<BookingPassengers>();
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "payment_bookings")
-	private Set<Payments> payments_bookings = new HashSet<Payments>();
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentBookings")
+	private Set<Payments> payments = new HashSet<Payments>();
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customerId")
@@ -39,22 +36,28 @@ public class Bookings {
 	@ManyToMany(mappedBy = "bookings")
 	private Set<Passengers> passengers = new HashSet<Passengers>();
 
-	BookingStatus status;
+	private String status;
 
 	public Bookings() {
 		super();
 	}
 
-	public Bookings(Integer bookingId, Double amount, LocalDateTime bookingDateTime, FlightDetails flightdetails,
-			BookingStatus status) {
+	
+
+	public Bookings(Integer bookingId, Double amount, LocalDateTime bookingDateTime, FlightTrip flightdetails,
+			Set<Payments> payments, Customer customer, Set<Passengers> passengers, String status) {
 		super();
 		this.bookingId = bookingId;
 		this.amount = amount;
 		this.bookingDateTime = bookingDateTime;
 		this.flightdetails = flightdetails;
+		this.payments = payments;
+		this.customer = customer;
+		this.passengers = passengers;
 		this.status = status;
 	}
-	
+
+
 
 	public Integer getBookingId() {
 		return bookingId;
@@ -80,23 +83,28 @@ public class Bookings {
 		this.bookingDateTime = bookingDateTime;
 	}
 
-	public FlightDetails getFlightdetails() {
+	public FlightTrip getFlightdetails() {
 		return flightdetails;
 	}
 
-	public void setFlightdetails(FlightDetails flightdetails) {
+	public void setFlightdetails(FlightTrip flightdetails) {
 		this.flightdetails = flightdetails;
 	}
 
-	public BookingStatus getStatus() {
+
+	
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(BookingStatus status) {
+
+
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	
+
+
 	public Set<Passengers> getPassengers() {
 		return passengers;
 	}

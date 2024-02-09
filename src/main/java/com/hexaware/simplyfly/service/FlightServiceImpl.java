@@ -1,18 +1,19 @@
 package com.hexaware.simplyfly.service;
 
-import java.lang.System.Logger;
-import java.util.List;
-
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.hexaware.simplyfly.dto.FlightsDto;
+import com.hexaware.simplyfly.dto.FlightDTO;
+import com.hexaware.simplyfly.entities.Airlines;
 import com.hexaware.simplyfly.entities.Flights;
+import com.hexaware.simplyfly.exception.AirlineNotFoundException;
 import com.hexaware.simplyfly.repository.AirlineRepository;
-import com.hexaware.simplyfly.repository.FlightRepository;
 import com.hexaware.simplyfly.repository.AirportRepository;
-import com.hexaware.simplyfly.repository.FlightDetailsRepository;
+import com.hexaware.simplyfly.repository.FlightRepository;
+import com.hexaware.simplyfly.repository.FlightTripRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -20,6 +21,8 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class FlightServiceImpl implements IFlightService {
+	
+	
 	
 	
 	@Autowired
@@ -33,60 +36,66 @@ public class FlightServiceImpl implements IFlightService {
 	AirportRepository airPortRepo;
 	
 	@Autowired
-	FlightDetailsRepository flightDetailsRepo;
+	FlightTripRepository flightDetailsRepo;
 
 	@Override
-	public Flights addFlights(FlightsDto flightDto,String sourceIata,String destinationIata,String airlineId) {
-		Flights flight=new Flights();
-		flight.setFlightCode(flightDto.getFlightCode());
-		flight.setTotalSeats(flightDto.getTotalSeats());
-		flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
-		flight.setSource(airPortRepo.findById(sourceIata).orElse(null));
-		flight.setDestination(airPortRepo.findById(destinationIata).orElse(null));
-		return flightRepo.save(flight);	
+	public Flights addFlights(FlightDTO flightDto,String airlineId) throws AirlineNotFoundException {
+		Flights flight=null;
+		Airlines airline=airLineRepo.findById(airlineId).orElse(null);
+		if(airline!=null)
+		{
+			flight=new Flights();
+			flight.setFlightCode(flightDto.getFlightCode());
+			flight.setTotalSeats(flightDto.getTotalSeats());
+			flight.setCabinWeight(flightDto.getCabinWeight());
+			flight.setCheckInWeight(flightDto.getCheckInWeight());
+			flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
+			return flightRepo.save(  flight);	
+		}
+		else {
+			throw new AirlineNotFoundException("the airline doesnot exists");
+		}
 	}
 
 	@Override
-	public Flights updateFlights(FlightsDto flightDto,String sourceIata,String destinationIata,String airlineId) {
-		Flights flight=new Flights();
-		flight.setFlightCode(flightDto.getFlightCode());
-		flight.setTotalSeats(flightDto.getTotalSeats());
-		flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
-		flight.setSource(airPortRepo.findById(sourceIata).orElse(null));
-		flight.setDestination(airPortRepo.findById(destinationIata).orElse(null));
-		Flights flight1= flightRepo.save(flight);
-		return flight1;
+	public Flights updateFlights(FlightDTO flightDto,String airlineId) throws AirlineNotFoundException {
+		Flights flight=null;
+		if(airLineRepo.findById(airlineId)!=null)
+		{
+			flight=new Flights();
+			flight.setFlightCode(flightDto.getFlightCode());
+			flight.setTotalSeats(flightDto.getTotalSeats());
+			flight.setCabinWeight(flightDto.getCabinWeight());
+			flight.setCheckInWeight(flightDto.getCheckInWeight());
+			flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
+			return flightRepo.save(flight);	
+		}
+		else {
+			throw new AirlineNotFoundException("the airline doesnot exists");
+		}
+		
 	}
 
 	@Override
-	public String removeFlights(String flightId) {
+	public String removeFlights(String flightId) throws Exception {
 		if(flightRepo.existsById(flightId)) {
+			Flights flight=flightRepo.findById(flightId).orElse(null);
+			if(flight.getFlightTrip().size()==0) {
 			flightRepo.deleteById(flightId);
 			return "record deleted";
+			}
+			else {
+				throw new Exception("this flight has more than 1 schedule, cannot be deleted now");
+			}
 		}
 		return "record not found";
 	}
-
-	@Override
-	public List<Flights> flightsBySource(String sourceIata) {
-		return flightRepo.findBySource(airPortRepo.findById(sourceIata).orElse(null));
+	
+	@ExceptionHandler({AirlineNotFoundException.class })
+	//@ResponseStatus(value = HttpStatus.BAD_REQUEST,reason = "airline not found")
+	public ResponseEntity<String> airlineNotFound(AirlineNotFoundException e){
+		return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
 	}
 
-	@Override
-	public List<Flights> flightsByDestination(String destinationIata) {
-		return flightRepo.findByDestination(airPortRepo.findById(destinationIata).orElse(null));
-	}
-
-	
-	
-	
-
-
-
-
-
-	
-
-	
 	
 }

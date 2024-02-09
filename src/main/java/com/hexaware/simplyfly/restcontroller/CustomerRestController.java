@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hexaware.simplyfly.dto.BookingsDTO;
-import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.service.ICustomerService;
 
@@ -38,13 +36,7 @@ public class CustomerRestController {
 	@DeleteMapping("/deleteAccount/{username}")
 	public String deleteAccount(@PathVariable String username) {
 		return service.deleteAccount(username);
-	}
-	
-	@PostMapping("/bookFlight")
-	public Bookings bookFlight(@RequestBody BookingsDTO booking) {
-		return service.bookFlight(booking);
-	}
-	
+	}	
 	
 	
 }

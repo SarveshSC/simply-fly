@@ -2,34 +2,30 @@ package com.hexaware.simplyfly.dto;
 
 import java.time.LocalDateTime;
 
-public class FlightDetailsDTO {
-
+public class FlightTripDTO {
+	private Integer flightDetailId;
+	private LocalDateTime departure;
+	private LocalDateTime arrival;
+	private Double ticketPrice;
+	private Integer filledSeats;
 	
-	Integer flightDetailId;
-	LocalDateTime departure;
-	LocalDateTime arrival;
-	Double ticketPrice;
-	Integer filledSeats;
-	Integer baggage;
-	public FlightDetailsDTO(Integer flightDetailId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
-			Integer filledSeats, Integer baggage) {
+	public FlightTripDTO(Integer flightDetailId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
+			Integer filledSeats) {
 		super();
 		this.flightDetailId = flightDetailId;
 		this.departure = departure;
 		this.arrival = arrival;
 		this.ticketPrice = ticketPrice;
 		this.filledSeats = filledSeats;
-		this.baggage = baggage;
+		
 	}
-	public FlightDetailsDTO() {
+	public FlightTripDTO() {
 		super();
 	}
 	public Integer getFlightDetailId() {
 		return flightDetailId;
 	}
-	public void setFlightDetailId(Integer flightDetailId) {
-		this.flightDetailId = flightDetailId;
-	}
+	
 	public LocalDateTime getDeparture() {
 		return departure;
 	}
@@ -54,13 +50,5 @@ public class FlightDetailsDTO {
 	public void setFilledSeats(Integer filledSeats) {
 		this.filledSeats = filledSeats;
 	}
-	public Integer getBaggage() {
-		return baggage;
-	}
-	public void setBaggage(Integer baggage) {
-		this.baggage = baggage;
-	}
-	
-	
-	
+    
 }
