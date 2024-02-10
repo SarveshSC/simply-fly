@@ -5,17 +5,20 @@ public class FlightDTO {
 	private Integer totalSeats;
 	private Integer checkInWeight;
 	private Integer cabinWeight;
+	private String airlineId;
 
 	public FlightDTO() {
 		super();
 	}
 
-	public FlightDTO(String flightCode, Integer totalSeats, Integer checkInWeight, Integer cabinWeight) {
+	public FlightDTO(String flightCode, Integer totalSeats, Integer checkInWeight, Integer cabinWeight,
+			String airlineId) {
 		super();
 		this.flightCode = flightCode;
 		this.totalSeats = totalSeats;
 		this.checkInWeight = checkInWeight;
 		this.cabinWeight = cabinWeight;
+		this.airlineId = airlineId;
 	}
 
 	public String getFlightCode() {
@@ -33,16 +36,30 @@ public class FlightDTO {
 	public void setTotalSeats(Integer totalSeats) {
 		this.totalSeats = totalSeats;
 	}
+
 	public Integer getCheckInWeight() {
 		return checkInWeight;
 	}
+
 	public void setCheckInWeight(Integer checkInWeight) {
 		this.checkInWeight = checkInWeight;
 	}
+
 	public Integer getCabinWeight() {
 		return cabinWeight;
 	}
+
 	public void setCabinWeight(Integer cabinWeight) {
 		this.cabinWeight = cabinWeight;
 	}
+
+	public String getAirlineId() {
+		return airlineId;
+	}
+
+	public void setAirlineId(String airlineId) {
+		this.airlineId = airlineId;
+	}
+
+	
 }

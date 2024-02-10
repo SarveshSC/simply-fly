@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,75 +17,83 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class FlightTrip {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer flightDetailId;
-	@NotNull
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer flightTripId;
+	
+	@Column(nullable = false)
 	@Future
 	private LocalDateTime departure;
-	@NotNull
+	
+	@Column(nullable = false)
 	@Future
 	private LocalDateTime arrival;
-	@NotNull
-	@Min(value=1000)
+	
+	@Column(nullable = false)
+	@Min(value = 1000)
 	private Double ticketPrice;
+	
+	
 	@NotNull
-	@Min(value=0)
-	private Integer filledSeats;
-	
+	@Min(value = 0)
+	@Positive
+	private Integer filledSeats = 0;
 
-	
-	
 	@ManyToOne()
 	@JsonIgnore
-	@JoinColumn(name="flightCode")
+	@JoinColumn(name = "flightCode")
 	private Flights flights;
-	
-	@ManyToOne()
-	@JsonIgnore
-	@JoinColumn(name="sourceIATACode")
-	private Airports source;
-	
-	
-	@ManyToOne()
-	@JsonIgnore
-	@JoinColumn(name="destinationIATACode")
-	private Airports destination;
-	
 
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flightdetails")
-	private Set<Bookings> bookings = new HashSet<Bookings>();
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flightTripId")
-	private Set<Seats> seats = new HashSet<>();
-	
+	@ManyToOne()
+	@JsonIgnore
+	@JoinColumn(name = "sourceIATACode", nullable = false)
+	private Airports source;
+
+	@ManyToOne()
+	@JsonIgnore
+	@JoinColumn(name = "destinationIATACode", nullable = false)
+	private Airports destination;
+
+	@OneToMany(mappedBy = "flightTripForBooking")
+	private Set<Bookings> bookings = new HashSet<>();
+
+	@OneToMany(mappedBy = "seatNo")
+	private Set<SeatStructure> seats = new HashSet<>();
+
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "passengerFlightTripId")
+//	private Set<Passengers> passengers = new HashSet<>();
+
 	public FlightTrip() {
 		super();
 	}
 
-	public FlightTrip(Integer flightDetailId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
-			Integer filledSeats, Flights flights) {
+	public FlightTrip(Integer flightTripId, @NotNull @Future LocalDateTime departure,
+			@NotNull @Future LocalDateTime arrival, @NotNull @Min(1000) Double ticketPrice,
+			@NotNull @Min(0) Integer filledSeats, Flights flights, Airports source, Airports destination,
+			Set<Bookings> bookings, Set<SeatStructure> seats) {
 		super();
-		this.flightDetailId = flightDetailId;
+		this.flightTripId = flightTripId;
 		this.departure = departure;
 		this.arrival = arrival;
 		this.ticketPrice = ticketPrice;
 		this.filledSeats = filledSeats;
 		this.flights = flights;
-		
+		this.source = source;
+		this.destination = destination;
+		this.bookings = bookings;
+		this.seats = seats;
 	}
 
-	public Integer getFlightDetailId() {
-		return flightDetailId;
+	public Integer getFlightTripId() {
+		return flightTripId;
 	}
 
-	public void setFlightDetailId(Integer flightDetailId) {
-		this.flightDetailId = flightDetailId;
+	public void setFlightTripId(Integer flightTripId) {
+		this.flightTripId = flightTripId;
 	}
 
 	public LocalDateTime getDeparture() {
@@ -128,16 +136,6 @@ public class FlightTrip {
 		this.flights = flights;
 	}
 
-	
-
-	public Set<Bookings> getBookings() {
-		return bookings;
-	}
-
-	public void setBookings(Set<Bookings> bookings) {
-		this.bookings = bookings;
-	}
-
 	public Airports getSource() {
 		return source;
 	}
@@ -153,6 +151,21 @@ public class FlightTrip {
 	public void setDestination(Airports destination) {
 		this.destination = destination;
 	}
-	
-	
+
+	public Set<Bookings> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Bookings> bookings) {
+		this.bookings = bookings;
+	}
+
+	public Set<SeatStructure> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(Set<SeatStructure> seats) {
+		this.seats = seats;
+	}
+
 }

@@ -1,23 +1,20 @@
 package com.hexaware.simplyfly.repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.hexaware.simplyfly.entities.FlightTrip;
-import com.hexaware.simplyfly.restcontroller.FlightDetailsController;
 
 @Repository
 public interface FlightTripRepository extends JpaRepository<FlightTrip, Integer> {
 	
-	
+	@Query(value="select ticket_price from flight_trip ft inner join bookings b on ft.flight_trip_id = b.flight_trip_id where b.booking_id = ?1",nativeQuery = true)
+	Double findTicketPriceByBookingId(Integer bookingId);
 
 	@Query(value="select * from flight_trip where DATE(departure)=?1",nativeQuery = true)
 	List<FlightTrip> findByDeparture(LocalDate departure);

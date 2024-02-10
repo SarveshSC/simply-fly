@@ -53,7 +53,7 @@ public class FlightServiceImpl implements IFlightService {
 			return flightRepo.save(  flight);	
 		}
 		else {
-			throw new AirlineNotFoundException("the airline doesnot exists");
+			throw new AirlineNotFoundException("This Airline doesnot exist");
 		}
 	}
 
@@ -71,7 +71,7 @@ public class FlightServiceImpl implements IFlightService {
 			return flightRepo.save(flight);	
 		}
 		else {
-			throw new AirlineNotFoundException("the airline doesnot exists");
+			throw new AirlineNotFoundException("This Airline doesnot exist");
 		}
 		
 	}
@@ -80,7 +80,7 @@ public class FlightServiceImpl implements IFlightService {
 	public String removeFlights(String flightId) throws Exception {
 		if(flightRepo.existsById(flightId)) {
 			Flights flight=flightRepo.findById(flightId).orElse(null);
-			if(flight.getFlightTrip().size()==0) {
+			if(flight.getFlightTrip().isEmpty()) {
 			flightRepo.deleteById(flightId);
 			return "record deleted";
 			}

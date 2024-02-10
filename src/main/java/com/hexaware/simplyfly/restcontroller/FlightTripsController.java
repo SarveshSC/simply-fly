@@ -20,26 +20,26 @@ import com.hexaware.simplyfly.entities.FlightTrip;
 import com.hexaware.simplyfly.service.IFlightTripService;
 
 @RestController
-@RequestMapping("/flightDetails")
-public class FlightDetailsController {
+@RequestMapping("/flightTrips")
+public class FlightTripsController {
 	@Autowired
 	IFlightTripService service;
-	Logger logger = LoggerFactory.getLogger(FlightDetailsController.class);
+	Logger logger = LoggerFactory.getLogger(FlightTripsController.class);
 
 	
 	@PostMapping("/scheduleFlight/{flightCode}/{sourceIata}/{destinationIata}")
-	public FlightTrip scheduleFlight(@RequestBody FlightTripDTO flightDetailsDTO,@PathVariable String flightCode, @PathVariable String sourceIata,@PathVariable String destinationIata) throws Exception {
-		return service.scheduleFlight(flightDetailsDTO, flightCode,sourceIata,destinationIata);
+	public FlightTrip scheduleFlight(@RequestBody FlightTripDTO flightTripsDTO,@PathVariable String flightCode, @PathVariable String sourceIata,@PathVariable String destinationIata) throws Exception {
+		return service.scheduleFlight(flightTripsDTO, flightCode,sourceIata,destinationIata);
 	}
 	
 	@PutMapping("/rescheduleFlight")
-	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTrip flightDetails) throws Exception {
-		return service.rescheduleFlightTrip(flightDetails);
+	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTrip flightTrips) throws Exception {
+		return service.rescheduleFlightTrip(flightTrips);
 	}
 	
-	@DeleteMapping("/cancelFlight/{flightDetailId}")
-	public String cancelFlights(@PathVariable int flightDetailId) {
-		 return service.cancelFlights(flightDetailId);
+	@DeleteMapping("/cancelFlight/{flightTripId}")
+	public String cancelFlights(@PathVariable int flightTripId) {
+		 return service.cancelFlights(flightTripId);
 	}
 	
 	@GetMapping("/getByDate/{departure}")

@@ -3,16 +3,16 @@ package com.hexaware.simplyfly.dto;
 import java.time.LocalDateTime;
 
 public class FlightTripDTO {
-	private Integer flightDetailId;
+	private Integer flightTripId;
 	private LocalDateTime departure;
 	private LocalDateTime arrival;
 	private Double ticketPrice;
 	private Integer filledSeats;
 	
-	public FlightTripDTO(Integer flightDetailId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
+	public FlightTripDTO(Integer flightTripId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
 			Integer filledSeats) {
 		super();
-		this.flightDetailId = flightDetailId;
+		this.flightTripId = flightTripId;
 		this.departure = departure;
 		this.arrival = arrival;
 		this.ticketPrice = ticketPrice;
@@ -22,10 +22,12 @@ public class FlightTripDTO {
 	public FlightTripDTO() {
 		super();
 	}
-	public Integer getFlightDetailId() {
-		return flightDetailId;
+	public Integer getFlightTripId() {
+		return flightTripId;
 	}
-	
+	public void setFlightTripId(Integer flightTripId) {
+		this.flightTripId = flightTripId;
+	}
 	public LocalDateTime getDeparture() {
 		return departure;
 	}

@@ -3,11 +3,9 @@ package com.hexaware.simplyfly.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hexaware.simplyfly.entities.Flights;
+import com.hexaware.simplyfly.entities.SeatStructure;
 
 @Repository
-public interface FlightRepository extends JpaRepository<Flights,String> {
-	
-	
-	
+public interface SeatStructureRepository extends JpaRepository<SeatStructure, String>{
+
 }

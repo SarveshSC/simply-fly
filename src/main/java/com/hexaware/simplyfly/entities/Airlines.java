@@ -3,12 +3,14 @@ package com.hexaware.simplyfly.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -16,23 +18,28 @@ public class Airlines {
 	@Id
 	@Pattern(regexp ="[A-Z]{2,3}")
 	String airlineId;
-	@NotNull
+	
+	@Column(name = "airlineName", nullable = false)
 	String airlineName;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "airline")
-	private  Set<Flights>  Flights = new HashSet<Flights>();  
+	private  Set<Flights>  flights = new HashSet<>();  
 	
 	@OneToOne(mappedBy = "airlineFromUser")
+	@JsonIgnore
 	private User user;
 	
 	public Airlines() {
 		super();
 	}
 
-	public Airlines(String airlineId, String airlineName) {
+	public Airlines(@Pattern(regexp = "[A-Z]{2,3}") String airlineId, String airlineName, Set<Flights> flights,
+			User user) {
 		super();
 		this.airlineId = airlineId;
 		this.airlineName = airlineName;
+		this.flights = flights;
+		this.user = user;
 	}
 
 	public String getAirlineId() {
@@ -52,13 +59,18 @@ public class Airlines {
 	}
 
 	public Set<Flights> getFlights() {
-		return Flights;
+		return flights;
 	}
 
 	public void setFlights(Set<Flights> flights) {
-		Flights = flights;
+		this.flights = flights;
 	}
-	
-	
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

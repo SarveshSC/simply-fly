@@ -1,20 +1,38 @@
 package com.hexaware.simplyfly.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
+	
+	@Column(nullable = false, unique = true)
 	private String username;
+	
+	@Column(nullable = false)
+	@Min(value = 8)
+	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$") 
+	// at least one digit, one lower case, one upper case, length > 7
 	private String password;
-	private String role;
+	
+	@Enumerated(EnumType.STRING)
+	private Roles role;
+	
+	@Email
+	@Column(nullable = false)
 	private String email;
 	
 	@OneToOne()
@@ -27,14 +45,14 @@ public class User {
 		super();
 	}
 
-	public User(int userId, String username, String password, String role, String email, Airlines airline) {
+	public User(int userId, String username, String password, Roles role, String email, Airlines airlineFromUser) {
 		super();
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.role = role;
 		this.email = email;
-		this.airlineFromUser = airline;
+		this.airlineFromUser = airlineFromUser;
 	}
 
 	public int getUserId() {
@@ -61,11 +79,11 @@ public class User {
 		this.password = password;
 	}
 
-	public String getRole() {
+	public Roles getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Roles role) {
 		this.role = role;
 	}
 

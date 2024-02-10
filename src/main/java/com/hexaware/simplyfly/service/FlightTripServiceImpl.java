@@ -56,7 +56,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 				if(validateForAddingDetails(flightTripDTO, flight, source, destination))	{
 					flightTrip=new FlightTrip();
 					flightTrip.setFlights(flightRepository.findById(flightCode).orElse(null));
-					flightTrip.setFlightDetailId(flightTripDTO.getFlightDetailId());
+					flightTrip.setFlightTripId(flightTripDTO.getFlightTripId());
 					flightTrip.setArrival(flightTripDTO.getArrival());
 					flightTrip.setDeparture(flightTripDTO.getDeparture());
 					flightTrip.setFilledSeats(flightTripDTO.getFilledSeats());
@@ -81,7 +81,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		}
 	}
 	else {
-		throw new FlightNotFoundException("invalid flight details");
+		throw new FlightNotFoundException("Flight with id " + flightCode  + " not found");
 	}
 		
 	}
@@ -89,7 +89,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 //HERE ONLY TIMINGS CAN BE CHANGED THAT IS  ONLY PRICE AND SEATS
 	@Override
 	public FlightTrip rescheduleFlightTrip(FlightTrip flightTrip) throws Exception {
-		Flights flight=(flightTripRepository.findById(flightTrip.getFlightDetailId()).orElse(null)).getFlights();
+		Flights flight=(flightTripRepository.findById(flightTrip.getFlightTripId()).orElse(null)).getFlights();
 		String FlightCode=flight.getFlightCode();
 		if(flightRepository.existsById(FlightCode)) {
 			flight.setLastArrivalTime(flightTrip.getArrival());
@@ -98,7 +98,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		}
 		
 		else {
-			throw new FlightNotFoundException("flight not exists");
+			throw new FlightNotFoundException("Flight does not exist");
 		}
 
 	}

@@ -3,43 +3,64 @@ package com.hexaware.simplyfly.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Passengers {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer passengerId;
+	
+	@Column(nullable = false)
+	@Pattern(regexp = "[A-Z][a-z]")
 	private String name;
+	
+	@Min(value = 0)
 	private Integer age;
-	private String gender;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="bookings_passengers" , joinColumns = {@JoinColumn(name="passengerId")} ,
-       inverseJoinColumns = {@JoinColumn(name="bookingId")} )
-    private  Set<Bookings> bookings  = new HashSet<Bookings>();
-	
-	@OneToOne
-	@JoinColumn(name="seatNo")
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
+
+	@ManyToMany()
+	@JoinTable(name = "bookings_passengers", joinColumns = { @JoinColumn(name = "passengerId") }, inverseJoinColumns = {
+			@JoinColumn(name = "bookingId") })
+	@JsonIgnore
+	private Set<Bookings> bookings = new HashSet<>();
+
+	@ManyToOne
+	@JoinColumns({ @JoinColumn(name = "flightTripId", referencedColumnName = "flightTripId"),
+			@JoinColumn(name = "seatNo", referencedColumnName = "seatNo") })
+	@JsonIgnore
 	private Seats seat;
-	
+
 	public Passengers() {
 		super();
 	}
 
-	public Passengers(Integer passengerId, String name, Integer age, String gender) {
+	public Passengers(Integer passengerId, String name, Integer age, Gender gender, Set<Bookings> bookings,
+			Seats seat) {
 		super();
 		this.passengerId = passengerId;
 		this.name = name;
 		this.age = age;
 		this.gender = gender;
+		this.bookings = bookings;
+		this.seat = seat;
 	}
 
 	public Integer getPassengerId() {
@@ -66,12 +87,28 @@ public class Passengers {
 		this.age = age;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	
+
+	public Set<Bookings> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Bookings> bookings) {
+		this.bookings = bookings;
+	}
+
+	public Seats getSeat() {
+		return seat;
+	}
+
+	public void setSeat(Seats seat) {
+		this.seat = seat;
+	}
+
 }
