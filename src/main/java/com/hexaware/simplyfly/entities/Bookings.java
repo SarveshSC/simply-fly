@@ -23,7 +23,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 public class Bookings {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer bookingId;
 	
 	@Column(nullable = false)
@@ -46,7 +46,7 @@ public class Bookings {
 	@JoinColumn(name = "customerId",nullable = false)
 	private Customer customer;
 
-	@ManyToMany(mappedBy = "bookings")
+	@ManyToMany(mappedBy = "bookings", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<Passengers> passengers = new HashSet<>();
 
 	@Enumerated(EnumType.STRING)

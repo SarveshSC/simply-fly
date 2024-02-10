@@ -5,36 +5,52 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Airlines {
+//	@Id
+//	@Pattern(regexp ="[A-Z]{2,3}")
+//	@NotEmpty
+//	String airlineId;
+//	
+//	@Column(name = "airlineName", nullable = false, unique = true)
+//	@NotBlank(message = "Airline Name cannot be blank")
+//	String airlineName;
+
 	@Id
-	@Pattern(regexp ="[A-Z]{2,3}")
-	String airlineId;
-	
-	@Column(name = "airlineName", nullable = false)
-	String airlineName;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "airline")
-	private  Set<Flights>  flights = new HashSet<>();  
-	
+	@Column(name = "airlineId", length = 3)
+	@NotBlank
+	@Size(min = 1, max = 3)
+	private String airlineId;
+
+	@Column(name = "airlineName", length = 30, nullable = false)
+	@NotBlank
+	@Size(min = 1, max = 30)
+	@NotEmpty
+	private String airlineName;
+
+	@OneToMany(mappedBy = "airline")
+	private Set<Flights> flights = new HashSet<>();
+
 	@OneToOne(mappedBy = "airlineFromUser")
 	@JsonIgnore
 	private User user;
-	
+
 	public Airlines() {
 		super();
 	}
 
-	public Airlines(@Pattern(regexp = "[A-Z]{2,3}") String airlineId, String airlineName, Set<Flights> flights,
-			User user) {
+	public Airlines(@NotBlank @Size(min = 1, max = 3) String airlineId,
+			@NotBlank @Size(min = 1, max = 30) String airlineName, Set<Flights> flights, User user) {
 		super();
 		this.airlineId = airlineId;
 		this.airlineName = airlineName;
@@ -73,4 +89,5 @@ public class Airlines {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 }

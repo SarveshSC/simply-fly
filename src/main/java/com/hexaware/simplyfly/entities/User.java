@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -19,20 +20,21 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	
-	@Column(nullable = false, unique = true)
+	@NotNull
+	@Column(unique = true)
 	private String username;
 	
-	@Column(nullable = false)
 	@Min(value = 8)
 	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$") 
+	@NotNull
 	// at least one digit, one lower case, one upper case, length > 7
 	private String password;
 	
 	@Enumerated(EnumType.STRING)
 	private Roles role;
 	
-	@Email
-	@Column(nullable = false)
+	@Email(message = "Invalid Email Format")
+	@Column(unique = true)
 	private String email;
 	
 	@OneToOne()

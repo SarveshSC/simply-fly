@@ -24,6 +24,8 @@ import com.hexaware.simplyfly.exception.AirportNotFoundException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.service.IAdminService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/admin")
 public class AdminRestController {
@@ -88,7 +90,7 @@ public class AdminRestController {
 	
 	
 	@PostMapping("/add-airline")
-	public Airlines addAirline(@RequestBody AirlineDTO airlineDTO) {
+	public Airlines addAirline(@Valid @RequestBody AirlineDTO airlineDTO) {
 		return service.addAirline(airlineDTO);
 	}
 	

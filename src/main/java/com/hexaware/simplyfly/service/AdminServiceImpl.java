@@ -20,7 +20,10 @@ import com.hexaware.simplyfly.repository.AirportRepository;
 import com.hexaware.simplyfly.repository.CustomerRepository;
 import com.hexaware.simplyfly.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class AdminServiceImpl implements IAdminService {
 
 	@Autowired
@@ -37,10 +40,10 @@ public class AdminServiceImpl implements IAdminService {
 
 	@Override
 	public Airports addAirport(AirportDTO airportDTO) {
-		Airports airport = new Airports();
+		Airports airport = airportRepo.create(airportDTO.getIataCode());
 		airport.setName(airportDTO.getName());
-		airport.setIataCode(airportDTO.getIataCode());
 		airport.setLocation(airportDTO.getLocation());
+
 		return airportRepo.save(airport);
 	}
 
@@ -150,9 +153,8 @@ public class AdminServiceImpl implements IAdminService {
 
 	@Override
 	public Airlines addAirline(AirlineDTO airlineDTO) {
-		Airlines airline = new Airlines();
-		airline.setAirlineId(airlineDTO.getAirlineId());
-		airline.setAirlineName(airlineDTO.getAirlineName());
+		airlineRepo.create(airlineDTO.getAirlineId(),airlineDTO.getAirlineName());
+		Airlines airline = airlineRepo.findById(airlineDTO.getAirlineId()).orElse(null);
 
 		return airlineRepo.save(airline);
 	}

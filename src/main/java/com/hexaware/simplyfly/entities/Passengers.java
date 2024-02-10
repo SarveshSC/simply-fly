@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -36,7 +37,7 @@ public class Passengers {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	@ManyToMany()
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "bookings_passengers", joinColumns = { @JoinColumn(name = "passengerId") }, inverseJoinColumns = {
 			@JoinColumn(name = "bookingId") })
 	@JsonIgnore

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.simplyfly.dto.BookingDTO;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
+import com.hexaware.simplyfly.exception.BookingNotFoundException;
 import com.hexaware.simplyfly.exception.CustomerNotFoundException;
 import com.hexaware.simplyfly.exception.FlightNotFoundException;
 import com.hexaware.simplyfly.exception.InsufficientPassengersException;
@@ -60,5 +61,10 @@ public class CustomerRestController {
 	@GetMapping("booking/get-by-customer/{username}")
 	public List<Bookings> getBookingByUsername(@PathVariable String username){
 		return  bookingService.getAllBookingsByUsername(username);
+	}
+	
+	@PutMapping("/booking/cancel-flight/{username}/{bookingId}")
+	public String cancelFlight(@PathVariable String username, @PathVariable Integer bookingId) throws BookingNotFoundException {
+		return bookingService.cancelBooking(bookingId, username);
 	}
 }

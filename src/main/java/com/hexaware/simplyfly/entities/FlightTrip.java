@@ -22,7 +22,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 public class FlightTrip {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer flightTripId;
 	
 	@Column(nullable = false)

@@ -3,7 +3,6 @@ package com.hexaware.simplyfly.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -26,10 +25,10 @@ public class Airports {
 	@Pattern(regexp = "[A-Z][a-z]")
 	String location;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "source")
+	@OneToMany(mappedBy = "source")
 	private Set<FlightTrip> flightsSource = new HashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "destination")
+	@OneToMany(mappedBy = "destination")
 	private Set<FlightTrip> flightsDestination = new HashSet<>();
 
 	public Airports() {

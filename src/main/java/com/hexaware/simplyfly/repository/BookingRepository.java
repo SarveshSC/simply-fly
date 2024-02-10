@@ -11,6 +11,6 @@ import com.hexaware.simplyfly.entities.Bookings;
 @Repository
 public interface BookingRepository extends JpaRepository<Bookings, Integer>{
 	
-	@Query("Select b from Bookings b where b.customer = :username")
+	@Query(value="select * from bookings where customer_id = ?1", nativeQuery = true)
 	public List<Bookings> findAllByUsername(String username);
 }

@@ -2,7 +2,6 @@ package com.hexaware.simplyfly.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,13 +14,13 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Payments {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer paymentId;
 	
 	@Enumerated(EnumType.STRING)
 	PaymentStatus status;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JsonIgnore
 	@JoinColumn(name="bookingId")
 	private Bookings paymentBookings;

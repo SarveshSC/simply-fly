@@ -2,20 +2,12 @@ package com.hexaware.simplyfly.entities;
 
 import java.io.Serializable;
 
-//@Embeddable
 public class SeatEmbeddedId implements Serializable {
-	
-/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	//	@ManyToOne()
-//	@JoinColumn(name = "flightTripId")
 	private FlightTrip flightTripId;
-	
-//	@ManyToOne
-//	@JoinColumn(name = "seatNo")
+
 	private SeatStructure seatNo;
 
 	public SeatEmbeddedId(FlightTrip flightTripId, SeatStructure seatStructureForSeats) {
