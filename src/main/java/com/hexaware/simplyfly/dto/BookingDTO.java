@@ -6,14 +6,29 @@ import java.util.Set;
 
 import com.hexaware.simplyfly.entities.BookingStatus;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public class BookingDTO {
 
+	@PositiveOrZero
 	private Integer bookingId;
+	
+	@Positive
 	private Double amount;
+	
+	@NotNull
 	private LocalDateTime bookingDateTime;
 	private BookingStatus status;
+	
+	@NotNull
 	private Set<PassengerDTO> passengers = new HashSet<>();
+	
+	@NotNull
 	private Integer customerId;
+	
+	@NotNull
 	private Integer flightTripId;
 	
 	public BookingDTO() {

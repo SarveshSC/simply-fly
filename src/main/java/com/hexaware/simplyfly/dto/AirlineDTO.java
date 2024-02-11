@@ -1,7 +1,15 @@
 package com.hexaware.simplyfly.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class AirlineDTO {
+	
+	@NotBlank(message = "Airline Id cannot be blank")
+	@Size(max = 3)
 	private String airlineId;
+	
+	@NotBlank(message = "Airline name cannot be blank")
 	private String airlineName;
 
 	public AirlineDTO(String airlineId, String airlineName) {

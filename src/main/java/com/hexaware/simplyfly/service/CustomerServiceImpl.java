@@ -7,7 +7,10 @@ import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.repository.BookingRepository;
 import com.hexaware.simplyfly.repository.CustomerRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class CustomerServiceImpl implements ICustomerService {
 	
 	@Autowired

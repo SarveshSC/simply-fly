@@ -28,7 +28,7 @@ public class Passengers {
 	private Integer passengerId;
 	
 	@Column(nullable = false)
-	@Pattern(regexp = "[A-Z][a-z]")
+	@Pattern(regexp = "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$\"")
 	private String name;
 	
 	@Min(value = 0)

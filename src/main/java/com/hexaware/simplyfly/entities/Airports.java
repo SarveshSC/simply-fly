@@ -18,11 +18,9 @@ public class Airports {
 	String iataCode; // International Airport Transport Authority Code
 
 	@Column(nullable = false)
-	@Pattern(regexp = "[A-Z][a-z]")
 	String name;
 
 	@Column(nullable = false)
-	@Pattern(regexp = "[A-Z][a-z]")
 	String location;
 
 	@OneToMany(mappedBy = "source")

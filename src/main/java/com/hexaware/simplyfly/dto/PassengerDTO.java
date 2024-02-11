@@ -2,14 +2,27 @@ package com.hexaware.simplyfly.dto;
 
 import com.hexaware.simplyfly.entities.Gender;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public class PassengerDTO {
 	private Integer passengerId;
+
+	@Pattern(regexp = "^[A-Za-z\\s]{1,}[\\ ]{0,1}[A-Za-z\\s]{0,}$")
 	private String name;
+
+	@PositiveOrZero
 	private Integer age;
 	private Gender gender;
+
+	@NotBlank
+	@Pattern(regexp = "\\d+[A-F]")
 	private String seat;
-	private Integer flightTripId;
 	
+	@NotBlank
+	private Integer flightTripId;
+
 	public PassengerDTO() {
 		super();
 	}
@@ -73,5 +86,4 @@ public class PassengerDTO {
 		this.flightTripId = flightTripId;
 	}
 
-	
 }

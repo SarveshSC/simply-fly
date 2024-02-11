@@ -5,38 +5,19 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
 public class Airlines {
-//	@Id
-//	@Pattern(regexp ="[A-Z]{2,3}")
-//	@NotEmpty
-//	String airlineId;
-//	
-//	@Column(name = "airlineName", nullable = false, unique = true)
-//	@NotBlank(message = "Airline Name cannot be blank")
-//	String airlineName;
-
 	@Id
-	@Column(name = "airlineId", length = 3)
-	@NotBlank
-	@Size(min = 1, max = 3)
-	private String airlineId;
-
-	@Column(name = "airlineName", length = 30, nullable = false)
-	@NotBlank
-	@Size(min = 1, max = 30)
-	@NotEmpty
-	private String airlineName;
+	String airlineId;
+	
+	String airlineName;
 
 	@OneToMany(mappedBy = "airline")
 	private Set<Flights> flights = new HashSet<>();
