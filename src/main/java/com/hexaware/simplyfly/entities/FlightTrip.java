@@ -17,7 +17,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @Entity
 public class FlightTrip {
@@ -37,10 +36,6 @@ public class FlightTrip {
 	@Min(value = 1000)
 	private Double ticketPrice;
 	
-	
-	@NotNull
-	@Min(value = 0)
-	@Positive
 	private Integer filledSeats = 0;
 
 	@ManyToOne()

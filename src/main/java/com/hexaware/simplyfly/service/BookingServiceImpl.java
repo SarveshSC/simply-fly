@@ -68,7 +68,7 @@ public class BookingServiceImpl implements IBookingService {
 
 		Customer customer = customerRepo.findById(customerId).orElse(null);
 		if (customer == null)
-			throw new CustomerNotFoundException("Customer with id " + customerId + " not found");
+			throw new CustomerNotFoundException(customerId);
 
 		booking.setCustomer(customer);
 
@@ -76,7 +76,7 @@ public class BookingServiceImpl implements IBookingService {
 		FlightTrip flightTrip = flightTripRepo.findById(bookingDTO.getFlightTripId()).orElse(null);
 
 		if (flightTrip == null)
-			throw new FlightNotFoundException("Invalid Flight Credentials");
+			throw new FlightNotFoundException(bookingDTO.getBookingId().toString());
 
 		booking.setFlightTripForBooking(flightTrip);
 		booking.setBookingDateTime(LocalDateTime.now());
@@ -128,7 +128,7 @@ public class BookingServiceImpl implements IBookingService {
 		List<Bookings> listOfBookings = getAllBookingsByUsername(customerId);
 		Bookings booking = bookingRepo.findById(bookingId).orElse(null);
 		if ((booking == null) || (!listOfBookings.contains(booking))) {
-			throw new BookingNotFoundException("Booking with id " + bookingId + " not found.");
+			throw new BookingNotFoundException(bookingId.toString());
 		}
 		
 		Set<Passengers> passengers = booking.getPassengers();
@@ -139,6 +139,7 @@ public class BookingServiceImpl implements IBookingService {
 			seatRepo.delete(p.getSeat());
 			p.setSeat(null);
 		}
+//		passengerRepo.delete(p);
 		
 		// set payment status refunded
 		Set<Payments> payments = addPayments(booking, PaymentStatus.Refunded);
@@ -150,7 +151,7 @@ public class BookingServiceImpl implements IBookingService {
 		FlightTrip flightTrip = booking.getFlightTripForBooking();
 		flightTrip.setFilledSeats(flightTrip.getFilledSeats() - passengers.size());
 		bookingRepo.save(booking);
-		return "Booking Cancelled, Payment will be refunded shortly";
+		return "Booking Cancelled, Payment Refund in process";
 	}
 
 	public Passengers setPassenger(PassengerDTO passengerDTO, FlightTrip flightTrip) throws InvalidSeatException {

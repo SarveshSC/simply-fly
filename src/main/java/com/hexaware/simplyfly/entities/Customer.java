@@ -26,7 +26,6 @@ public class Customer {
 	private String email;
 	
 	@Column(nullable = false)
-	@Min(value = 8)
 	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$") 
 	// at least one digit, one lower case, one upper case, length > 7
 	private String password;

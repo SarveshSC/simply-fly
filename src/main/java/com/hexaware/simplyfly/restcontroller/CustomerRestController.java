@@ -17,17 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.simplyfly.dto.BookingDTO;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
+import com.hexaware.simplyfly.entities.SeatStructure;
 import com.hexaware.simplyfly.exception.BookingNotFoundException;
 import com.hexaware.simplyfly.exception.CustomerNotFoundException;
 import com.hexaware.simplyfly.exception.FlightNotFoundException;
 import com.hexaware.simplyfly.exception.InsufficientPassengersException;
+import com.hexaware.simplyfly.exception.InvalidFlightException;
 import com.hexaware.simplyfly.exception.InvalidSeatException;
 import com.hexaware.simplyfly.exception.SeatNotVacantException;
 import com.hexaware.simplyfly.service.IBookingService;
 import com.hexaware.simplyfly.service.ICustomerService;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/simply-fly/customers")
 public class CustomerRestController {
 	
 	Logger logger = LoggerFactory.getLogger(CustomerRestController.class);
@@ -38,17 +40,17 @@ public class CustomerRestController {
 	@Autowired
 	IBookingService bookingService;
 	
-	@PostMapping("/createAccount")
+	@PostMapping("/create-account")
 	public Customer createAccount(@RequestBody Customer customer) {
 		return customerService.createAccount(customer);
 	}
 	
-	@PutMapping("/updateAccount")
+	@PutMapping("/update-account")
 	public Customer updateAccount(@RequestBody Customer customer) {
 		return customerService.editAccountInfo(customer);
 	}
 	
-	@DeleteMapping("/deleteAccount/{username}")
+	@DeleteMapping("/delete-account/{username}")
 	public String deleteAccount(@PathVariable String username) {
 		return customerService.deleteAccount(username);
 	}	
@@ -56,6 +58,11 @@ public class CustomerRestController {
 	@PostMapping("/booking/book-flight/{username}")
 	public Bookings bookFlight(@RequestBody BookingDTO bookingDTO, @PathVariable String username) throws CustomerNotFoundException, SeatNotVacantException, FlightNotFoundException, InvalidSeatException, InsufficientPassengersException {
 		return bookingService.bookFlight(bookingDTO, username);
+	}
+	
+	@DeleteMapping("booking/cancel-booking/{bookingId}/{customerId}")
+	public String cancelBooking(@PathVariable Integer bookingId, @PathVariable String customerId) throws BookingNotFoundException {
+		return bookingService.cancelBooking(bookingId, customerId);
 	}
 	
 	@GetMapping("booking/get-by-customer/{username}")
@@ -66,5 +73,10 @@ public class CustomerRestController {
 	@PutMapping("/booking/cancel-flight/{username}/{bookingId}")
 	public String cancelFlight(@PathVariable String username, @PathVariable Integer bookingId) throws BookingNotFoundException {
 		return bookingService.cancelBooking(bookingId, username);
+	}
+	
+	@GetMapping("booking/get-all-vacnat-seats/{flightTripId}")
+	public List<SeatStructure> getAllVacantSeats(@PathVariable Integer flightTripId) throws InvalidFlightException{
+		return customerService.getVacantSeats(flightTripId);
 	}
 }

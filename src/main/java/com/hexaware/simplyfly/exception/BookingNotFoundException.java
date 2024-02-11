@@ -2,7 +2,9 @@ package com.hexaware.simplyfly.exception;
 
 public class BookingNotFoundException extends Exception{
 	
-	public BookingNotFoundException(String msg) {
-		super(msg);
+	private static final long serialVersionUID = 1L;
+
+	public BookingNotFoundException(String id) {
+		super("Booking with id " + id + " not found");
 	}
 }

@@ -1,8 +1,13 @@
 package com.hexaware.simplyfly.exception;
 
 public class CustomerNotFoundException extends Exception{
-	public CustomerNotFoundException(String message) {
-		super(message);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public CustomerNotFoundException(String username) {
+		super("Customer with username " + username + " not found.");
 	}
 
 }

@@ -50,7 +50,7 @@ public class AdminServiceImpl implements IAdminService {
 	@Override
 	public Airports updateAirport(AirportDTO airportDTO) throws AirportNotFoundException {
 		Airports airport = airportRepo.findById(airportDTO.getIataCode()).orElseThrow(
-				() -> new AirportNotFoundException("Airport with code " + airportDTO.getIataCode() + " not found."));
+				() -> new AirportNotFoundException(airportDTO.getIataCode()));
 		airport.setName(airportDTO.getName());
 		airport.setIataCode(airportDTO.getIataCode());
 		airport.setLocation(airportDTO.getLocation());
@@ -61,7 +61,7 @@ public class AdminServiceImpl implements IAdminService {
 	@Override
 	public String removeAirport(String airportCode) throws AirportNotFoundException {
 		if (findAirport(airportCode) == null) {
-			throw new AirportNotFoundException("Airport with code " + airportCode + " not found.");
+			throw new AirportNotFoundException(airportCode);
 		}
 		airportRepo.deleteById(airportCode);
 		return "Airport with code " + airportCode + " deleted successfully";
@@ -72,7 +72,7 @@ public class AdminServiceImpl implements IAdminService {
 	public AirportDTO findAirport(String airportCode) throws AirportNotFoundException {
 		Airports airport = airportRepo.findById(airportCode).orElse(null);
 		if (airport == null) {
-			throw new AirportNotFoundException("Airport with code " + airportCode + " not found.");
+			throw new AirportNotFoundException(airportCode);
 		}
 
 		AirportDTO airportDTO = new AirportDTO();
@@ -94,7 +94,7 @@ public class AdminServiceImpl implements IAdminService {
 		user.setEmail(userDTO.getEmail());
 
 		Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
-				() -> new AirlineNotFoundException("Airline with id " + userDTO.getAirlineId() + " not found."));
+				() -> new AirlineNotFoundException(userDTO.getAirlineId()));
 		user.setAirline(airline);
 		user.setPassword(userDTO.getPassword());
 		user.setRole(userDTO.getRole());
@@ -107,13 +107,13 @@ public class AdminServiceImpl implements IAdminService {
 		User user = userRepo.findById(userDTO.getUserId()).orElse(null);
 
 		if (user == null) {
-			throw new UserNotFoundException("User Credentials Invalid");
+			throw new UserNotFoundException(userDTO.getUsername());
 		}
 		user.setUsername(userDTO.getUsername());
 		user.setEmail(userDTO.getEmail());
 
 		Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
-				() -> new AirlineNotFoundException("Airline with id " + userDTO.getAirlineId() + " not found."));
+				() -> new AirlineNotFoundException(userDTO.getAirlineId()));
 		user.setAirline(airline);
 		user.setPassword(userDTO.getPassword());
 		user.setRole(userDTO.getRole());
@@ -126,7 +126,7 @@ public class AdminServiceImpl implements IAdminService {
 		User user = userRepo.findUserByUsername(username);
 
 		if (user == null) {
-			throw new UserNotFoundException("User Credentials Invalid");
+			throw new UserNotFoundException(username);
 		}
 		userRepo.removeUserByUsername(username);
 		return "User with username " + username + " deleted";
@@ -136,7 +136,7 @@ public class AdminServiceImpl implements IAdminService {
 	public User findUserByUsername(String username) throws UserNotFoundException {
 		User user = userRepo.findUserByUsername(username);
 		if (user == null) {
-			throw new UserNotFoundException("User Credentials Invalid");
+			throw new UserNotFoundException(username);
 		}
 		return userRepo.findUserByUsername(username);
 	}
@@ -163,7 +163,7 @@ public class AdminServiceImpl implements IAdminService {
 	public Airlines modifyAirline(AirlineDTO airlineDTO) throws AirlineNotFoundException {
 		Airlines airline = airlineRepo.findById(airlineDTO.getAirlineId()).orElse(null);
 		if (airline == null)
-			throw new AirlineNotFoundException("Airline with id " + airlineDTO.getAirlineId() + " not found");
+			throw new AirlineNotFoundException(airlineDTO.getAirlineId());
 		airline.setAirlineId(airlineDTO.getAirlineId());
 		airline.setAirlineName(airlineDTO.getAirlineName());
 

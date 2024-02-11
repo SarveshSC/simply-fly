@@ -5,13 +5,13 @@ import org.hibernate.validator.constraints.UniqueElements;
 import com.hexaware.simplyfly.entities.Roles;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public class UserDTO {
-	private int userId;
+	private Integer userId;
 	
-	@Pattern(regexp = "^[A-Za-z][A-Za-z0-9_]{7,29}$", message = "Username must contain atleast one letter and one number")
+	@Pattern(regexp = "^[A-Za-z][\\w]{7,29}$", message = "Username must contain atleast one letter and one number")
+	@UniqueElements
 	private String username;
 	
 	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$", message = "Password must contain 1 upper case, 1 lower case and atleast 8 characters") 
@@ -23,8 +23,7 @@ public class UserDTO {
 	@Email(message = "Enter a valid email")
 	@UniqueElements(message = "Email already registered")
 	private String email;
-	
-	@NotBlank
+
 	private String airlineId;
 	
 	
@@ -44,7 +43,7 @@ public class UserDTO {
 	}
 
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 

@@ -20,34 +20,34 @@ import com.hexaware.simplyfly.service.IFlightService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/flights")
+@RequestMapping("/simply-fly/flights")
 public class FlightServiceController {
 	@Autowired
 	IFlightService service;
 
-	@PostMapping("/addFlights/{username}")
+	@PostMapping("/add-flights/{username}")
 	public Flights addFlights(@RequestBody @Valid FlightDTO flightDto, @PathVariable String username) throws Exception {
 		return service.addFlights(flightDto, username);
 	}
 
-	@PutMapping("/updateFlights/{username}")
+	@PutMapping("/update-flights/{username}")
 	public Flights updateFlights(@RequestBody @Valid FlightDTO flightDto, @PathVariable String username) throws Exception {
 
 		return service.updateFlights(flightDto, username);
 	}
 
-	@DeleteMapping("/deleteFlights/{username}/{flightId}")
+	@DeleteMapping("/delete-flights/{username}/{flightId}")
 	public String removeFlights(@PathVariable String username, @PathVariable String flightId) throws Exception {
 		return service.removeFlights(flightId, username);
 	}
 	
-	@GetMapping("/getFlightsByAirline/{airlineId}")
+	@GetMapping("/get-flights-by-airline/{airlineId}")
 	public List<Flights> getFlightsByAirlineId(@PathVariable String airlineId) throws AirlineNotFoundException
 	{
 		return service.viewAllFlightsByAirlineId(airlineId);
 	}
 	
-	@GetMapping
+	@GetMapping("/get-all-flights")
 	public List<Flights> getAllFlights(){
 		return service.viewAllFlights();
 	}

@@ -15,11 +15,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Passengers {
@@ -28,7 +27,7 @@ public class Passengers {
 	private Integer passengerId;
 	
 	@Column(nullable = false)
-	@Pattern(regexp = "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$\"")
+	@NotBlank
 	private String name;
 	
 	@Min(value = 0)
@@ -37,9 +36,7 @@ public class Passengers {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "bookings_passengers", joinColumns = { @JoinColumn(name = "passengerId") }, inverseJoinColumns = {
-			@JoinColumn(name = "bookingId") })
+	@ManyToMany(mappedBy = "passengers",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JsonIgnore
 	private Set<Bookings> bookings = new HashSet<>();
 
