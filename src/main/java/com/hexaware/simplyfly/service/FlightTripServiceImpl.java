@@ -56,7 +56,6 @@ public class FlightTripServiceImpl implements IFlightTripService {
 				if(validateForAddingDetails(flightTripDTO, flight, source, destination))	{
 					flightTrip=new FlightTrip();
 					flightTrip.setFlights(flightRepository.findById(flightCode).orElse(null));
-					flightTrip.setFlightTripId(flightTripDTO.getFlightTripId());
 					flightTrip.setArrival(flightTripDTO.getArrival());
 					flightTrip.setDeparture(flightTripDTO.getDeparture());
 					flightTrip.setFilledSeats(flightTripDTO.getFilledSeats());
@@ -81,7 +80,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		}
 	}
 	else {
-		throw new FlightNotFoundException("Flight with id " + flightCode  + " not found");
+		throw new FlightNotFoundException("invalid flight details");
 	}
 		
 	}
@@ -98,7 +97,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		}
 		
 		else {
-			throw new FlightNotFoundException("Flight does not exist");
+			throw new FlightNotFoundException("flight not exists");
 		}
 
 	}
@@ -213,5 +212,4 @@ public class FlightTripServiceImpl implements IFlightTripService {
     }
 	
 	
-
 }

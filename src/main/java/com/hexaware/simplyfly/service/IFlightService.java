@@ -1,5 +1,7 @@
 package com.hexaware.simplyfly.service;
 
+import java.util.List;
+
 import com.hexaware.simplyfly.dto.FlightDTO;
 import com.hexaware.simplyfly.entities.Flights;
 import com.hexaware.simplyfly.exception.AirlineNotFoundException;
@@ -15,4 +17,6 @@ public interface IFlightService  {
 	public Flights updateFlights(FlightDTO flightDto,String airlineId) throws AirlineNotFoundException, UserNotFoundException;
 	public String removeFlights(String flightId, String username) throws AirlineNotFoundException, UserNotFoundException, FlightNotFoundException, FlightScheduledExcpetion;
 	
+	public List<Flights> viewAllFlightsByAirlineId(String airlineId) throws AirlineNotFoundException;
+	public List<Flights> viewAllFlights();
 }

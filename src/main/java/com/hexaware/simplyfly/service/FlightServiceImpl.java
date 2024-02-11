@@ -1,5 +1,6 @@
 package com.hexaware.simplyfly.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.repository.AirlineRepository;
 import com.hexaware.simplyfly.repository.AirportRepository;
 import com.hexaware.simplyfly.repository.FlightRepository;
-import com.hexaware.simplyfly.repository.FlightTripRepository;
 import com.hexaware.simplyfly.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -39,9 +39,6 @@ public class FlightServiceImpl implements IFlightService {
 
 	@Autowired
 	AirportRepository airPortRepo;
-
-	@Autowired
-	FlightTripRepository flightDetailsRepo;
 
 	@Override
 	public Flights addFlights(FlightDTO flightDto, String username) throws AirlineNotFoundException, UserNotFoundException {
@@ -106,6 +103,21 @@ public class FlightServiceImpl implements IFlightService {
 		else {
 				throw new FlightScheduledExcpetion("This flight has more than 1 schedule, cannot be deleted now");
 			}
+	}
+	
+	@Override
+	public List<Flights> viewAllFlightsByAirlineId(String airlineId) throws AirlineNotFoundException {
+		if(airLineRepo.existsById(airlineId)) {
+			return flightRepo.findByAirline(airlineId);
+		}
+		else {
+			throw new AirlineNotFoundException("the airline with id "+airlineId+" not exists");
+		}
+	}
+
+	@Override
+	public List<Flights> viewAllFlights() {
+		return flightRepo.findAll();
 	}
 
 	@ExceptionHandler({FlightNotFoundException.class, AirlineNotFoundException.class })
