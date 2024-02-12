@@ -20,7 +20,7 @@ public interface IAdminService {
 	public AirportDTO findAirport(String airportCode) throws AirportNotFoundException;
 	public List<Airports> getAllAirports();
 	
-	public User addUser(UserDTO userDTO) throws AirlineNotFoundException;
+	public User addUser(UserDTO userDTO) throws AirlineNotFoundException, Exception;
 	public User modifyUser(UserDTO userDTO) throws UserNotFoundException, AirlineNotFoundException;
 	public User findUserByUsername(String username) throws UserNotFoundException;
 	public String removeUserByUsername(String username) throws UserNotFoundException;

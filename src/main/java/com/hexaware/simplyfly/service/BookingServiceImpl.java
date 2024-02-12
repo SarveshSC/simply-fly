@@ -14,6 +14,7 @@ import com.hexaware.simplyfly.entities.BookingStatus;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.FlightTrip;
+import com.hexaware.simplyfly.entities.FlightTripStatus;
 import com.hexaware.simplyfly.entities.Passengers;
 import com.hexaware.simplyfly.entities.PaymentStatus;
 import com.hexaware.simplyfly.entities.Payments;
@@ -75,7 +76,7 @@ public class BookingServiceImpl implements IBookingService {
 		booking.setBookingId(bookingDTO.getBookingId());
 		FlightTrip flightTrip = flightTripRepo.findById(bookingDTO.getFlightTripId()).orElse(null);
 
-		if (flightTrip == null)
+		if (flightTrip == null || flightTrip.getStatus()==FlightTripStatus.Cancelled)
 			throw new FlightNotFoundException("Invalid Flight Credentials");
 
 		booking.setFlightTripForBooking(flightTrip);

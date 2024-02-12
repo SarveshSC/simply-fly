@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.hexaware.simplyfly.dto.FlightTripDTO;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.FlightTrip;
+import com.hexaware.simplyfly.entities.FlightTripStatus;
 import com.hexaware.simplyfly.entities.Flights;
 import com.hexaware.simplyfly.exception.AirportNotFoundException;
 import com.hexaware.simplyfly.exception.FlightNotFoundException;
@@ -58,11 +59,11 @@ public class FlightTripServiceImpl implements IFlightTripService {
 					flightTrip.setFlights(flightRepository.findById(flightCode).orElse(null));
 					flightTrip.setArrival(flightTripDTO.getArrival());
 					flightTrip.setDeparture(flightTripDTO.getDeparture());
-					flightTrip.setFilledSeats(flightTripDTO.getFilledSeats());
 					flightTrip.setTicketPrice(flightTripDTO.getTicketPrice());
 					flightTrip.setFlights(flightRepository.findById(flightCode).orElse(null));
 					flightTrip.setSource(source);
 					flightTrip.setDestination(destination);
+					flightTrip.setStatus(FlightTripStatus.Running);
 					flight.setLastArrivalTime(flightTripDTO.getArrival());
 					flight.setLastArrivedAirportId(destination.getIataCode());
 					 flightTripRepository.save(flightTrip);
@@ -90,7 +91,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 	public FlightTrip rescheduleFlightTrip(FlightTrip flightTrip) throws Exception {
 		Flights flight=(flightTripRepository.findById(flightTrip.getFlightTripId()).orElse(null)).getFlights();
 		String FlightCode=flight.getFlightCode();
-		if(flightRepository.existsById(FlightCode)) {
+		if(flightRepository.existsById(FlightCode) && flightTrip.getStatus()==FlightTripStatus.Running) {
 			flight.setLastArrivalTime(flightTrip.getArrival());
 			return flightTripRepository.save(flightTrip);
 		
@@ -107,7 +108,8 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		if(flightTripRepository.existsById(flightDetailId)) {
 			Flights flight=(flightTripRepository.findById(flightDetailId).orElse(null)).getFlights();
 			String FlightCode=flight.getFlightCode();
-			flightTripRepository.deleteById(flightDetailId);
+			FlightTrip presentFlightTrip=flightTripRepository.findById(flightDetailId).orElse(null);
+			presentFlightTrip.setStatus(FlightTripStatus.Cancelled);
 			Optional<Integer> lastFlightdetail=flightTripRepository.findMaxFlightDetailId(FlightCode);
 
 			Optional<FlightTrip> lastFlightTripOptional = lastFlightdetail.flatMap(integer -> flightTripRepository.findById(integer));

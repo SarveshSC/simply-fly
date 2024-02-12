@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,11 +39,19 @@ public class FlightTrip {
 	@Min(value = 1000)
 	private Double ticketPrice;
 	
+	@Enumerated(EnumType.STRING)
+	FlightTripStatus status;
 	
-	@NotNull
-	@Min(value = 0)
-	@Positive
-	private Integer filledSeats = 0;
+	private Integer filledSeats;
+	
+
+	public Integer getFilledSeats() {
+		return filledSeats;
+	}
+
+	public void setFilledSeats(Integer filledSeats) {
+		this.filledSeats = filledSeats;
+	}
 
 	@ManyToOne()
 	@JsonIgnore
@@ -73,14 +83,14 @@ public class FlightTrip {
 
 	public FlightTrip(Integer flightTripId, @NotNull @Future LocalDateTime departure,
 			@NotNull @Future LocalDateTime arrival, @NotNull @Min(1000) Double ticketPrice,
-			@NotNull @Min(0) Integer filledSeats, Flights flights, Airports source, Airports destination,
+			 Flights flights, Airports source, Airports destination,
 			Set<Bookings> bookings, Set<SeatStructure> seats) {
 		super();
 		this.flightTripId = flightTripId;
 		this.departure = departure;
 		this.arrival = arrival;
 		this.ticketPrice = ticketPrice;
-		this.filledSeats = filledSeats;
+		
 		this.flights = flights;
 		this.source = source;
 		this.destination = destination;
@@ -120,13 +130,7 @@ public class FlightTrip {
 		this.ticketPrice = ticketPrice;
 	}
 
-	public Integer getFilledSeats() {
-		return filledSeats;
-	}
 
-	public void setFilledSeats(Integer filledSeats) {
-		this.filledSeats = filledSeats;
-	}
 
 	public Flights getFlights() {
 		return flights;
@@ -166,6 +170,14 @@ public class FlightTrip {
 
 	public void setSeats(Set<SeatStructure> seats) {
 		this.seats = seats;
+	}
+
+	public FlightTripStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(FlightTripStatus status) {
+		this.status = status;
 	}
 
 }

@@ -22,7 +22,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 public class Flights {
 	@Id
-	@Pattern(regexp = "^[A-Z0-9]{2,3}-\\d{3,5}$")
+	//@Pattern(regexp = "^[A-Z0-9]{2,3}-\\d{3,5}$")
 	private String flightCode;
 	
 	private LocalDateTime lastArrivalTime;
