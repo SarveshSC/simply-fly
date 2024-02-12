@@ -1,8 +1,18 @@
 package com.hexaware.simplyfly.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public class AirportDTO {
+	
+	@NotBlank(message="Airport Name cannot be blank")
+	@Pattern(regexp = "[A-Z]{3}")
 	String name;
+	
+	@NotBlank(message="Airport Code cannot be blank")
 	String iataCode; 
+	
+	@NotBlank(message="Airport location cannot be blank")
 	String location;
 	
 	public AirportDTO() {

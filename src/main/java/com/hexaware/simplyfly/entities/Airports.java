@@ -3,39 +3,44 @@ package com.hexaware.simplyfly.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-
 @Entity
 public class Airports {
-	@NotNull
-	String name;
+
 	@Id
 	@Pattern(regexp = "[A-Z]{3}")
-	String iataCode; //International Airport Transport Authority Code
-	@NotNull
+	String iataCode; // International Airport Transport Authority Code
+
+	@Column(nullable = false)
+	String name;
+
+	@Column(nullable = false)
 	String location;
-	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "source")
-	private Set<FlightTrip> flightsSource = new HashSet<FlightTrip>();
-	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "destination")
-	private Set<FlightTrip> flightsDestination = new HashSet<FlightTrip>();
-	
+
+	@OneToMany(mappedBy = "source")
+	private Set<FlightTrip> flightsSource = new HashSet<>();
+
+	@OneToMany(mappedBy = "destination")
+	private Set<FlightTrip> flightsDestination = new HashSet<>();
+
 	public Airports() {
 		super();
 	}
 
-	public Airports(String name, String abbrevation, String location) {
+	public Airports(@NotNull String name, @Pattern(regexp = "[A-Z]{3}") String iataCode, @NotNull String location,
+			Set<FlightTrip> flightsSource, Set<FlightTrip> flightsDestination) {
 		super();
 		this.name = name;
-		this.iataCode = abbrevation;
+		this.iataCode = iataCode;
 		this.location = location;
+		this.flightsSource = flightsSource;
+		this.flightsDestination = flightsDestination;
 	}
 
 	public String getName() {
@@ -46,12 +51,12 @@ public class Airports {
 		this.name = name;
 	}
 
-	public String getCode() {
+	public String getIataCode() {
 		return iataCode;
 	}
 
-	public void setCode(String abbrevation) {
-		this.iataCode = abbrevation;
+	public void setIataCode(String iataCode) {
+		this.iataCode = iataCode;
 	}
 
 	public String getLocation() {
@@ -60,14 +65,6 @@ public class Airports {
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public String getIataCode() {
-		return iataCode;
-	}
-
-	public void setIataCode(String iataCode) {
-		this.iataCode = iataCode;
 	}
 
 	public Set<FlightTrip> getFlightsSource() {
@@ -85,8 +82,5 @@ public class Airports {
 	public void setFlightsDestination(Set<FlightTrip> flightsDestination) {
 		this.flightsDestination = flightsDestination;
 	}
-	
-	
-	
-	
+
 }

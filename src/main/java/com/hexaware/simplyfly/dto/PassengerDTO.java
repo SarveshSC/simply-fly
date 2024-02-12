@@ -1,25 +1,41 @@
 package com.hexaware.simplyfly.dto;
 
-import com.hexaware.simplyfly.entities.Seats;
+import com.hexaware.simplyfly.entities.Gender;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 
 public class PassengerDTO {
 	private Integer passengerId;
+
+	@Pattern(regexp = "^[A-Za-z\\s]{1,}[\\ ]{0,1}[A-Za-z\\s]{0,}$")
 	private String name;
+
+	@PositiveOrZero
 	private Integer age;
-	private String gender;
-	private Seats seat;
+	private Gender gender;
+
+	@NotBlank
+	@Pattern(regexp = "\\d+[A-F]")
+	private String seat;
 	
+	@NotBlank
+	private Integer flightTripId;
+
 	public PassengerDTO() {
 		super();
 	}
 
-	public PassengerDTO(Integer passengerId, String name, Integer age, String gender, Seats seat) {
+	public PassengerDTO(Integer passengerId, String name, Integer age, Gender gender, String seat,
+			Integer flightTripId) {
 		super();
 		this.passengerId = passengerId;
 		this.name = name;
 		this.age = age;
 		this.gender = gender;
 		this.seat = seat;
+		this.flightTripId = flightTripId;
 	}
 
 	public Integer getPassengerId() {
@@ -46,21 +62,28 @@ public class PassengerDTO {
 		this.age = age;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
-	public Seats getSeat() {
+	public String getSeat() {
 		return seat;
 	}
 
-	public void setSeat(Seats seat) {
+	public void setSeat(String seat) {
 		this.seat = seat;
 	}
-	
-	
+
+	public Integer getFlightTripId() {
+		return flightTripId;
+	}
+
+	public void setFlightTripId(Integer flightTripId) {
+		this.flightTripId = flightTripId;
+	}
+
 }

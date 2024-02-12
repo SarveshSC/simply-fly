@@ -1,7 +1,12 @@
 package com.hexaware.simplyfly.entities;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -9,10 +14,14 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Payments {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer paymentId;
-	String status;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@Enumerated(EnumType.STRING)
+	PaymentStatus status;
+	
+	@ManyToOne()
+	@JsonIgnore
 	@JoinColumn(name="bookingId")
 	private Bookings paymentBookings;
 	
@@ -20,7 +29,7 @@ public class Payments {
 		super();
 	}
 
-	public Payments(Integer paymentId, String status, Bookings paymentBookings) {
+	public Payments(Integer paymentId, PaymentStatus status, Bookings paymentBookings) {
 		super();
 		this.paymentId = paymentId;
 		this.status = status;
@@ -35,11 +44,11 @@ public class Payments {
 		this.paymentId = paymentId;
 	}
 
-	public String getStatus() {
+	public PaymentStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(PaymentStatus status) {
 		this.status = status;
 	}
 

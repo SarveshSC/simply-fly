@@ -1,20 +1,42 @@
 package com.hexaware.simplyfly.entities;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class User {
+	
+
+	
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userId;
+	@NotNull
+	@Column(unique = true)
 	private String username;
+	
+	//@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$") 
+	@NotNull
+	// at least one digit, one lower case, one upper case, length > 7
 	private String password;
-	private String role;
+	
+	@Enumerated(EnumType.STRING)
+	private Roles role;
+	
+	@Email(message = "Invalid Email Format")
+	@Column(unique = true)
 	private String email;
 	
 	@OneToOne()
@@ -27,23 +49,17 @@ public class User {
 		super();
 	}
 
-	public User(int userId, String username, String password, String role, String email, Airlines airline) {
+	public User( String username, String password, Roles role, String email, Airlines airlineFromUser) {
 		super();
-		this.userId = userId;
+		
 		this.username = username;
 		this.password = password;
 		this.role = role;
 		this.email = email;
-		this.airlineFromUser = airline;
+		this.airlineFromUser = airlineFromUser;
 	}
 
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+	
 
 	public String getUsername() {
 		return username;
@@ -58,14 +74,15 @@ public class User {
 	}
 
 	public void setPassword(String password) {
+		
 		this.password = password;
 	}
 
-	public String getRole() {
+	public Roles getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Roles role) {
 		this.role = role;
 	}
 

@@ -7,6 +7,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -21,34 +22,36 @@ import jakarta.validation.constraints.Positive;
 @Entity
 public class Flights {
 	@Id
-	@Pattern(regexp = "[A-Z]{3}-[0-9]{3,}")
+	//@Pattern(regexp = "^[A-Z0-9]{2,3}-\\d{3,5}$")
 	private String flightCode;
 	
-	
 	private LocalDateTime lastArrivalTime;
-	private String LastArrivedAirportId;
 	
+	private String lastArrivedAirportId;
+	
+	@Column(nullable = false)
 	@NotNull(message = "Total seats must not be null")
     @Positive(message = "Total seats must be a positive number")
 	@Min(value=100)
-	private Integer totalSeats;
+	private Integer totalSeats = 180;
 	
 	@NotNull(message = "Check-in weight must not be null")
+	@Column(nullable = false)
 	@Max(value=20)
 	private Integer checkInWeight;
 	
 	@Max(value=7)
+	@Positive(message = "Cabin weight must be a positive number")
 	private Integer cabinWeight;
 	
-	//cascade = CascadeType.ALL//removed this in below
 	@ManyToOne()
-	@JsonIgnore//HELP WHILE RETRIEVING DATA IN SWAGGER WITHOUT ERROR
+	@JsonIgnore
 	@JoinColumn(name="airlineId")
 	private Airlines airline;
 	
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flights")
-	private  Set<FlightTrip>  FlightTrip = new HashSet<FlightTrip>(); 
+	private  Set<FlightTrip>  flightTrips = new HashSet<>(); 
 	
 	
 	
@@ -65,7 +68,31 @@ public class Flights {
 	}
 
 	public Flights() {
-		// TODO Auto-generated constructor stub
+		super();
+	}
+
+	public String getFlightCode() {
+		return flightCode;
+	}
+
+	public void setFlightCode(String flightCode) {
+		this.flightCode = flightCode;
+	}
+
+	public LocalDateTime getLastArrivalTime() {
+		return lastArrivalTime;
+	}
+
+	public void setLastArrivalTime(LocalDateTime lastArrivalTime) {
+		this.lastArrivalTime = lastArrivalTime;
+	}
+
+	public String getLastArrivedAirportId() {
+		return lastArrivedAirportId;
+	}
+
+	public void setLastArrivedAirportId(String lastArrivedAirportId) {
+		this.lastArrivedAirportId = lastArrivedAirportId;
 	}
 
 	public Integer getTotalSeats() {
@@ -101,39 +128,12 @@ public class Flights {
 	}
 
 	public Set<FlightTrip> getFlightTrip() {
-		return FlightTrip;
+		return flightTrips;
 	}
 
 	public void setFlightTrip(Set<FlightTrip> flightTrip) {
-		FlightTrip = flightTrip;
+		this.flightTrips = flightTrip;
 	}
 
-
-	public String getFlightCode() {
-		return flightCode;
-	}
-
-	public void setFlightCode(String flightCode) {
-		this.flightCode = flightCode;
-	}
-
-	public LocalDateTime getLastArrivalTime() {
-		return lastArrivalTime;
-	}
-
-	public void setLastArrivalTime(LocalDateTime lastArrivalTime) {
-		this.lastArrivalTime = lastArrivalTime;
-	}
-
-	public String getLastArrivedAirportId() {
-		return LastArrivedAirportId;
-	}
-
-	public void setLastArrivedAirportId(String lastArrivedAirportId) {
-		LastArrivedAirportId = lastArrivedAirportId;
-	}
-
-
-	
 	
 }

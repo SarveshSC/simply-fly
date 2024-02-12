@@ -2,30 +2,45 @@ package com.hexaware.simplyfly.dto;
 
 import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public class FlightTripDTO {
-	private Integer flightDetailId;
-	private LocalDateTime departure;
-	private LocalDateTime arrival;
-	private Double ticketPrice;
-	private Integer filledSeats;
+	@NotBlank
+	private Integer flightTripId;
 	
-	public FlightTripDTO(Integer flightDetailId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
-			Integer filledSeats) {
+	@Future
+	private LocalDateTime departure;
+	
+	@Future
+	private LocalDateTime arrival;
+	
+	@Min(value = 1000)
+	private Double ticketPrice;
+	
+	
+	
+	public FlightTripDTO(Integer flightTripId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice
+			) {
 		super();
-		this.flightDetailId = flightDetailId;
+		this.flightTripId = flightTripId;
 		this.departure = departure;
 		this.arrival = arrival;
 		this.ticketPrice = ticketPrice;
-		this.filledSeats = filledSeats;
+		
 		
 	}
 	public FlightTripDTO() {
 		super();
 	}
-	public Integer getFlightDetailId() {
-		return flightDetailId;
+	public Integer getFlightTripId() {
+		return flightTripId;
 	}
-	
+	public void setFlightTripId(Integer flightTripId) {
+		this.flightTripId = flightTripId;
+	}
 	public LocalDateTime getDeparture() {
 		return departure;
 	}
@@ -44,11 +59,7 @@ public class FlightTripDTO {
 	public void setTicketPrice(Double ticketPrice) {
 		this.ticketPrice = ticketPrice;
 	}
-	public Integer getFilledSeats() {
-		return filledSeats;
-	}
-	public void setFilledSeats(Integer filledSeats) {
-		this.filledSeats = filledSeats;
-	}
+	
+	
     
 }

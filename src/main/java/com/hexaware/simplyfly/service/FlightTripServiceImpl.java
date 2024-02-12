@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.hexaware.simplyfly.dto.FlightTripDTO;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.FlightTrip;
+import com.hexaware.simplyfly.entities.FlightTripStatus;
 import com.hexaware.simplyfly.entities.Flights;
 import com.hexaware.simplyfly.exception.AirportNotFoundException;
 import com.hexaware.simplyfly.exception.FlightNotFoundException;
@@ -56,14 +57,13 @@ public class FlightTripServiceImpl implements IFlightTripService {
 				if(validateForAddingDetails(flightTripDTO, flight, source, destination))	{
 					flightTrip=new FlightTrip();
 					flightTrip.setFlights(flightRepository.findById(flightCode).orElse(null));
-					flightTrip.setFlightDetailId(flightTripDTO.getFlightDetailId());
 					flightTrip.setArrival(flightTripDTO.getArrival());
 					flightTrip.setDeparture(flightTripDTO.getDeparture());
-					flightTrip.setFilledSeats(flightTripDTO.getFilledSeats());
 					flightTrip.setTicketPrice(flightTripDTO.getTicketPrice());
 					flightTrip.setFlights(flightRepository.findById(flightCode).orElse(null));
 					flightTrip.setSource(source);
 					flightTrip.setDestination(destination);
+					flightTrip.setStatus(FlightTripStatus.Running);
 					flight.setLastArrivalTime(flightTripDTO.getArrival());
 					flight.setLastArrivedAirportId(destination.getIataCode());
 					 flightTripRepository.save(flightTrip);
@@ -89,9 +89,9 @@ public class FlightTripServiceImpl implements IFlightTripService {
 //HERE ONLY TIMINGS CAN BE CHANGED THAT IS  ONLY PRICE AND SEATS
 	@Override
 	public FlightTrip rescheduleFlightTrip(FlightTrip flightTrip) throws Exception {
-		Flights flight=(flightTripRepository.findById(flightTrip.getFlightDetailId()).orElse(null)).getFlights();
+		Flights flight=(flightTripRepository.findById(flightTrip.getFlightTripId()).orElse(null)).getFlights();
 		String FlightCode=flight.getFlightCode();
-		if(flightRepository.existsById(FlightCode)) {
+		if(flightRepository.existsById(FlightCode) && flightTrip.getStatus()==FlightTripStatus.Running) {
 			flight.setLastArrivalTime(flightTrip.getArrival());
 			return flightTripRepository.save(flightTrip);
 		
@@ -108,7 +108,8 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		if(flightTripRepository.existsById(flightDetailId)) {
 			Flights flight=(flightTripRepository.findById(flightDetailId).orElse(null)).getFlights();
 			String FlightCode=flight.getFlightCode();
-			flightTripRepository.deleteById(flightDetailId);
+			FlightTrip presentFlightTrip=flightTripRepository.findById(flightDetailId).orElse(null);
+			presentFlightTrip.setStatus(FlightTripStatus.Cancelled);
 			Optional<Integer> lastFlightdetail=flightTripRepository.findMaxFlightDetailId(FlightCode);
 
 			Optional<FlightTrip> lastFlightTripOptional = lastFlightdetail.flatMap(integer -> flightTripRepository.findById(integer));
@@ -213,5 +214,4 @@ public class FlightTripServiceImpl implements IFlightTripService {
     }
 	
 	
-
 }
