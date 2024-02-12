@@ -1,5 +1,8 @@
 package com.hexaware.simplyfly.entities;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,15 +18,16 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int userId;
 	
+
+	
+	
+	@Id
 	@NotNull
 	@Column(unique = true)
 	private String username;
 	
-	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$") 
+	//@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$") 
 	@NotNull
 	// at least one digit, one lower case, one upper case, length > 7
 	private String password;
@@ -45,9 +49,9 @@ public class User {
 		super();
 	}
 
-	public User(int userId, String username, String password, Roles role, String email, Airlines airlineFromUser) {
+	public User( String username, String password, Roles role, String email, Airlines airlineFromUser) {
 		super();
-		this.userId = userId;
+		
 		this.username = username;
 		this.password = password;
 		this.role = role;
@@ -55,13 +59,7 @@ public class User {
 		this.airlineFromUser = airlineFromUser;
 	}
 
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+	
 
 	public String getUsername() {
 		return username;
@@ -76,6 +74,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
+		
 		this.password = password;
 	}
 

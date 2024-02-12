@@ -13,6 +13,8 @@ import com.hexaware.simplyfly.repository.BookingRepository;
 import com.hexaware.simplyfly.repository.CustomerRepository;
 import com.hexaware.simplyfly.repository.FlightTripRepository;
 import com.hexaware.simplyfly.repository.SeatStructureRepository;
+import com.hexaware.simplyfly.repository.UserRepository;
+
 
 import jakarta.transaction.Transactional;
 
@@ -32,9 +34,16 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Autowired
 	FlightTripRepository flightTripRepo;
 
+  @Autowired
+	UserRepository userRepository;
+
+
 	@Override
-	public Customer createAccount(Customer customer) {
-		return custRepo.save(customer);
+	public Customer createAccount(Customer customer) throws Exception {
+		if(!userRepository.existsById(customer.getUsername()))
+			return custRepo.save(customer);
+		else
+			throw new Exception("username already exists");
 	}
 
 	@Override

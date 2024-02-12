@@ -17,16 +17,17 @@ public class FlightTripDTO {
 	@Min(value = 1000)
 	private Double ticketPrice;
 	
-	private Integer filledSeats;
+
 	
-	public FlightTripDTO(Integer flightTripId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice,
-			Integer filledSeats) {
+	
+	public FlightTripDTO(Integer flightTripId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice
+			) {
 		super();
 		this.flightTripId = flightTripId;
 		this.departure = departure;
 		this.arrival = arrival;
 		this.ticketPrice = ticketPrice;
-		this.filledSeats = filledSeats;
+		
 		
 	}
 	public FlightTripDTO() {
@@ -56,11 +57,7 @@ public class FlightTripDTO {
 	public void setTicketPrice(Double ticketPrice) {
 		this.ticketPrice = ticketPrice;
 	}
-	public Integer getFilledSeats() {
-		return filledSeats;
-	}
-	public void setFilledSeats(Integer filledSeats) {
-		this.filledSeats = filledSeats;
-	}
+	
+	
     
 }

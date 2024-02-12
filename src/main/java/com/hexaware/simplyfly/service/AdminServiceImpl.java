@@ -88,23 +88,30 @@ public class AdminServiceImpl implements IAdminService {
 	}
 
 	@Override
-	public User addUser(UserDTO userDTO) throws AirlineNotFoundException {
+	public User addUser(UserDTO userDTO) throws Exception {
 		User user = new User();
-		user.setUsername(userDTO.getUsername());
-		user.setEmail(userDTO.getEmail());
+		if(!customerRepo.existsById(userDTO.getUsername()))
+		{
+			user.setUsername(userDTO.getUsername());
+			user.setEmail(userDTO.getEmail());
+	
+			Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
+					() -> new AirlineNotFoundException(userDTO.getAirlineId()));
+			user.setAirline(airline);
+			user.setPassword(userDTO.getPassword());
+			user.setRole(userDTO.getRole());
+	
+			return userRepo.save(user);
+		}
+		else {
+			throw new Exception("Username already exists");
+		}
 
-		Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
-				() -> new AirlineNotFoundException(userDTO.getAirlineId()));
-		user.setAirline(airline);
-		user.setPassword(userDTO.getPassword());
-		user.setRole(userDTO.getRole());
-
-		return userRepo.save(user);
 	}
 
 	@Override
 	public User modifyUser(UserDTO userDTO) throws UserNotFoundException, AirlineNotFoundException {
-		User user = userRepo.findById(userDTO.getUserId()).orElse(null);
+		User user = userRepo.findById(userDTO.getUsername()).orElse(null);
 
 		if (user == null) {
 			throw new UserNotFoundException(userDTO.getUsername());

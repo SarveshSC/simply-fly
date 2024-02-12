@@ -17,6 +17,7 @@ import com.hexaware.simplyfly.dto.FlightTripDTO;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.FlightTrip;
+import com.hexaware.simplyfly.entities.FlightTripStatus;
 import com.hexaware.simplyfly.entities.Flights;
 import com.hexaware.simplyfly.exception.AirportNotFoundException;
 import com.hexaware.simplyfly.exception.BookingNotFoundException;
@@ -88,10 +89,9 @@ public class FlightTripServiceImpl implements IFlightTripService {
 //HERE ONLY TIMINGS CAN BE CHANGED THAT IS  ONLY PRICE AND SEATS
 	@Override
 	public FlightTrip rescheduleFlightTrip(FlightTrip flightTrip) throws Exception {
-//		Flights flight = (flightTripRepository.findById(flightTrip.getFlightTripId()).orElse(null)).getFlights();
 		Flights flight = flightTrip.getFlights();
 		String flightCode = flight.getFlightCode();
-		if (flightRepository.existsById(flightCode)) {
+		if(flightRepository.existsById(FlightCode) && flightTrip.getStatus()==FlightTripStatus.Running) {
 			flight.setLastArrivalTime(flightTrip.getArrival());
 			return flightTripRepository.save(flightTrip);
 
@@ -110,6 +110,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 			throw new InvalidFlightException(flightTripId.toString());
 		}
 
+
 		Set<Bookings> Bookings = flightTrip.getBookings();
 		for (Bookings booking : Bookings) {
 			bookingService.cancelBooking(booking.getBookingId(), booking.getCustomer().getUsername());
@@ -117,7 +118,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 
 		Flights flight = flightTrip.getFlights();
 		String flightCode = flight.getFlightCode();
-		flightTripRepository.deleteById(flightTripId);
+    flightTrip.setStatus(FlightTripStatus.Cancelled);
 		Optional<Integer> lastFlightdetail = flightTripRepository.findMaxFlightDetailId(flightCode);
 
 		Optional<FlightTrip> lastFlightTripOptional = lastFlightdetail

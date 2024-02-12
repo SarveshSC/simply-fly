@@ -8,4 +8,6 @@ import com.hexaware.simplyfly.entities.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, String>{
 
+	
+
 }

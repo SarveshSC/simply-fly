@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
 public class UserDTO {
-	private Integer userId;
+
 	
 	@Pattern(regexp = "^[A-Za-z][\\w]{7,29}$", message = "Username must contain atleast one letter and one number")
 	@UniqueElements
@@ -32,9 +32,9 @@ public class UserDTO {
 	}
 
 
-	public UserDTO(int userId, String username, String password, Roles role, String email, String airline) {
+	public UserDTO( String username, String password, Roles role, String email, String airline) {
 		super();
-		this.userId = userId;
+		
 		this.username = username;
 		this.password = password;
 		this.role = role;
@@ -43,14 +43,7 @@ public class UserDTO {
 	}
 
 
-	public Integer getUserId() {
-		return userId;
-	}
 
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 
 
 	public String getUsername() {
