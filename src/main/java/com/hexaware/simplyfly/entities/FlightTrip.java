@@ -19,7 +19,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @Entity
 public class FlightTrip {
@@ -39,10 +38,11 @@ public class FlightTrip {
 	@Min(value = 1000)
 	private Double ticketPrice;
 	
+
 	@Enumerated(EnumType.STRING)
 	FlightTripStatus status;
 	
-	private Integer filledSeats;
+	private Integer filledSeats=0;
 	
 
 	public Integer getFilledSeats() {
@@ -52,6 +52,7 @@ public class FlightTrip {
 	public void setFilledSeats(Integer filledSeats) {
 		this.filledSeats = filledSeats;
 	}
+
 
 	@ManyToOne()
 	@JsonIgnore

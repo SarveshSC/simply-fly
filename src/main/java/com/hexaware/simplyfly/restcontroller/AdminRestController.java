@@ -28,7 +28,7 @@ import com.hexaware.simplyfly.service.IAdminService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/simply-fly/admin")
 public class AdminRestController {
 	
 	@Autowired
@@ -99,7 +99,6 @@ public class AdminRestController {
 	public List<Customer> getAllCustomers(){
 		return service.getAllCustomers();
 	}
-	
 	
 	@PostMapping("/add-airline")
 	@PreAuthorize("hasAuthority('Admin')")

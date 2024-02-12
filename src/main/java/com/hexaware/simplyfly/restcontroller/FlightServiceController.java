@@ -21,39 +21,45 @@ import com.hexaware.simplyfly.service.IFlightService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/flights")
+
+@RequestMapping("/simply-fly/flights")
+
 public class FlightServiceController {
 	@Autowired
 	IFlightService service;
 
-	@PostMapping("/addFlights/{username}")
+
+	@PostMapping("/add-flights/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
 	public Flights addFlights(@RequestBody @Valid FlightDTO flightDto, @PathVariable String username) throws Exception {
 		return service.addFlights(flightDto, username);
 	}
 
-	@PutMapping("/updateFlights/{username}")
+
+	@PutMapping("/update-flights/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
 	public Flights updateFlights(@RequestBody @Valid FlightDTO flightDto, @PathVariable String username) throws Exception {
 
 		return service.updateFlights(flightDto, username);
 	}
 
-	@DeleteMapping("/deleteFlights/{username}/{flightId}")
+
+	@DeleteMapping("/delete-flights/{username}/{flightId}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
 	public String removeFlights(@PathVariable String username, @PathVariable String flightId) throws Exception {
 		return service.removeFlights(flightId, username);
 	}
-	
-	@GetMapping("/getFlightsByAirline/{airlineId}")
+
+	@GetMapping("/get-flights-by-airline/{airlineId}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
 	public List<Flights> getFlightsByAirlineId(@PathVariable String airlineId) throws AirlineNotFoundException
 	{
 		return service.viewAllFlightsByAirlineId(airlineId);
 	}
 	
-	@GetMapping
-	@PreAuthorize("hasAuthority('FlightOwner')")
+
+	@GetMapping("/get-all-flights")
+	@PreAuthorize("hasAuthority('FlightOwner','Admin')")
 	public List<Flights> getAllFlights(){
 		return service.viewAllFlights();
 	}

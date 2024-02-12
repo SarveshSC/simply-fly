@@ -46,7 +46,7 @@ public class Bookings {
 	@JoinColumn(name = "customerId",nullable = false)
 	private Customer customer;
 
-	@ManyToMany(mappedBy = "bookings")
+	@ManyToMany()
 	private Set<Passengers> passengers = new HashSet<>();
 
 	@Enumerated(EnumType.STRING)

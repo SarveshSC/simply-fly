@@ -23,8 +23,7 @@ public class FlightDTO {
 	@Max(value=7)
 	@Positive(message = "Cabin weight must be a positive number")
 	private Integer cabinWeight;
-	
-	@NotNull
+
 	private String airlineId;
 
 	public FlightDTO() {

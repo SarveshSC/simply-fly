@@ -23,10 +23,12 @@ import com.hexaware.simplyfly.dto.AuthRequest;
 import com.hexaware.simplyfly.dto.BookingDTO;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
+import com.hexaware.simplyfly.entities.SeatStructure;
 import com.hexaware.simplyfly.exception.BookingNotFoundException;
 import com.hexaware.simplyfly.exception.CustomerNotFoundException;
 import com.hexaware.simplyfly.exception.FlightNotFoundException;
 import com.hexaware.simplyfly.exception.InsufficientPassengersException;
+import com.hexaware.simplyfly.exception.InvalidFlightException;
 import com.hexaware.simplyfly.exception.InvalidSeatException;
 import com.hexaware.simplyfly.exception.SeatNotVacantException;
 import com.hexaware.simplyfly.service.IBookingService;
@@ -34,7 +36,7 @@ import com.hexaware.simplyfly.service.ICustomerService;
 import com.hexaware.simplyfly.service.JwtService;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/simply-fly/customers")
 public class CustomerRestController {
 	
 	Logger logger = LoggerFactory.getLogger(CustomerRestController.class);
@@ -44,26 +46,34 @@ public class CustomerRestController {
 	
 	@Autowired
 	IBookingService bookingService;
-	
-	@Autowired
+  
+  	@Autowired
 	JwtService jwtService;
 	
 	
 	@Autowired
 	private AuthenticationManager authManager;
 	
-	@PostMapping("/createAccount")
-	public Customer createAccount(@RequestBody Customer customer) throws Exception {
+
+	@PostMapping("/create-account")
+	public Customer createAccount(@RequestBody Customer customer) {
 		return customerService.createAccount(customer);
 	}
 	
-	@PutMapping("/updateAccount")
+
+
+
+	
+
+		@PutMapping("/update-account")
 	@PreAuthorize("hasAuthority('Customer')")
+
 	public Customer updateAccount(@RequestBody Customer customer) {
 		return customerService.editAccountInfo(customer);
 	}
 	
-	@DeleteMapping("/deleteAccount/{username}")
+
+	@DeleteMapping("/delete-account/{username}")
 	@PreAuthorize("hasAuthority('Customer')")
 	public String deleteAccount(@PathVariable String username) {
 		return customerService.deleteAccount(username);
@@ -73,6 +83,11 @@ public class CustomerRestController {
 	@PreAuthorize("hasAuthority('Customer')")
 	public Bookings bookFlight(@RequestBody BookingDTO bookingDTO, @PathVariable String username) throws CustomerNotFoundException, SeatNotVacantException, FlightNotFoundException, InvalidSeatException, InsufficientPassengersException {
 		return bookingService.bookFlight(bookingDTO, username);
+	}
+	
+	@DeleteMapping("booking/cancel-booking/{bookingId}/{customerId}")
+	public String cancelBooking(@PathVariable Integer bookingId, @PathVariable String customerId) throws BookingNotFoundException {
+		return bookingService.cancelBooking(bookingId, customerId);
 	}
 	
 	@GetMapping("booking/get-by-customer/{username}")
@@ -87,6 +102,12 @@ public class CustomerRestController {
 		return bookingService.cancelBooking(bookingId, username);
 	}
 	
+
+	@GetMapping("booking/get-all-vacnat-seats/{flightTripId}")
+	public List<SeatStructure> getAllVacantSeats(@PathVariable Integer flightTripId) throws InvalidFlightException{
+		return customerService.getVacantSeats(flightTripId);
+	}
+
 	@PostMapping("/login")
 	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
 		Authentication authentication=authManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -94,7 +115,7 @@ public class CustomerRestController {
 			return jwtService.generateToken(authRequest.getUsername());
 		}
 		else {
-			throw new UsernameNotFoundException("invalid user request");
+			throw new UsernameNotFoundException(authRequest.getUsername());
 		}
 	
 	}
@@ -106,5 +127,5 @@ public class CustomerRestController {
 	
 	
 	
-	
+
 }

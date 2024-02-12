@@ -9,7 +9,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 public class PassengerDTO {
 	private Integer passengerId;
 
-	@Pattern(regexp = "^[A-Za-z\\s]{1,}[\\ ]{0,1}[A-Za-z\\s]{0,}$")
+	@NotBlank
 	private String name;
 
 	@PositiveOrZero

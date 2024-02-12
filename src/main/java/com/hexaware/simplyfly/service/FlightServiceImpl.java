@@ -77,7 +77,7 @@ public class FlightServiceImpl implements IFlightService {
 			flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
 			return flightRepo.save(flight);
 		} else {
-			throw new AirlineNotFoundException("This Airline doesnot exist");
+			throw new AirlineNotFoundException(airlineId);
 		}
 
 	}
@@ -111,7 +111,7 @@ public class FlightServiceImpl implements IFlightService {
 			return flightRepo.findByAirline(airlineId);
 		}
 		else {
-			throw new AirlineNotFoundException("the airline with id "+airlineId+" not exists");
+			throw new AirlineNotFoundException(airlineId);
 		}
 	}
 

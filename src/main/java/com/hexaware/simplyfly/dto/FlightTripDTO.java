@@ -4,11 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
 
 public class FlightTripDTO {
-	@NotBlank
 	private Integer flightTripId;
 	
 	@Future
@@ -20,6 +17,7 @@ public class FlightTripDTO {
 	@Min(value = 1000)
 	private Double ticketPrice;
 	
+
 	
 	
 	public FlightTripDTO(Integer flightTripId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice
