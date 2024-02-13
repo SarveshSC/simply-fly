@@ -10,16 +10,17 @@ import com.hexaware.simplyfly.exception.BookingNotFoundException;
 import com.hexaware.simplyfly.exception.FlightNotFoundException;
 import com.hexaware.simplyfly.exception.InvalidFlightException;
 import com.hexaware.simplyfly.exception.InvalidTimingException;
+import com.hexaware.simplyfly.exception.UserNotFoundException;
 
 public interface IFlightTripService {
 
 	public FlightTrip scheduleFlight(FlightTripDTO flightTripDTO, String flightCode, String sourceIata,
-			String destinationIata)
+			String destinationIata,String username)
 			throws FlightNotFoundException, AirportNotFoundException, InvalidTimingException, Exception;
 
-	public FlightTrip rescheduleFlightTrip(FlightTrip flightTrip) throws Exception;
+	public FlightTrip rescheduleFlightTrip(FlightTrip flightTrip,String username) throws Exception;
 
-	public String cancelFlights(Integer flightDetailId) throws BookingNotFoundException, InvalidFlightException;
+	public String cancelFlights(Integer flightDetailId,String username) throws BookingNotFoundException, InvalidFlightException, UserNotFoundException;
 
 	public List<FlightTrip> getByDate(LocalDate departure);
 

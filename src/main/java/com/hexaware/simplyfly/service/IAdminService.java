@@ -2,9 +2,11 @@ package com.hexaware.simplyfly.service;
 
 import java.util.List;
 
+import com.hexaware.simplyfly.dto.AdminDTO;
 import com.hexaware.simplyfly.dto.AirlineDTO;
 import com.hexaware.simplyfly.dto.AirportDTO;
 import com.hexaware.simplyfly.dto.UserDTO;
+import com.hexaware.simplyfly.entities.Admin;
 import com.hexaware.simplyfly.entities.Airlines;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.Customer;
@@ -29,7 +31,7 @@ public interface IAdminService {
 	public Airlines addAirline(AirlineDTO airlineDTO);
 	public Airlines modifyAirline(AirlineDTO airlineDTO) throws AirlineNotFoundException;
 	public List<Airlines> getAllAirlines();
-	
+	public Admin addAdmin(AdminDTO adminDTO) throws Exception;
 	
 	public List<Customer> getAllCustomers();
 }

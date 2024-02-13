@@ -56,7 +56,7 @@ public class CustomerRestController {
 	
 
 	@PostMapping("/create-account")
-	public Customer createAccount(@RequestBody Customer customer) {
+	public Customer createAccount(@RequestBody Customer customer) throws Exception {
 		return customerService.createAccount(customer);
 	}
 	

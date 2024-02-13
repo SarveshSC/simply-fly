@@ -18,7 +18,6 @@ public class UserDTO {
 	// at least one digit, one lower case, one upper case, length > 7
 	private String password;
 	
-	private Roles role;
 	
 	@Email(message = "Enter a valid email")
 	@UniqueElements(message = "Email already registered")
@@ -32,12 +31,11 @@ public class UserDTO {
 	}
 
 
-	public UserDTO( String username, String password, Roles role, String email, String airline) {
+	public UserDTO( String username, String password,  String email, String airline) {
 		super();
 		
 		this.username = username;
 		this.password = password;
-		this.role = role;
 		this.email = email;
 		this.airlineId = airline;
 	}
@@ -66,14 +64,7 @@ public class UserDTO {
 	}
 
 
-	public Roles getRole() {
-		return role;
-	}
 
-
-	public void setRole(Roles role) {
-		this.role = role;
-	}
 
 
 	public String getEmail() {

@@ -3,11 +3,14 @@ package com.hexaware.simplyfly.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.simplyfly.dto.AdminDTO;
 import com.hexaware.simplyfly.dto.AirlineDTO;
 import com.hexaware.simplyfly.dto.AirportDTO;
 import com.hexaware.simplyfly.dto.UserDTO;
+import com.hexaware.simplyfly.entities.Admin;
 import com.hexaware.simplyfly.entities.Airlines;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.Customer;
@@ -15,6 +18,7 @@ import com.hexaware.simplyfly.entities.User;
 import com.hexaware.simplyfly.exception.AirlineNotFoundException;
 import com.hexaware.simplyfly.exception.AirportNotFoundException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
+import com.hexaware.simplyfly.repository.AdminRepository;
 import com.hexaware.simplyfly.repository.AirlineRepository;
 import com.hexaware.simplyfly.repository.AirportRepository;
 import com.hexaware.simplyfly.repository.CustomerRepository;
@@ -37,6 +41,12 @@ public class AdminServiceImpl implements IAdminService {
 
 	@Autowired
 	AirlineRepository airlineRepo;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	AdminRepository adminRepository;
 
 	@Override
 	public Airports addAirport(AirportDTO airportDTO) {
@@ -90,18 +100,23 @@ public class AdminServiceImpl implements IAdminService {
 	@Override
 	public User addUser(UserDTO userDTO) throws Exception {
 		User user = new User();
-		if(!customerRepo.existsById(userDTO.getUsername()))
+		if(!customerRepo.existsById(userDTO.getUsername())&& !adminRepository.existsById(userDTO.getUsername()))
 		{
-			user.setUsername(userDTO.getUsername());
-			user.setEmail(userDTO.getEmail());
-	
-			Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
-					() -> new AirlineNotFoundException(userDTO.getAirlineId()));
-			user.setAirline(airline);
-			user.setPassword(userDTO.getPassword());
-			user.setRole(userDTO.getRole());
-	
-			return userRepo.save(user);
+			if(!userRepo.existsById(userDTO.getUsername())&&userRepo.findByAirlineId(userDTO.getAirlineId())==null)
+			{
+				user.setUsername(userDTO.getUsername());
+				user.setEmail(userDTO.getEmail());
+		
+				Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
+						() -> new AirlineNotFoundException(userDTO.getAirlineId()));
+				user.setAirline(airline);
+				user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		
+				return userRepo.save(user);
+			}
+			else {
+				throw new Exception("user already exists");
+			}
 		}
 		else {
 			throw new Exception("Username already exists");
@@ -123,7 +138,6 @@ public class AdminServiceImpl implements IAdminService {
 				() -> new AirlineNotFoundException(userDTO.getAirlineId()));
 		user.setAirline(airline);
 		user.setPassword(userDTO.getPassword());
-		user.setRole(userDTO.getRole());
 
 		return userRepo.save(user);
 	}
@@ -180,6 +194,28 @@ public class AdminServiceImpl implements IAdminService {
 	@Override
 	public List<Airlines> getAllAirlines() {
 		return airlineRepo.findAll();
+	}
+
+	@Override
+	public Admin addAdmin(AdminDTO adminDTO) throws Exception {
+		Admin admin=new Admin();
+		if(!customerRepo.existsById(adminDTO.getUsername())&& !userRepo.existsById(adminDTO.getUsername())) {
+			if(!adminRepository.existsById(adminDTO.getUsername()))
+			{
+				admin.setUsername(adminDTO.getUsername());
+				admin.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
+				admin.setEmail(adminDTO.getEmail());
+				return adminRepository.save(admin);
+			}
+			else {
+				throw new Exception("user already exists");
+			}
+			
+			
+		}
+		else {
+			throw new Exception("username already exists");
+		}
 	}
 
 }

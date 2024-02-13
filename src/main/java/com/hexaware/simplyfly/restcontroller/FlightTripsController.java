@@ -20,6 +20,7 @@ import com.hexaware.simplyfly.dto.FlightTripDTO;
 import com.hexaware.simplyfly.entities.FlightTrip;
 import com.hexaware.simplyfly.exception.BookingNotFoundException;
 import com.hexaware.simplyfly.exception.InvalidFlightException;
+import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.service.IFlightTripService;
 
 @RestController
@@ -32,24 +33,25 @@ public class FlightTripsController {
 
 	
 
-	@PostMapping("/schedule-flight/{flightCode}/{sourceIata}/{destinationIata}")
+	@PostMapping("/schedule-flight/{flightCode}/{sourceIata}/{destinationIata}/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
-	public FlightTrip scheduleFlight(@RequestBody FlightTripDTO flightTripsDTO,@PathVariable String flightCode, @PathVariable String sourceIata,@PathVariable String destinationIata) throws Exception {
-		return service.scheduleFlight(flightTripsDTO, flightCode,sourceIata,destinationIata);
+	public FlightTrip scheduleFlight(@RequestBody FlightTripDTO flightTripsDTO,@PathVariable String flightCode, @PathVariable String sourceIata,@PathVariable String destinationIata,@PathVariable String username) throws Exception {
+		logger.info("trying to add a schedule");
+		return service.scheduleFlight(flightTripsDTO, flightCode,sourceIata,destinationIata,username);
 	}
 	
 
-	@PutMapping("/reschedule-flight")
+	@PutMapping("/reschedule-flight/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
-	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTrip flightTrips) throws Exception {
-		return service.rescheduleFlightTrip(flightTrips);
+	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTrip flightTrips,@PathVariable String username) throws Exception {
+		return service.rescheduleFlightTrip(flightTrips,username);
 	}
 	
 
-	@DeleteMapping("/cancel-flight/{flightTripId}")
+	@DeleteMapping("/cancel-flight/{flightTripId}/{username}")
   	@PreAuthorize("hasAuthority('FlightOwner')")
-	public String cancelFlights(@PathVariable Integer flightTripId) throws BookingNotFoundException, InvalidFlightException {
-		 return service.cancelFlights(flightTripId);
+	public String cancelFlights(@PathVariable Integer flightTripId,@PathVariable String username) throws BookingNotFoundException, InvalidFlightException, UserNotFoundException {
+		 return service.cancelFlights(flightTripId,username);
 	}
 	
 

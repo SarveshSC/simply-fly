@@ -41,14 +41,14 @@ public class FlightServiceImpl implements IFlightService {
 	AirportRepository airPortRepo;
 
 	@Override
-	public Flights addFlights(FlightDTO flightDto, String username) throws AirlineNotFoundException, UserNotFoundException {
+	public Flights addFlights(FlightDTO flightDto, String username) throws Exception {
 		Flights flight = null;
 		User user = userRepo.findUserByUsername(username);
 		if(user == null) throw new UserNotFoundException(username);
-
+		if(flightRepo.existsById(flightDto.getFlightCode())) throw new Exception("flight already exists");
 		String airlineId = user.getAirline().getAirlineId();
 		Airlines airline = airLineRepo.findById(airlineId).orElse(null);
-		if (airline != null) {
+		if (airline != null && user.getAirline().getAirlineId().equals(flightDto.getAirlineId())) {
 			flight = new Flights();
 			flight.setFlightCode(flightDto.getFlightCode());
 			flight.setTotalSeats(flightDto.getTotalSeats());
@@ -62,13 +62,13 @@ public class FlightServiceImpl implements IFlightService {
 	}
 
 	@Override
-	public Flights updateFlights(FlightDTO flightDto, String username) throws AirlineNotFoundException, UserNotFoundException {
+	public Flights updateFlights(FlightDTO flightDto, String username) throws Exception {
 		Flights flight = null;
-		User user = userRepo.findUserByUsername(username);
-
+		if(!flightRepo.existsById(flightDto.getFlightCode())) throw new Exception("flight not exists");
+		User user = userRepo.findById(username).orElseThrow(()->new UserNotFoundException(username));
 		String airlineId = user.getAirline().getAirlineId();
 		Airlines airline = airLineRepo.findById(airlineId).orElse(null);
-		if (airline != null) {
+		if (airline != null && user.getAirline().getAirlineId().equals(flightDto.getAirlineId())) {
 			flight = new Flights();
 			flight.setFlightCode(flightDto.getFlightCode());
 			flight.setTotalSeats(flightDto.getTotalSeats());

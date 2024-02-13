@@ -27,7 +27,7 @@ public class PassengerDTO {
 		super();
 	}
 
-	public PassengerDTO(Integer passengerId, String name, Integer age, Gender gender, String seat,
+	public PassengerDTO(Integer passengerId,String name, Integer age, Gender gender, String seat,
 			Integer flightTripId) {
 		super();
 		this.passengerId = passengerId;

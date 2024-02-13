@@ -39,9 +39,9 @@ public class SecurityConfig {
 	public SecurityFilterChain getSecurityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf().disable()
 				.authorizeHttpRequests()
-				.requestMatchers("/api/customers/createAccount","/api/admin/add-user","/api/customers/enter").permitAll().and()
-				.authorizeHttpRequests().requestMatchers("api/customers/**",
-						"api/admin/**","api/flights/**","/api/flightTrips").authenticated()
+				.requestMatchers("/simply-fly/customers/create-account","/simply-fly/admin/add-user","/simply-fly/customers/login","/simply-fly/customers/enter").permitAll().and()
+				.authorizeHttpRequests().requestMatchers("/simply-fly/customers/**",
+						"/simply-fly/admin/**","/simply-fly/flights/**","/simply-fly/flightTrips/**").authenticated()
 				.and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 
 public class FlightTripDTO {
-	private Integer flightTripId;
+	//private Integer flightTripId;
 	
 	@Future
 	private LocalDateTime departure;
@@ -20,10 +20,10 @@ public class FlightTripDTO {
 
 	
 	
-	public FlightTripDTO(Integer flightTripId, LocalDateTime departure, LocalDateTime arrival, Double ticketPrice
+	public FlightTripDTO( LocalDateTime departure, LocalDateTime arrival, Double ticketPrice
 			) {
 		super();
-		this.flightTripId = flightTripId;
+		//this.flightTripId = flightTripId;
 		this.departure = departure;
 		this.arrival = arrival;
 		this.ticketPrice = ticketPrice;
@@ -33,12 +33,12 @@ public class FlightTripDTO {
 	public FlightTripDTO() {
 		super();
 	}
-	public Integer getFlightTripId() {
-		return flightTripId;
-	}
-	public void setFlightTripId(Integer flightTripId) {
-		this.flightTripId = flightTripId;
-	}
+//	public Integer getFlightTripId() {
+//		return flightTripId;
+//	}
+//	public void setFlightTripId(Integer flightTripId) {
+//		this.flightTripId = flightTripId;
+//	}
 	public LocalDateTime getDeparture() {
 		return departure;
 	}

@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hexaware.simplyfly.dto.AdminDTO;
 import com.hexaware.simplyfly.dto.AirlineDTO;
 import com.hexaware.simplyfly.dto.AirportDTO;
 import com.hexaware.simplyfly.dto.UserDTO;
+import com.hexaware.simplyfly.entities.Admin;
 import com.hexaware.simplyfly.entities.Airlines;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.Customer;
@@ -68,6 +70,12 @@ public class AdminRestController {
 	@PostMapping("/add-user")
 	public User addUser(@RequestBody UserDTO userDTO) throws Exception {
 		return service.addUser(userDTO);
+	}
+	
+	@PostMapping("/add-admin")
+	@PreAuthorize("hasAuthority('Admin')")
+	public Admin addAdmin(@RequestBody AdminDTO adminDTO) throws Exception {
+		return service.addAdmin(adminDTO);
 	}
 	
 	@PostMapping("/modify-user")

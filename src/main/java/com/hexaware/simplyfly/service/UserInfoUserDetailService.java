@@ -9,8 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.simplyfly.config.UserInfoUserDetails;
+import com.hexaware.simplyfly.entities.Admin;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.User;
+import com.hexaware.simplyfly.repository.AdminRepository;
 import com.hexaware.simplyfly.repository.CustomerRepository;
 import com.hexaware.simplyfly.repository.UserRepository;
 
@@ -23,6 +25,9 @@ public class UserInfoUserDetailService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private AdminRepository adminRepository;
 	
 	
 	@Override
@@ -37,6 +42,13 @@ public class UserInfoUserDetailService implements UserDetailsService {
 		if(user!=null) {
 			return new UserInfoUserDetails(user);
 		}
+		
+		Admin admin=adminRepository.findById(username).orElse(null);
+		if(admin!=null) {
+			return new UserInfoUserDetails(admin);
+		}
+		
+		
 		throw new UsernameNotFoundException("username not found with"+username);
 	}
 

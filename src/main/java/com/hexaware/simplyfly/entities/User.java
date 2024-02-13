@@ -32,8 +32,8 @@ public class User {
 	// at least one digit, one lower case, one upper case, length > 7
 	private String password;
 	
-	@Enumerated(EnumType.STRING)
-	private Roles role;
+	
+	private final String role="FlightOwner";
 	
 	@Email(message = "Invalid Email Format")
 	@Column(unique = true)
@@ -49,12 +49,11 @@ public class User {
 		super();
 	}
 
-	public User( String username, String password, Roles role, String email, Airlines airlineFromUser) {
+	public User( String username, String password,  String email, Airlines airlineFromUser) {
 		super();
 		
 		this.username = username;
 		this.password = password;
-		this.role = role;
 		this.email = email;
 		this.airlineFromUser = airlineFromUser;
 	}
@@ -78,13 +77,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Roles getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Roles role) {
-		this.role = role;
-	}
+
 
 	public String getEmail() {
 		return email;

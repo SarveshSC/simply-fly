@@ -3,12 +3,14 @@ package com.hexaware.simplyfly.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.FlightTrip;
 import com.hexaware.simplyfly.entities.SeatStructure;
 import com.hexaware.simplyfly.exception.InvalidFlightException;
+import com.hexaware.simplyfly.repository.AdminRepository;
 import com.hexaware.simplyfly.repository.BookingRepository;
 import com.hexaware.simplyfly.repository.CustomerRepository;
 import com.hexaware.simplyfly.repository.FlightTripRepository;
@@ -36,12 +38,27 @@ public class CustomerServiceImpl implements ICustomerService {
 
   @Autowired
 	UserRepository userRepository;
+  
+  @Autowired
+  PasswordEncoder passwordEncoder;
+  
+  @Autowired
+  AdminRepository adminRepository;
 
 
 	@Override
 	public Customer createAccount(Customer customer) throws Exception {
-		if(!userRepository.existsById(customer.getUsername()))
+		if(!userRepository.existsById(customer.getUsername())&& !adminRepository.existsById(customer.getUsername()))
+		{
+			if(!custRepo.existsById(customer.getUsername()))
+			{
+			customer.setPassword(passwordEncoder.encode(customer.getPassword()));
 			return custRepo.save(customer);
+			}
+			else {
+				throw new Exception("user already exists");
+			}
+		}
 		else
 			throw new Exception("username already exists");
 	}

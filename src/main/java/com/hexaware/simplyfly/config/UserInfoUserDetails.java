@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.hexaware.simplyfly.entities.Admin;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.User;
 
@@ -31,6 +32,13 @@ public class UserInfoUserDetails implements UserDetails {
 		this.name=user.getUsername();
 		this.password=user.getPassword();
 		this.authorities=Arrays.stream(user.getRole().toString().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+	}
+	
+	public UserInfoUserDetails(Admin admin) {
+		
+		this.name=admin.getUsername();
+		this.password=admin.getPassword();
+		this.authorities=Arrays.stream(admin.getRole().toString().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 
 	@Override
