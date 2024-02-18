@@ -2,6 +2,8 @@ package com.hexaware.simplyfly.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class CustomerServiceImpl implements ICustomerService {
+	
+	Logger logger=LoggerFactory.getLogger(CustomerServiceImpl.class);
 	
 	@Autowired
 	CustomerRepository custRepo;
@@ -48,6 +52,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public Customer createAccount(Customer customer) throws Exception {
+		logger.info("trying to create account");
 		if(!userRepository.existsById(customer.getUsername())&& !adminRepository.existsById(customer.getUsername()))
 		{
 			if(!custRepo.existsById(customer.getUsername()))
@@ -70,6 +75,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public String deleteAccount(String username) {
+		logger.info("trying to delete account for username"+username);
 		custRepo.deleteById(username);
 		
 		return "Account Deleted";

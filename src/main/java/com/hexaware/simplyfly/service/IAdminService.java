@@ -27,6 +27,9 @@ public interface IAdminService {
 	public User findUserByUsername(String username) throws UserNotFoundException;
 	public String removeUserByUsername(String username) throws UserNotFoundException;
 	public List<User> getAllUsers();
+	public List<UserDTO> getUserRequests();
+	public String approveUser(String username) throws UserNotFoundException;
+	public String rejectUser(String username) throws UserNotFoundException;
 	
 	public Airlines addAirline(AirlineDTO airlineDTO);
 	public Airlines modifyAirline(AirlineDTO airlineDTO) throws AirlineNotFoundException;

@@ -56,7 +56,7 @@ public class FlightTripsController {
 	
 
 		@GetMapping("/get-by-date/{departure}")
-	@PreAuthorize("hasAuthority('FlightOwner','Customer')")
+	@PreAuthorize("hasAnyAuthority('FlightOwner','Customer')")
 	public List<FlightTrip> getByDate(@PathVariable String departure){
 		return service.getByDate(LocalDate.parse(departure));
 	}
@@ -71,14 +71,14 @@ public class FlightTripsController {
 		
 
 		@GetMapping("/search-flights-by-source-and-destination/{sourceIata}/{destinationIata}")
-		@PreAuthorize("hasAuthority('FlightOwner','Customer','Admin')")
+		@PreAuthorize("hasAnyAuthority('FlightOwner','Customer','Admin')")
 		public List<FlightTrip> viewFlightBySourceAndDestination(@PathVariable String sourceIata,@PathVariable String destinationIata) throws Exception
 		{
 			return service.viewFlightBySourceAndDestination(sourceIata, destinationIata);
 		}
 
 		@GetMapping("/search-flights-by-date-source-destination/{departure}/{sourceIata}/{destinationIata}")
-		@PreAuthorize("hasAuthority('FlightOwner','Customer','Admin')")
+		@PreAuthorize("hasAnyAuthority('FlightOwner','Customer','Admin')")
 		public List<FlightTrip> getByDateAndSourceDestination(@PathVariable String departure, @PathVariable String sourceIata,@PathVariable String destinationIata) throws Exception {
 			
 				return service.getByDateAndSourceDestination(LocalDate.parse(departure), sourceIata, destinationIata);

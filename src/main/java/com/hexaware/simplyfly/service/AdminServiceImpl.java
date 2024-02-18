@@ -1,6 +1,7 @@
 package com.hexaware.simplyfly.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +16,7 @@ import com.hexaware.simplyfly.entities.Airlines;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.User;
+import com.hexaware.simplyfly.entities.UserStatus;
 import com.hexaware.simplyfly.exception.AirlineNotFoundException;
 import com.hexaware.simplyfly.exception.AirportNotFoundException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
@@ -111,6 +113,7 @@ public class AdminServiceImpl implements IAdminService {
 						() -> new AirlineNotFoundException(userDTO.getAirlineId()));
 				user.setAirline(airline);
 				user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+				user.setUserStatus(UserStatus.PENDING);
 		
 				return userRepo.save(user);
 			}
@@ -217,5 +220,35 @@ public class AdminServiceImpl implements IAdminService {
 			throw new Exception("username already exists");
 		}
 	}
+
+	@Override
+	public List<UserDTO> getUserRequests() {
+	    List<User> userRequests = userRepo.findAllByUserStatus(UserStatus.PENDING);
+	    List<UserDTO> userdto = userRequests.stream()
+	            .map(user -> new UserDTO(user.getUsername(), user.getPassword(), user.getEmail(), user.getAirline().getAirlineId(), user.getUserStatus()))
+	            .collect(Collectors.toList());
+	    
+	    return userdto; // Explicitly return the List<UserDTO>
+	}
+	
+	@Override
+	public String approveUser(String username) throws UserNotFoundException {
+	    User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
+	    user.setUserStatus(UserStatus.APPROVED);
+	    user.setRole("FlightOwner");
+	    userRepo.save(user);
+	    return "user approved";
+	}
+	
+	@Override
+	public String rejectUser(String username) throws UserNotFoundException {
+	    User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
+	    user.setUserStatus(UserStatus.REJECTED);
+	    userRepo.save(user);
+	    return "user rejected";
+	    
+	}
+	
+	
 
 }

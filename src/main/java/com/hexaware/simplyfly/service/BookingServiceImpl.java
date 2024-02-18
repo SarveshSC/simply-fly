@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +38,14 @@ import com.hexaware.simplyfly.repository.PaymentRepository;
 import com.hexaware.simplyfly.repository.SeatRepository;
 import com.hexaware.simplyfly.repository.SeatStructureRepository;
 
+
 import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
 public class BookingServiceImpl implements IBookingService {
+	
+	Logger logger=LoggerFactory.getLogger(BookingServiceImpl.class);
 
 	@Autowired
 	BookingRepository bookingRepo;
@@ -66,7 +72,7 @@ public class BookingServiceImpl implements IBookingService {
 	public Bookings bookFlight(BookingDTO bookingDTO, String customerId) throws CustomerNotFoundException,
 			SeatNotVacantException, FlightNotFoundException, InvalidSeatException, InsufficientPassengersException {
 		Bookings booking = new Bookings();
-
+		logger.info("trying to book tickets+ for customerid"+customerId);
 		Customer customer = customerRepo.findById(customerId).orElse(null);
 		if (customer == null)
 			throw new CustomerNotFoundException(customerId);
@@ -128,6 +134,7 @@ public class BookingServiceImpl implements IBookingService {
 
 	@Override
 	public String cancelBooking(Integer bookingId, String customerId) throws BookingNotFoundException {
+		logger.info("trying to cancel tickets for bookingid"+bookingId);
 		List<Bookings> listOfBookings = getAllBookingsByUsername(customerId);
 		Bookings booking = bookingRepo.findById(bookingId).orElse(null);
 		if ((booking == null) || (!listOfBookings.contains(booking))) {
@@ -140,6 +147,7 @@ public class BookingServiceImpl implements IBookingService {
 		
 		for (Passengers p : passengers) {
 			seatRepo.delete(p.getSeat());
+//			p.getSeat().setStatus(SeatStatus.Vacant);
 			p.setSeat(null);
 		}
 //		passengerRepo.delete(p);

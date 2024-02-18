@@ -70,9 +70,11 @@ public class FlightTrip {
 	private Airports destination;
 
 	@OneToMany(mappedBy = "flightTripForBooking")
+	@JsonIgnore
 	private Set<Bookings> bookings = new HashSet<>();
 
 	@OneToMany(mappedBy = "seatNo")
+	@JsonIgnore
 	private Set<SeatStructure> seats = new HashSet<>();
 
 //	@OneToMany(cascade = CascadeType.ALL, mappedBy = "passengerFlightTripId")

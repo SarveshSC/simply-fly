@@ -20,6 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.hexaware.simplyfly.filter.JwtAuthFilter;
 import com.hexaware.simplyfly.service.UserInfoUserDetailService;
 
+
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -39,7 +41,7 @@ public class SecurityConfig {
 	public SecurityFilterChain getSecurityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf().disable()
 				.authorizeHttpRequests()
-				.requestMatchers("/simply-fly/customers/create-account","/simply-fly/admin/add-user","/simply-fly/customers/login","/simply-fly/customers/enter").permitAll().and()
+				.requestMatchers("/simply-fly/customers/create-account","/simply-fly/admin/add-user","/simply-fly/customers/login","/simply-fly/customers/enter","/simply-fly/admin/add-admin").permitAll().and()
 				.authorizeHttpRequests().requestMatchers("/simply-fly/customers/**",
 						"/simply-fly/admin/**","/simply-fly/flights/**","/simply-fly/flightTrips/**").authenticated()
 				.and()
@@ -70,4 +72,7 @@ public class SecurityConfig {
 		return config.getAuthenticationManager();
 	}
 
+	
+	
+	
 }

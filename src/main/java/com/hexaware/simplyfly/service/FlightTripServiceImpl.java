@@ -123,7 +123,8 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		if (flightTrip == null || flightTrip.getFlights().getAirline()!=user.getAirline()) {
 			throw new InvalidFlightException(flightTripId.toString());
 		}
-
+		System.out.println(flightTrip.getBookings());
+logger.info("in progress of deleting");
 
 		Set<Bookings> Bookings = flightTrip.getBookings();
 		for (Bookings booking : Bookings) {
@@ -134,10 +135,12 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		String flightCode = flight.getFlightCode();
     flightTrip.setStatus(FlightTripStatus.Cancelled);
 		Optional<Integer> lastFlightdetail = flightTripRepository.findMaxFlightDetailId(flightCode);
-
-		Optional<FlightTrip> lastFlightTripOptional = lastFlightdetail
-				.flatMap(integer -> flightTripRepository.findById(integer));
-
+		if(lastFlightdetail!=null)
+		{
+			Optional<FlightTrip> lastFlightTripOptional = lastFlightdetail
+					.flatMap(integer -> flightTripRepository.findById(integer));
+		
+		
 		FlightTrip lastFlightTrip = lastFlightTripOptional.orElse(null); // Or handle it accordingly if
 																			// lastFlightTrip is null
 
@@ -147,6 +150,11 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		} else {
 			flight.setLastArrivalTime(lastFlightTrip.getArrival());
 			flight.setLastArrivedAirportId(lastFlightTrip.getDestination().getIataCode());
+		}
+		}
+		else {
+			flight.setLastArrivalTime(null);
+			flight.setLastArrivedAirportId(null);
 		}
 
 		return "Flight has been cancelled sorry for the incovenience";
