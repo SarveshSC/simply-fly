@@ -67,7 +67,6 @@ public class CustomerRestController {
 
 		@PutMapping("/update-account")
 	@PreAuthorize("hasAuthority('Customer')")
-
 	public Customer updateAccount(@RequestBody Customer customer) {
 		return customerService.editAccountInfo(customer);
 	}

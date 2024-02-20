@@ -33,7 +33,7 @@ public class User {
 	private String password;
 	
 	
-	private final String role="FlightOwner";
+	private  String role;
 	
 	@Email(message = "Invalid Email Format")
 	@Column(unique = true)
@@ -44,6 +44,9 @@ public class User {
 	private Airlines airlineFromUser;
 	
 	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private UserStatus userStatus;
 
 	public User() {
 		super();
@@ -97,6 +100,26 @@ public class User {
 
 	public void setAirline(Airlines airline) {
 		this.airlineFromUser = airline;
+	}
+
+	public Airlines getAirlineFromUser() {
+		return airlineFromUser;
+	}
+
+	public void setAirlineFromUser(Airlines airlineFromUser) {
+		this.airlineFromUser = airlineFromUser;
+	}
+
+	public UserStatus getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(UserStatus userStatus) {
+		this.userStatus = userStatus;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 	

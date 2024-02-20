@@ -73,7 +73,7 @@ public class AdminRestController {
 	}
 	
 	@PostMapping("/add-admin")
-	@PreAuthorize("hasAuthority('Admin')")
+	//@PreAuthorize("hasAuthority('Admin')")
 	public Admin addAdmin(@RequestBody AdminDTO adminDTO) throws Exception {
 		return service.addAdmin(adminDTO);
 	}
@@ -124,5 +124,17 @@ public class AdminRestController {
 	@PreAuthorize("hasAuthority('Admin')")
 	public List<Airlines> getAllAirlines(){
 		return service.getAllAirlines();
+	}
+	
+	@PutMapping("/approve-user/{username}")
+	@PreAuthorize("hasAuthority('Admin')")
+	public String approveUser( @PathVariable String username) throws UserNotFoundException {
+		return service.approveUser(username);
+	}
+	
+	@PutMapping("/reject-user/username")
+	@PreAuthorize("hasAuthority('Admin')")
+	public String rejectUser(@PathVariable String username) throws UserNotFoundException{
+		return service.rejectUser(username);
 	}
 }
