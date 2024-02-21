@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 
 public class PassengerDTO {
-	private Integer passengerId;
+	private String passengerId;
 
 	@NotBlank
 	private String name;
@@ -27,7 +27,7 @@ public class PassengerDTO {
 		super();
 	}
 
-	public PassengerDTO(Integer passengerId,String name, Integer age, Gender gender, String seat,
+	public PassengerDTO(String passengerId,String name, Integer age, Gender gender, String seat,
 			Integer flightTripId) {
 		super();
 		this.passengerId = passengerId;
@@ -38,11 +38,11 @@ public class PassengerDTO {
 		this.flightTripId = flightTripId;
 	}
 
-	public Integer getPassengerId() {
+	public String getPassengerId() {
 		return passengerId;
 	}
 
-	public void setPassengerId(Integer passengerId) {
+	public void setPassengerId(String passengerId) {
 		this.passengerId = passengerId;
 	}
 

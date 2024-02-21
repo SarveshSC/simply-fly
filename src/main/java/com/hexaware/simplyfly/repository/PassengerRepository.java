@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hexaware.simplyfly.entities.Passengers;
 
 @Repository
-public interface PassengerRepository extends JpaRepository<Passengers, Integer>{
+public interface PassengerRepository extends JpaRepository<Passengers, String>{
 
 }
