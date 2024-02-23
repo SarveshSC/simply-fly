@@ -18,12 +18,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Positive;
 
 @Entity
 public class Bookings {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_id_sequence")
+    @SequenceGenerator(name = "booking_id_sequence", sequenceName = "booking_id_seq",initialValue = 1001, allocationSize = 1)
 	private Integer bookingId;
 	
 	@Column(nullable = false)

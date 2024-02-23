@@ -106,9 +106,9 @@ public class BookingServiceImpl implements IBookingService {
 			Passengers passenger = setPassenger(p, flightTrip);
 			booking.getPassengers().add(passenger);
 			
-			newSeat.setSeatNo(passenger.getSeat().getSeatNo());
-
-			seatRepo.save(newSeat);
+//			newSeat.setSeatNo(passenger.getSeat().getSeatNo());
+//
+//			seatRepo.save(newSeat);
 
 			passengers.add(passenger);
 			passengerRepo.save(passenger);
@@ -166,6 +166,7 @@ public class BookingServiceImpl implements IBookingService {
 	}
 
 	public Passengers setPassenger(PassengerDTO passengerDTO, FlightTrip flightTrip) throws InvalidSeatException {
+		System.out.println("set passenger called");
 		Passengers passenger = new Passengers();
 		passenger.setName(passengerDTO.getName());
 		passenger.setAge(passengerDTO.getAge());
@@ -175,6 +176,7 @@ public class BookingServiceImpl implements IBookingService {
 			throw new InvalidSeatException();
 		}
 		Seats seat = new Seats(SeatStatus.Booked, flightTrip, seatNo);
+//		seatRepo.save(seat);
 		passenger.setSeat(seat);
 
 		return passenger;

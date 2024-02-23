@@ -3,6 +3,9 @@ package com.hexaware.simplyfly.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -11,7 +14,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
@@ -22,12 +24,23 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Passengers {
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passenger_id_sequence")
+//  @SequenceGenerator(name = "passenger_id_sequence", sequenceName = "passenger_id_seq",initialValue = 90001, allocationSize = 1)
+//	private Integer passengerId;
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer passengerId;
+    @GeneratedValue(generator = "custom-sequence")
+    @GenericGenerator(name = "custom-sequence", strategy = "com.hexaware.simplyfly.service.SequenceIdGenerator",
+                      parameters = {
+                          @Parameter(name = "prefix", value = "P-"),
+                          @Parameter(name = "initialValue", value = "100"),
+                          @Parameter(name = "incrementSize", value = "1")
+                      })
+    private String passengerId;
+	
 	
 	@Column(nullable = false)
-
 	@NotBlank
 	//@Pattern(regexp = "^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$")
 	private String name;
@@ -42,7 +55,7 @@ public class Passengers {
 	@JsonIgnore
 	private Set<Bookings> bookings = new HashSet<>();
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumns({ @JoinColumn(name = "flightTripId", referencedColumnName = "flightTripId"),
 			@JoinColumn(name = "seatNo", referencedColumnName = "seatNo") })
 	@JsonIgnore
@@ -52,7 +65,7 @@ public class Passengers {
 		super();
 	}
 
-	public Passengers(Integer passengerId, String name, Integer age, Gender gender, Set<Bookings> bookings,
+	public Passengers(String passengerId, String name, Integer age, Gender gender, Set<Bookings> bookings,
 			Seats seat) {
 		super();
 		this.passengerId = passengerId;
@@ -63,11 +76,11 @@ public class Passengers {
 		this.seat = seat;
 	}
 
-	public Integer getPassengerId() {
+	public String getPassengerId() {
 		return passengerId;
 	}
 
-	public void setPassengerId(Integer passengerId) {
+	public void setPassengerId(String passengerId) {
 		this.passengerId = passengerId;
 	}
 
