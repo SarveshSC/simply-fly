@@ -1,11 +1,15 @@
 package com.hexaware.simplyfly.service;
 
 import java.security.Key;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +24,11 @@ public class JwtService {
 	
 	private static final String SECRET = "HnEDCKYobu5um1XAsbqn4rkC+DWXzT4Sfx2B+NT5Q437fvgg4rVjFoMLht0bFR2E1AfcvqEIJ4KrsqIxLSCcQgZ16qOlT6Io7E5tsqYXHaRs8DtjFRWOBsMAU4CJctSzRiXKEEDTx9Z86/j/BecaMG4CQw+6K3+RKkITRzIUVhATOrM5rZOpIGYWH7/f9WHxvmCbDBdqVz0bW7+tg7ggGd1ysDL7BrJ84Rj+qxMgabCukXP+77NkKCuifw7i1WknGTSmixHPFL46hs3XoJ7M/p9b0IkqfSRmBfnA9pDyqeDF00Rom+xlsiUtT/tC7UD0tHi2HeztEeTVbmu35HXvLZ9RoyztXy7uUdq1IS2N6ao=\r\n";
 
-	public String generateToken(String username) {
+	public String generateToken(String username,Collection<? extends GrantedAuthority> authorities) {
 		
 		Map<String,Object> claims=new HashMap<>();
+		String role = authorities.iterator().next().getAuthority();
+		claims.put("role", role);
 		return createToken(claims,username);
 		
 	}
@@ -32,6 +38,7 @@ public class JwtService {
 				setClaims(claims).setSubject(username)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
+				.claim("role", claims.get("role"))
 				.signWith(getSignKey(),SignatureAlgorithm.HS256).compact();
 	
 	}

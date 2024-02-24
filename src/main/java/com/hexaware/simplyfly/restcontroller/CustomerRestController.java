@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -111,7 +112,8 @@ public class CustomerRestController {
 	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
 		Authentication authentication=authManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 		if(authentication.isAuthenticated()) {
-			return jwtService.generateToken(authRequest.getUsername());
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			return jwtService.generateToken(authRequest.getUsername(),userDetails.getAuthorities());
 		}
 		else {
 			throw new UsernameNotFoundException(authRequest.getUsername());
