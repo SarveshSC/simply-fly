@@ -60,13 +60,8 @@ public class CustomerRestController {
 	public Customer createAccount(@RequestBody Customer customer) throws Exception {
 		return customerService.createAccount(customer);
 	}
-	
 
-
-
-	
-
-		@PutMapping("/update-account")
+	@PutMapping("/update-account")
 	@PreAuthorize("hasAuthority('Customer')")
 	public Customer updateAccount(@RequestBody Customer customer) {
 		return customerService.editAccountInfo(customer);
@@ -103,7 +98,7 @@ public class CustomerRestController {
 	}
 	
 
-	@GetMapping("booking/get-all-vacnat-seats/{flightTripId}")
+	@GetMapping("booking/get-all-vacant-seats/{flightTripId}")
 	public List<SeatStructure> getAllVacantSeats(@PathVariable Integer flightTripId) throws InvalidFlightException{
 		return customerService.getVacantSeats(flightTripId);
 	}
@@ -125,6 +120,13 @@ public class CustomerRestController {
 	public String giveGreeting() {
 		return "hello";
 	}
+	
+	@GetMapping("booking/get-all-bookings")
+	@PreAuthorize("hasAuthority('FlightOwner','Admin')")
+	public List<Bookings> getAllBookings(){
+		return bookingService.getAllBookings();
+	}
+	
 	
 	
 	

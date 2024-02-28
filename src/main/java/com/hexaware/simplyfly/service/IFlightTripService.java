@@ -31,5 +31,6 @@ public interface IFlightTripService {
 
 	public List<FlightTrip> getByDateAndSourceDestination(LocalDate departure, String sourceIata,
 			String destinationIata) throws Exception;
-
+	
+	public List<FlightTrip> listAllTrips();
 }

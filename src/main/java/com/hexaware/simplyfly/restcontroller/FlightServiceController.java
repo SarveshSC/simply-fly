@@ -57,11 +57,20 @@ public class FlightServiceController {
 		return service.viewAllFlightsByAirlineId(airlineId);
 	}
 	
+	@GetMapping("/get-flights-by-username/{username}")
+	@PreAuthorize("hasAuthority('FlightOwner')")
+	public List<FlightDTO> getFlightsByUsername(@PathVariable String username) throws AirlineNotFoundException
+	{
+		return service.viewAllFlightsByUsername(username);
+	}
+	
 
 	@GetMapping("/get-all-flights")
 	@PreAuthorize("hasAnyAuthority('FlightOwner','Admin')")
 	public List<Flights> getAllFlights(){
 		return service.viewAllFlights();
 	}
+	
+	
 
 }

@@ -15,4 +15,7 @@ public interface IBookingService {
 	public Bookings bookFlight(BookingDTO bookingDTO, String customerId) throws CustomerNotFoundException, SeatNotVacantException, FlightNotFoundException, InvalidSeatException, InsufficientPassengersException;
 	public List<Bookings> getAllBookingsByUsername(String username);
 	public String cancelBooking(Integer bookingId, String customerId) throws BookingNotFoundException;
+	
+	public List<Bookings> getAllBookings();
+	
 }

@@ -96,7 +96,7 @@ public class AdminRestController {
 		return service.removeUserByUsername(username);
 	}
 	
-	@GetMapping("list-all-users")
+	@GetMapping("/list-all-users")
 	@PreAuthorize("hasAuthority('Admin')")
 	public List<User> getAllUsers(){
 		return service.getAllUsers();

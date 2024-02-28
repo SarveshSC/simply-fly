@@ -191,4 +191,8 @@ public class BookingServiceImpl implements IBookingService {
 
 		return payments;
 	}
+	
+	public List<Bookings> getAllBookings(){
+		return bookingRepo.findAll();
+	}
 }

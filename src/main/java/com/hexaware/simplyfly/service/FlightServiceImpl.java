@@ -2,6 +2,7 @@ package com.hexaware.simplyfly.service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -109,6 +110,31 @@ public class FlightServiceImpl implements IFlightService {
 	public List<Flights> viewAllFlightsByAirlineId(String airlineId) throws AirlineNotFoundException {
 		if(airLineRepo.existsById(airlineId)) {
 			return flightRepo.findByAirline(airlineId);
+		}
+		else {
+			throw new AirlineNotFoundException(airlineId);
+		}
+	}
+	
+	@Override
+	public List<FlightDTO> viewAllFlightsByUsername(String username) throws AirlineNotFoundException {
+		User user = userRepo.findById(username).orElse(null);
+		List<Flights> flights = null;
+		List<FlightDTO> list = null;
+		String airlineId = "";
+		if(user != null) {
+			airlineId = user.getAirline().getAirlineId();
+			flights = flightRepo.findByAirline(airlineId);
+			list = flights.stream()
+            .map(flight -> new FlightDTO(
+                flight.getFlightCode(),
+                flight.getTotalSeats(),
+                flight.getCheckInWeight(),
+                flight.getCabinWeight(),
+                flight.getAirline().getAirlineName()
+            ))
+            .collect(Collectors.toList());
+			return list;
 		}
 		else {
 			throw new AirlineNotFoundException(airlineId);

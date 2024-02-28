@@ -233,4 +233,10 @@ logger.info("in progress of deleting");
 		return combinedResult;
 	}
 
+	@Override
+	public List<FlightTrip> listAllTrips() {
+		List<FlightTrip> list = flightTripRepository.findAll();
+		return list;
+	}
+
 }
