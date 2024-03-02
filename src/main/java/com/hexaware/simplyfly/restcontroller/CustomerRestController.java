@@ -103,7 +103,8 @@ public class CustomerRestController {
 	}
 	
 
-	@GetMapping("booking/get-all-vacnat-seats/{flightTripId}")
+	@GetMapping("/booking/get-all-vacnat-seats/{flightTripId}")
+	@PreAuthorize("hasAuthority('Customer')")
 	public List<SeatStructure> getAllVacantSeats(@PathVariable Integer flightTripId) throws InvalidFlightException{
 		return customerService.getVacantSeats(flightTripId);
 	}

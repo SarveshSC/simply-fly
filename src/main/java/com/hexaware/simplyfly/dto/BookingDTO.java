@@ -26,7 +26,7 @@ public class BookingDTO {
 	private Set<PassengerDTO> passengers = new HashSet<>();
 	
 	@NotNull
-	private Integer customerId;
+	private String customerId;
 	
 	@NotNull
 	private Integer flightTripId;
@@ -35,7 +35,7 @@ public class BookingDTO {
 		super();
 	}
 	public BookingDTO(Integer bookingId, Double amount, LocalDateTime bookingDateTime, BookingStatus status,
-			Set<PassengerDTO> passengers, Integer customerId, Integer flightTripId) {
+			Set<PassengerDTO> passengers, String customerId, Integer flightTripId) {
 		super();
 		this.bookingId = bookingId;
 		this.amount = amount;
@@ -75,10 +75,10 @@ public class BookingDTO {
 	public void setPassengers(Set<PassengerDTO> passengers) {
 		this.passengers = passengers;
 	}
-	public Integer getCustomerId() {
+	public String getCustomerId() {
 		return customerId;
 	}
-	public void setCustomerId(Integer customerId) {
+	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
 	public Integer getFlightTripId() {

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hexaware.simplyfly.dto.BookingDTO;
 import com.hexaware.simplyfly.dto.FlightTripDTO;
 import com.hexaware.simplyfly.entities.FlightTrip;
 import com.hexaware.simplyfly.exception.BookingNotFoundException;
@@ -43,7 +44,7 @@ public class FlightTripsController {
 
 	@PutMapping("/reschedule-flight/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
-	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTrip flightTrips,@PathVariable String username) throws Exception {
+	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTripDTO flightTrips,@PathVariable String username) throws Exception {
 		return service.rescheduleFlightTrip(flightTrips,username);
 	}
 	
@@ -64,7 +65,7 @@ public class FlightTripsController {
 
 		@GetMapping("/get-all-flight-details/{flightId}")
 		@PreAuthorize("hasAuthority('FlightOwner')")
-		public  List<FlightTrip>  viewAllFlightDetails(@PathVariable String flightId) throws Exception{
+		public  List<FlightTripDTO>  viewAllFlightDetails(@PathVariable String flightId) throws Exception{
 			logger.info("Flight ID: {}", flightId);
 			return service.viewAllFlightTrip(flightId);
 		}
@@ -85,7 +86,24 @@ public class FlightTripsController {
 			}
 	
 
+		@GetMapping("/get-flightTrips-by-username/{username}")
+		@PreAuthorize("hasAuthority('FlightOwner')")
+		public List<FlightTripDTO> getAllFlightsByUsername(@PathVariable String username) throws UserNotFoundException {
+			return service.getAllFlightsByUsername(username);
+		}
 
+	@GetMapping("/get-bookings-by-flightTripId/{username}/{flightTripId}")
+	@PreAuthorize("hasAuthority('FlightOwner')")
+	public List<BookingDTO> getAllBookingsByFlightTripId(@PathVariable int flightTripId,@PathVariable String username) throws Exception {
+		return service.getAllBookingsByFlightTripId(flightTripId, username);
+	}
 	
+	
+	@GetMapping("/get-bookings-by-username/{username}")
+	@PreAuthorize("hasAuthority('FlightOwner')")
+	public List<BookingDTO> getAllBookingsByUsername(@PathVariable String username) throws UserNotFoundException{
+		return service.getAllBookingsByUsername(username);
+	}
+
 	
 }

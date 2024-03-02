@@ -17,6 +17,6 @@ public interface IFlightService  {
 	public Flights updateFlights(FlightDTO flightDto,String airlineId) throws AirlineNotFoundException, UserNotFoundException, Exception;
 	public String removeFlights(String flightId, String username) throws AirlineNotFoundException, UserNotFoundException, FlightNotFoundException, FlightScheduledExcpetion;
 	
-	public List<Flights> viewAllFlightsByAirlineId(String airlineId) throws AirlineNotFoundException;
+	public List<FlightDTO> viewAllFlightsByUsername(String username) throws AirlineNotFoundException;
 	public List<Flights> viewAllFlights();
 }

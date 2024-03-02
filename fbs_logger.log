@@ -1,29 +1,238 @@
-[32m2024-02-24 09:59:44.909[0;39m [INFO] com.hexaware.simplyfly.SimplyFlyApplication [main] Starting SimplyFlyApplication using Java 17.0.9 with PID 21348 (C:\Users\Lenovo1\git\simply-fly\target\classes started by Lenovo1 in C:\Users\Lenovo1\git\simply-fly)
-[32m2024-02-24 09:59:44.920[0;39m [INFO] com.hexaware.simplyfly.SimplyFlyApplication [main] No active profile set, falling back to 1 default profile: "default"
-[32m2024-02-24 09:59:46.844[0;39m [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-[32m2024-02-24 09:59:46.953[0;39m [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 94 ms. Found 12 JPA repository interfaces.
-[32m2024-02-24 09:59:47.606[0;39m [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
-[32m2024-02-24 09:59:47.631[0;39m [INFO] org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
-[32m2024-02-24 09:59:47.631[0;39m [INFO] org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.4]
-[32m2024-02-24 09:59:47.756[0;39m [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
-[32m2024-02-24 09:59:47.757[0;39m [INFO] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 2732 ms
-[32m2024-02-24 09:59:47.902[0;39m [INFO] org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
-[32m2024-02-24 09:59:47.987[0;39m [INFO] org.hibernate.Version [main] HHH000412: Hibernate ORM core version 6.1.6.Final
-[32m2024-02-24 09:59:48.244[0;39m [WARN] org.hibernate.orm.deprecation [main] HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
-[32m2024-02-24 09:59:48.372[0;39m [INFO] com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
-[32m2024-02-24 09:59:48.672[0;39m [INFO] com.zaxxer.hikari.pool.HikariPool [main] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@ff21443
-[32m2024-02-24 09:59:48.674[0;39m [INFO] com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
-[32m2024-02-24 09:59:48.696[0;39m [INFO] SQL dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-[32m2024-02-24 09:59:48.696[0;39m [WARN] org.hibernate.orm.deprecation [main] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-[32m2024-02-24 09:59:49.060[0;39m [WARN] org.hibernate.mapping.RootClass [main] HHH000038: Composite-id class does not override equals(): com.hexaware.simplyfly.entities.SeatEmbeddedId
-[32m2024-02-24 09:59:49.060[0;39m [WARN] org.hibernate.mapping.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.hexaware.simplyfly.entities.SeatEmbeddedId
-[32m2024-02-24 09:59:49.724[0;39m [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[32m2024-02-24 09:59:49.737[0;39m [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
-[32m2024-02-24 09:59:50.473[0;39m [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-[32m2024-02-24 09:59:50.775[0;39m [INFO] org.springframework.security.web.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@674b9b85, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6c79a7c1, org.springframework.security.web.context.SecurityContextHolderFilter@6567de86, org.springframework.security.web.header.HeaderWriterFilter@3dbcde0b, org.springframework.web.filter.CorsFilter@6c399d4, org.springframework.security.web.authentication.logout.LogoutFilter@172ca6a, com.hexaware.simplyfly.filter.JwtAuthFilter@71f042b1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@77732366, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7c046af, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5d160056, org.springframework.security.web.session.SessionManagementFilter@56dae6, org.springframework.security.web.access.ExceptionTranslationFilter@31e1c7c, org.springframework.security.web.access.intercept.AuthorizationFilter@a703934]
-[32m2024-02-24 09:59:50.989[0;39m [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
-[32m2024-02-24 09:59:50.993[0;39m [INFO] com.hexaware.simplyfly.SimplyFlyApplication [main] Started SimplyFlyApplication in 6.727 seconds (process running for 8.042)
-[32m2024-02-24 09:59:57.803[0;39m [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-8080-exec-4] Initializing Spring DispatcherServlet 'dispatcherServlet'
-[32m2024-02-24 09:59:57.803[0;39m [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] Initializing Servlet 'dispatcherServlet'
-[32m2024-02-24 09:59:57.804[0;39m [INFO] org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] Completed initialization in 1 ms
-[32m2024-02-24 10:41:35.799[0;39m [WARN] com.zaxxer.hikari.pool.HikariPool [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m46s328ms133µs500ns).
+2024-03-02T07:26:20.319+05:30  INFO 20864 --- [main] c.h.simplyfly.SimplyFlyApplication       : Starting SimplyFlyApplication using Java 17.0.9 with PID 20864 (C:\Users\Lenovo1\git\simply-fly\target\classes started by Lenovo1 in C:\Users\Lenovo1\git\simply-fly)
+2024-03-02T07:26:20.331+05:30  INFO 20864 --- [main] c.h.simplyfly.SimplyFlyApplication       : No active profile set, falling back to 1 default profile: "default"
+2024-03-02T07:26:21.730+05:30  INFO 20864 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-02T07:26:21.835+05:30  INFO 20864 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 84 ms. Found 12 JPA repository interfaces.
+2024-03-02T07:26:22.420+05:30  INFO 20864 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-03-02T07:26:22.437+05:30  INFO 20864 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-02T07:26:22.437+05:30  INFO 20864 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.4]
+2024-03-02T07:26:22.541+05:30  INFO 20864 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-02T07:26:22.541+05:30  INFO 20864 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2138 ms
+2024-03-02T07:26:22.673+05:30  INFO 20864 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-02T07:26:22.752+05:30  INFO 20864 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.6.Final
+2024-03-02T07:26:22.915+05:30  WARN 20864 --- [main] org.hibernate.orm.deprecation            : HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2024-03-02T07:26:23.100+05:30  INFO 20864 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-03-02T07:26:23.509+05:30  INFO 20864 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@16ccd2bc
+2024-03-02T07:26:23.512+05:30  INFO 20864 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-03-02T07:26:23.545+05:30  INFO 20864 --- [main] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-03-02T07:26:23.546+05:30  WARN 20864 --- [main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-03-02T07:26:24.010+05:30  WARN 20864 --- [main] org.hibernate.mapping.RootClass          : HHH000038: Composite-id class does not override equals(): com.hexaware.simplyfly.entities.SeatEmbeddedId
+2024-03-02T07:26:24.010+05:30  WARN 20864 --- [main] org.hibernate.mapping.RootClass          : HHH000039: Composite-id class does not override hashCode(): com.hexaware.simplyfly.entities.SeatEmbeddedId
+2024-03-02T07:26:24.932+05:30  INFO 20864 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-02T07:26:24.946+05:30  INFO 20864 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-02T07:26:26.043+05:30  WARN 20864 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-02T07:26:26.303+05:30  INFO 20864 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@21553c3a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6c1d25fa, org.springframework.security.web.context.SecurityContextHolderFilter@21f7c0be, org.springframework.security.web.header.HeaderWriterFilter@470fc16c, org.springframework.web.filter.CorsFilter@3f8a44a4, org.springframework.security.web.authentication.logout.LogoutFilter@1c8da7e8, com.hexaware.simplyfly.filter.JwtAuthFilter@488c6c98, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5834298c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7c070e78, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7510824, org.springframework.security.web.session.SessionManagementFilter@61b11d35, org.springframework.security.web.access.ExceptionTranslationFilter@5397d41e, org.springframework.security.web.access.intercept.AuthorizationFilter@5dc218e2]
+2024-03-02T07:26:26.567+05:30  INFO 20864 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-02T07:26:26.577+05:30  INFO 20864 --- [main] c.h.simplyfly.SimplyFlyApplication       : Started SimplyFlyApplication in 6.866 seconds (process running for 7.801)
+2024-03-02T07:27:14.521+05:30  INFO 20864 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-02T07:27:14.521+05:30  INFO 20864 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-03-02T07:27:14.521+05:30  INFO 20864 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-03-02T07:27:29.862+05:30  INFO 20864 --- [http-nio-8080-exec-7] c.h.s.r.FlightTripsController            : trying to add a schedule
+2024-03-02T07:27:32.464+05:30  INFO 20864 --- [http-nio-8080-exec-1] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T07:27:35.200+05:30  INFO 20864 --- [http-nio-8080-exec-4] c.h.s.service.FlightTripServiceImpl      : in progress of deleting
+2024-03-02T07:31:21.795+05:30  WARN 20864 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m58s127ms587µs400ns).
+2024-03-02T07:45:41.611+05:30  INFO 20864 --- [http-nio-8080-exec-4] c.h.s.r.FlightTripsController            : trying to add a schedule
+2024-03-02T07:45:45.377+05:30  INFO 20864 --- [http-nio-8080-exec-6] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T07:45:47.433+05:30  INFO 20864 --- [http-nio-8080-exec-8] c.h.s.service.FlightTripServiceImpl      : in progress of deleting
+2024-03-02T07:48:18.029+05:30  INFO 20864 --- [http-nio-8080-exec-4] c.h.s.r.FlightTripsController            : trying to add a schedule
+2024-03-02T07:48:20.416+05:30  INFO 20864 --- [http-nio-8080-exec-7] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T07:48:26.969+05:30  INFO 20864 --- [http-nio-8080-exec-9] c.h.s.service.FlightTripServiceImpl      : in progress of deleting
+2024-03-02T07:48:32.336+05:30  INFO 20864 --- [http-nio-8080-exec-1] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T07:50:09.084+05:30  INFO 20864 --- [http-nio-8080-exec-2] c.h.s.r.FlightTripsController            : trying to add a schedule
+2024-03-02T07:50:10.971+05:30  INFO 20864 --- [http-nio-8080-exec-6] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T07:50:21.278+05:30  INFO 20864 --- [http-nio-8080-exec-9] c.h.s.service.FlightTripServiceImpl      : in progress of deleting
+2024-03-02T07:50:24.161+05:30  INFO 20864 --- [http-nio-8080-exec-1] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T07:54:42.303+05:30  WARN 20864 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m20s136ms406µs800ns).
+2024-03-02T07:55:22.056+05:30  INFO 20864 --- [http-nio-8080-exec-8] c.h.s.r.FlightTripsController            : trying to add a schedule
+2024-03-02T07:55:24.065+05:30  INFO 20864 --- [http-nio-8080-exec-1] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T07:55:27.810+05:30  INFO 20864 --- [http-nio-8080-exec-3] c.h.s.service.FlightTripServiceImpl      : in progress of deleting
+2024-03-02T07:55:32.160+05:30  INFO 20864 --- [http-nio-8080-exec-6] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T08:00:57.657+05:30  INFO 20864 --- [http-nio-8080-exec-6] c.h.s.r.FlightTripsController            : trying to add a schedule
+2024-03-02T08:00:59.454+05:30  INFO 20864 --- [http-nio-8080-exec-10] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T08:01:02.858+05:30  INFO 20864 --- [http-nio-8080-exec-1] c.h.s.service.FlightTripServiceImpl      : in progress of deleting
+2024-03-02T08:01:03.942+05:30  INFO 20864 --- [http-nio-8080-exec-2] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T08:01:48.623+05:30  INFO 20864 --- [http-nio-8080-exec-1] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T08:02:19.624+05:30  INFO 20864 --- [http-nio-8080-exec-2] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T08:10:00.287+05:30  WARN 20864 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m47s829ms104µs100ns).
+2024-03-02T08:15:57.729+05:30 ERROR 20864 --- [http-nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2024-03-02T02:45:23Z. Current time: 2024-03-02T02:45:57Z, a difference of 34698 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:427) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:529) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:589) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.ImmutableJwtParser.parseClaimsJws(ImmutableJwtParser.java:173) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at com.hexaware.simplyfly.service.JwtService.extractAllClaims(JwtService.java:70) ~[classes/:na]
+	at com.hexaware.simplyfly.service.JwtService.extractClaim(JwtService.java:61) ~[classes/:na]
+	at com.hexaware.simplyfly.service.JwtService.extractUsername(JwtService.java:53) ~[classes/:na]
+	at com.hexaware.simplyfly.filter.JwtAuthFilter.doFilterInternal(JwtAuthFilter.java:41) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:351) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:119) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:400) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:859) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1734) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2024-03-02T08:15:59.103+05:30 ERROR 20864 --- [http-nio-8080-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2024-03-02T02:45:23Z. Current time: 2024-03-02T02:45:59Z, a difference of 36103 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:427) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:529) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:589) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.ImmutableJwtParser.parseClaimsJws(ImmutableJwtParser.java:173) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at com.hexaware.simplyfly.service.JwtService.extractAllClaims(JwtService.java:70) ~[classes/:na]
+	at com.hexaware.simplyfly.service.JwtService.extractClaim(JwtService.java:61) ~[classes/:na]
+	at com.hexaware.simplyfly.service.JwtService.extractUsername(JwtService.java:53) ~[classes/:na]
+	at com.hexaware.simplyfly.filter.JwtAuthFilter.doFilterInternal(JwtAuthFilter.java:41) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.0.1.jar:6.0.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:351) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.3.jar:6.0.3]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:119) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:400) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:859) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1734) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.4.jar:10.1.4]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2024-03-02T08:16:01.282+05:30  WARN 20864 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m902ms343µs900ns).
+2024-03-02T08:24:36.783+05:30  WARN 20864 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8m35s501ms811µs300ns).
+2024-03-02T08:32:53.152+05:30  WARN 20864 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m16s346ms225µs500ns).
+2024-03-02T08:45:14.730+05:30  INFO 20864 --- [RMI TCP Connection(62)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2024-03-02T08:45:14.932+05:30  INFO 20864 --- [RMI TCP Connection(62)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-03-02T08:45:14.951+05:30  INFO 20864 --- [RMI TCP Connection(62)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-03-02T08:45:14.984+05:30  WARN 20864 --- [RMI TCP Connection(62)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.9/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.9/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.9/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.9/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.9/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.9/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.9/java.lang.Thread.run(Thread.java:840)
+2024-03-02T08:45:15.092+05:30  INFO 20864 --- [RMI TCP Connection(62)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-02T08:45:15.125+05:30  INFO 20864 --- [RMI TCP Connection(62)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-03-02T08:45:15.144+05:30  INFO 20864 --- [RMI TCP Connection(62)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-03-02T08:45:17.451+05:30  INFO 14824 --- [main] c.h.simplyfly.SimplyFlyApplication       : Starting SimplyFlyApplication using Java 17.0.9 with PID 14824 (C:\Users\Lenovo1\git\simply-fly\target\classes started by Lenovo1 in C:\Users\Lenovo1\git\simply-fly)
+2024-03-02T08:45:17.454+05:30  INFO 14824 --- [main] c.h.simplyfly.SimplyFlyApplication       : No active profile set, falling back to 1 default profile: "default"
+2024-03-02T08:45:18.239+05:30  INFO 14824 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-02T08:45:18.344+05:30  INFO 14824 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 96 ms. Found 12 JPA repository interfaces.
+2024-03-02T08:45:18.933+05:30  INFO 14824 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-03-02T08:45:18.949+05:30  INFO 14824 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-02T08:45:18.949+05:30  INFO 14824 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.4]
+2024-03-02T08:45:19.055+05:30  INFO 14824 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-02T08:45:19.057+05:30  INFO 14824 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1547 ms
+2024-03-02T08:45:19.198+05:30  INFO 14824 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-02T08:45:19.313+05:30  INFO 14824 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.6.Final
+2024-03-02T08:45:19.524+05:30  WARN 14824 --- [main] org.hibernate.orm.deprecation            : HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2024-03-02T08:45:19.637+05:30  INFO 14824 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-03-02T08:45:19.993+05:30  INFO 14824 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@61e14b53
+2024-03-02T08:45:19.996+05:30  INFO 14824 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-03-02T08:45:20.025+05:30  INFO 14824 --- [main] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-03-02T08:45:20.026+05:30  WARN 14824 --- [main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-03-02T08:45:20.465+05:30  WARN 14824 --- [main] org.hibernate.mapping.RootClass          : HHH000038: Composite-id class does not override equals(): com.hexaware.simplyfly.entities.SeatEmbeddedId
+2024-03-02T08:45:20.465+05:30  WARN 14824 --- [main] org.hibernate.mapping.RootClass          : HHH000039: Composite-id class does not override hashCode(): com.hexaware.simplyfly.entities.SeatEmbeddedId
+2024-03-02T08:45:21.295+05:30  INFO 14824 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-02T08:45:21.310+05:30  INFO 14824 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-02T08:45:22.209+05:30  WARN 14824 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-02T08:45:22.473+05:30  INFO 14824 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6c1d25fa, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7510824, org.springframework.security.web.context.SecurityContextHolderFilter@48463900, org.springframework.security.web.header.HeaderWriterFilter@6d0cc47d, org.springframework.web.filter.CorsFilter@1cdb280b, org.springframework.security.web.authentication.logout.LogoutFilter@674b9b85, com.hexaware.simplyfly.filter.JwtAuthFilter@ad6255e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7c070e78, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@63ead376, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7ed6e557, org.springframework.security.web.session.SessionManagementFilter@7c7d83ff, org.springframework.security.web.access.ExceptionTranslationFilter@f6b128b, org.springframework.security.web.access.intercept.AuthorizationFilter@11d474a]
+2024-03-02T08:45:22.727+05:30  INFO 14824 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-02T08:45:22.766+05:30  INFO 14824 --- [main] c.h.simplyfly.SimplyFlyApplication       : Started SimplyFlyApplication in 5.759 seconds (process running for 6.465)
+2024-03-02T08:45:58.757+05:30  INFO 14824 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-02T08:45:58.762+05:30  INFO 14824 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-03-02T08:45:58.762+05:30  INFO 14824 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-03-02T08:51:25.167+05:30  INFO 14824 --- [http-nio-8080-exec-9] c.h.s.r.FlightTripsController            : Flight ID: G8-457
+2024-03-02T08:56:48.116+05:30  WARN 14824 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m27s870ms554µs800ns).

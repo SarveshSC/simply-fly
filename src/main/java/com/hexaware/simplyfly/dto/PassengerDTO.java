@@ -1,5 +1,7 @@
 package com.hexaware.simplyfly.dto;
 
+import java.util.Optional;
+
 import com.hexaware.simplyfly.entities.Gender;
 
 import jakarta.validation.constraints.NotBlank;
@@ -36,6 +38,16 @@ public class PassengerDTO {
 		this.gender = gender;
 		this.seat = seat;
 		this.flightTripId = flightTripId;
+	}
+
+	public PassengerDTO(String passengerId, @NotBlank String name, @PositiveOrZero Integer age, Gender gender,
+			@NotBlank @Pattern(regexp = "\\d+[A-F]") String seat) {
+		super();
+		this.passengerId = passengerId;
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		this.seat = seat;
 	}
 
 	public String getPassengerId() {

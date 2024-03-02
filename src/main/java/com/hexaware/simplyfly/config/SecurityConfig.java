@@ -45,7 +45,7 @@ public class SecurityConfig {
 		return http.cors().and().csrf().disable()
 				.authorizeHttpRequests()
 				.requestMatchers("/simply-fly/customers/create-account","/simply-fly/admin/add-user","/simply-fly/customers/login","/simply-fly/customers/enter","/simply-fly/admin/add-admin",
-						"/simply-fly/flightTrips/search-flights-by-date-source-destination/{departure}/{sourceIata}/{destinationIata}").permitAll().and()
+						"/simply-fly/flightTrips/search-flights-by-date-source-destination/{departure}/{sourceIata}/{destinationIata}","/simply-fly/admin/list-all-airports").permitAll().and()
 				.authorizeHttpRequests().requestMatchers("/simply-fly/customers/**",
 						"/simply-fly/admin/**","/simply-fly/flights/**","/simply-fly/flightTrips/**").authenticated()
 				.and()

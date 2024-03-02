@@ -62,7 +62,6 @@ public class AdminRestController {
 	
 	//had a doubt 
 	@GetMapping("/list-all-airports")
-	@PreAuthorize("hasAuthority('Admin')")
 	public List<Airports> getAllAirports(){
 		return service.getAllAirports();
 	}

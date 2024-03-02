@@ -2,6 +2,7 @@ package com.hexaware.simplyfly.service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,7 +70,7 @@ public class FlightServiceImpl implements IFlightService {
 		String airlineId = user.getAirline().getAirlineId();
 		Airlines airline = airLineRepo.findById(airlineId).orElse(null);
 		if (airline != null && user.getAirline().getAirlineId().equals(flightDto.getAirlineId())) {
-			flight = new Flights();
+			flight = flightRepo.findById(flightDto.getFlightCode()).orElseThrow(()->new FlightNotFoundException(flightDto.getFlightCode()));
 			flight.setFlightCode(flightDto.getFlightCode());
 			flight.setTotalSeats(flightDto.getTotalSeats());
 			flight.setCabinWeight(flightDto.getCabinWeight());
@@ -106,9 +107,21 @@ public class FlightServiceImpl implements IFlightService {
 	}
 	
 	@Override
-	public List<Flights> viewAllFlightsByAirlineId(String airlineId) throws AirlineNotFoundException {
+	public List<FlightDTO> viewAllFlightsByUsername(String username) throws AirlineNotFoundException {
+		String airlineId=userRepo.getById(username).getAirline().getAirlineId();
 		if(airLineRepo.existsById(airlineId)) {
-			return flightRepo.findByAirline(airlineId);
+			List<Flights> flights= flightRepo.findByAirline(airlineId);
+			return flights.stream()
+		            .map(flight -> new FlightDTO(
+		                flight.getFlightCode(),
+		                flight.getTotalSeats(),
+		                flight.getCheckInWeight(),
+		                flight.getCabinWeight(),
+		                flight.getAirline().getAirlineId(),
+		                flight.getLastArrivedAirportId(),
+		                flight.getLastArrivalTime()
+		            ))
+		            .collect(Collectors.toList());
 		}
 		else {
 			throw new AirlineNotFoundException(airlineId);
