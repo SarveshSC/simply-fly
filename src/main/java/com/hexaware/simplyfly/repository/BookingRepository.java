@@ -24,4 +24,7 @@ public interface BookingRepository extends JpaRepository<Bookings, Integer>{
 	@Query(value = "select * from bookings where customer_id=?1",nativeQuery = true)
 	public List<Bookings> getBookingsByCustomerUsername(String username);
 	
+	@Query(value = "select * from bookings where booking_id=?1",nativeQuery = true)
+	public Bookings getBookingsByBookingId(Integer bookingId);
+	
 }

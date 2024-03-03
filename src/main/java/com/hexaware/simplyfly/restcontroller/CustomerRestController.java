@@ -1,5 +1,8 @@
 package com.hexaware.simplyfly.restcontroller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -35,7 +38,11 @@ import com.hexaware.simplyfly.exception.SeatNotVacantException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.service.IBookingService;
 import com.hexaware.simplyfly.service.ICustomerService;
+import com.hexaware.simplyfly.service.IPdfGenerator;
 import com.hexaware.simplyfly.service.JwtService;
+import com.hexaware.simplyfly.service.pdfGenerator;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/simply-fly/customers")
@@ -51,6 +58,9 @@ public class CustomerRestController {
   
   	@Autowired
 	JwtService jwtService;
+  	
+  	@Autowired
+  	IPdfGenerator generator;
 	
 	
 	@Autowired
@@ -136,4 +146,17 @@ public class CustomerRestController {
 		return customerService.getBookingsByCustomerUsername(username);
 	}
 
+	@GetMapping("/getPdf/{bookingId}")
+	@PreAuthorize("hasAnyAuthority('Customer','Admin')")
+	public void generatePdf(HttpServletResponse response,@PathVariable int bookingId) throws Exception {
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+		String currentDateTime=dateFormatter.format(new Date());
+		
+		String headerKey="Content-Disposition";
+		String headerValue="attachment; filename=pdf_"+currentDateTime+".pdf";
+		response.setHeader(headerKey, headerValue);
+		generator.export(response, bookingId);
+	}
+	
 }
