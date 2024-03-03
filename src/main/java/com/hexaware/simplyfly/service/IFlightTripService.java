@@ -18,13 +18,13 @@ public interface IFlightTripService {
 			String destinationIata,String username)
 			throws FlightNotFoundException, AirportNotFoundException, InvalidTimingException, Exception;
 
-	public FlightTrip rescheduleFlightTrip(FlightTrip flightTrip,String username) throws Exception;
+	public FlightTrip rescheduleFlightTrip(FlightTripDTO flightTripdto,String username) throws Exception;
 
 	public String cancelFlights(Integer flightDetailId,String username) throws BookingNotFoundException, InvalidFlightException, UserNotFoundException;
 
 	public List<FlightTrip> getByDate(LocalDate departure);
 
-	public List<FlightTrip> viewAllFlightTrip(String flightId) throws Exception;
+	public List<FlightTripDTO> viewAllFlightTrip(String flightId) throws Exception;
 
 	public List<FlightTrip> viewFlightBySourceAndDestination(String sourceIata, String destinationIata)
 			throws AirportNotFoundException, Exception;
@@ -32,5 +32,7 @@ public interface IFlightTripService {
 	public List<FlightTrip> getByDateAndSourceDestination(LocalDate departure, String sourceIata,
 			String destinationIata) throws Exception;
 	
-	public List<FlightTrip> listAllTrips();
+	
+	public List<FlightTripDTO> getAllFlightsByUsername(String username) throws UserNotFoundException;
+
 }

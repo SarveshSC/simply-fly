@@ -42,7 +42,7 @@ public class FlightTripsController {
 
 	@PutMapping("/reschedule-flight/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
-	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTrip flightTrips, @PathVariable String username)
+	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTripDTO flightTrips, @PathVariable String username)
 			throws Exception {
 		return service.rescheduleFlightTrip(flightTrips, username);
 	}
@@ -62,7 +62,7 @@ public class FlightTripsController {
 
 	@GetMapping("/get-all-flight-details/{flightId}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
-	public List<FlightTrip> viewAllFlightDetails(@PathVariable String flightId) throws Exception {
+	public List<FlightTripDTO> viewAllFlightDetails(@PathVariable String flightId) throws Exception {
 		logger.info("Flight ID: {}", flightId);
 		return service.viewAllFlightTrip(flightId);
 	}
@@ -81,10 +81,16 @@ public class FlightTripsController {
 		return service.getByDateAndSourceDestination(LocalDate.parse(departure), sourceIata, destinationIata);
 
 	}
-
-	@GetMapping("/list-all-trips")
+//
+//	@GetMapping("/list-all-trips")
+//	@PreAuthorize("hasAuthority('FlightOwner')")
+//	public List<FlightTrip> listAllTrips(){
+//		return service.listAllTrips();
+//	}
+	
+	@GetMapping("get-flightTrips-by-username/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
-	public List<FlightTrip> listAllTrips(){
-		return service.listAllTrips();
+	public List<FlightTripDTO> getAllFlightsByUsername(@PathVariable String username) throws UserNotFoundException {
+		return service.getAllFlightsByUsername(username);
 	}
 }

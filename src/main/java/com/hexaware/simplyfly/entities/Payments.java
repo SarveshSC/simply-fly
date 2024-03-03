@@ -14,8 +14,7 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Payments {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer paymentId;
+	String paymentId;
 	
 	@Enumerated(EnumType.STRING)
 	PaymentStatus status;
@@ -29,18 +28,18 @@ public class Payments {
 		super();
 	}
 
-	public Payments(Integer paymentId, PaymentStatus status, Bookings paymentBookings) {
+	public Payments(String paymentId, PaymentStatus status, Bookings paymentBookings) {
 		super();
 		this.paymentId = paymentId;
 		this.status = status;
 		this.paymentBookings = paymentBookings;
 	}
 
-	public Integer getPaymentId() {
+	public String getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(Integer paymentId) {
+	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
 	}
 
