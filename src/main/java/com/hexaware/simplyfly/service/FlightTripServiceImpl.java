@@ -313,7 +313,7 @@ logger.info("in progress of deleting");
 						passenger.getName(),
 						passenger.getAge(),
 						passenger.getGender(),
-						 Optional.ofNullable(passenger.getSeat())
+						 Optional.ofNullable(passenger.getSeat().getSeatNo().getSeatNo())
                          .map(Object::toString)
                          .orElse("no seat"))).collect(Collectors.toSet()),
 				booking.getCustomer().getUsername(), 

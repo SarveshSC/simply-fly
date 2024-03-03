@@ -83,7 +83,7 @@ public class BookingServiceImpl implements IBookingService {
 		FlightTrip flightTrip = flightTripRepo.findById(bookingDTO.getFlightTripId()).orElse(null);
 
 
-		if (flightTrip == null)
+		if (flightTrip == null || flightTrip.getStatus().equals(FlightTripStatus.Cancelled))
 			throw new FlightNotFoundException(bookingDTO.getFlightTripId().toString());
 
 

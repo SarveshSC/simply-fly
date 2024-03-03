@@ -16,7 +16,7 @@ import com.hexaware.simplyfly.exception.AirportNotFoundException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
 
 public interface IAdminService {
-	public Airports addAirport(AirportDTO airportDTO);
+	public Airports addAirport(AirportDTO airportDTO) throws Exception;
 	public Airports updateAirport(AirportDTO airportDTO) throws AirportNotFoundException;
 	public String removeAirport(String airportCode) throws AirportNotFoundException;
 	public AirportDTO findAirport(String airportCode) throws AirportNotFoundException;
@@ -30,8 +30,9 @@ public interface IAdminService {
 	public List<UserDTO> getUserRequests();
 	public String approveUser(String username) throws UserNotFoundException;
 	public String rejectUser(String username) throws UserNotFoundException;
+	public String inactiveUser(String username) throws UserNotFoundException;
 	
-	public Airlines addAirline(AirlineDTO airlineDTO);
+	public Airlines addAirline(AirlineDTO airlineDTO) throws Exception;
 	public Airlines modifyAirline(AirlineDTO airlineDTO) throws AirlineNotFoundException;
 	public List<Airlines> getAllAirlines();
 	public Admin addAdmin(AdminDTO adminDTO) throws Exception;

@@ -31,6 +31,8 @@ public class BookingDTO {
 	@NotNull
 	private Integer flightTripId;
 	
+	
+	
 	public BookingDTO() {
 		super();
 	}

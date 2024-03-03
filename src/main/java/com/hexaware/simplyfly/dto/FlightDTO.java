@@ -2,6 +2,8 @@ package com.hexaware.simplyfly.dto;
 
 import java.time.LocalDateTime;
 
+import com.hexaware.simplyfly.entities.FlightStaus;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -30,13 +32,15 @@ public class FlightDTO {
 	
 	private String lastArrivedAirportId;
 	private LocalDateTime lastArrivedTime;
+	
+	private FlightStaus flightStatus;
 
 	public FlightDTO() {
 		super();
 	}
 
 	public FlightDTO(String flightCode, Integer totalSeats, Integer checkInWeight, Integer cabinWeight,
-			String airlineId,String lastArrivedAirportId,LocalDateTime lastArrivedTime) {
+			String airlineId,String lastArrivedAirportId,LocalDateTime lastArrivedTime,FlightStaus flightStaus) {
 		super();
 		this.flightCode = flightCode;
 		this.totalSeats = totalSeats;
@@ -45,6 +49,7 @@ public class FlightDTO {
 		this.airlineId = airlineId;
 		this.lastArrivedAirportId=lastArrivedAirportId;
 		this.lastArrivedTime=lastArrivedTime;
+		this.flightStatus=flightStaus;
 		
 	}
 
@@ -102,6 +107,14 @@ public class FlightDTO {
 
 	public void setLastArrivedTime(LocalDateTime lastArrivedTime) {
 		this.lastArrivedTime = lastArrivedTime;
+	}
+
+	public FlightStaus getFlightStatus() {
+		return flightStatus;
+	}
+
+	public void setFlightStaus(FlightStaus flightStatus) {
+		this.flightStatus = flightStatus;
 	}
 
 

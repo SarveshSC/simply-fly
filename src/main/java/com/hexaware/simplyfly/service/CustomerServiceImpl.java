@@ -1,6 +1,8 @@
 package com.hexaware.simplyfly.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.simplyfly.dto.BookingDTO;
+import com.hexaware.simplyfly.dto.PassengerDTO;
+import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.FlightTrip;
 import com.hexaware.simplyfly.entities.SeatStructure;
@@ -89,6 +94,25 @@ public class CustomerServiceImpl implements ICustomerService {
 		}
 		
 		return seatStructureRepo.getVacantSeats(flightTripId);
+	}
+
+	@Override
+	public List<BookingDTO> getBookingsByCustomerUsername(String username) {
+		logger.info(username);
+		logger.info("the method is called in the service");
+		return  bookingRepo.getBookingsByCustomerUsername(username).stream().map(booking->new BookingDTO(booking.getBookingId(),
+				booking.getAmount(),
+				booking.getBookingDateTime(), 
+				booking.getStatus(), 
+				booking.getPassengers().stream().map(passenger->new PassengerDTO(passenger.getPassengerId(),
+						passenger.getName(),
+						passenger.getAge(),
+						passenger.getGender(),
+						 Optional.ofNullable(passenger.getSeat().getSeatNo().getSeatNo())
+                         .map(Object::toString)
+                         .orElse("no seat"))).collect(Collectors.toSet()), 
+				booking.getCustomer().getUsername(),
+				booking.getFlightTripForBooking().getFlightTripId())).collect(Collectors.toList());
 	}
 	
 	

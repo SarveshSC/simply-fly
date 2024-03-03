@@ -32,6 +32,7 @@ import com.hexaware.simplyfly.exception.InsufficientPassengersException;
 import com.hexaware.simplyfly.exception.InvalidFlightException;
 import com.hexaware.simplyfly.exception.InvalidSeatException;
 import com.hexaware.simplyfly.exception.SeatNotVacantException;
+import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.service.IBookingService;
 import com.hexaware.simplyfly.service.ICustomerService;
 import com.hexaware.simplyfly.service.JwtService;
@@ -128,6 +129,11 @@ public class CustomerRestController {
 	}
 	
 	
-	
+	@GetMapping("/get-customer-bookings-by-username/{username}")
+	@PreAuthorize("hasAnyAuthority('Customer','Admin')")
+	public List<BookingDTO> getBookingsByCustomerUsername(@PathVariable String username) throws UserNotFoundException{
+		logger.info("the booking method is called in the controller");
+		return customerService.getBookingsByCustomerUsername(username);
+	}
 
 }

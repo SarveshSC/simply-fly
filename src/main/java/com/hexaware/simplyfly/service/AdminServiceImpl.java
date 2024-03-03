@@ -51,10 +51,9 @@ public class AdminServiceImpl implements IAdminService {
 	AdminRepository adminRepository;
 
 	@Override
-	public Airports addAirport(AirportDTO airportDTO) {
-		Airports airport = airportRepo.create(airportDTO.getIataCode());
-		airport.setName(airportDTO.getName());
-		airport.setLocation(airportDTO.getLocation());
+	public Airports addAirport(AirportDTO airportDTO) throws Exception {
+		if(airportRepo.existsById(airportDTO.getIataCode())) {throw new Exception("airport with the IATA Code "+airportDTO.getIataCode()+" already exists");}
+		Airports airport = new Airports(airportDTO.getIataCode(), airportDTO.getName(), airportDTO.getLocation());
 
 		return airportRepo.save(airport);
 	}
@@ -176,7 +175,8 @@ public class AdminServiceImpl implements IAdminService {
 	}
 
 	@Override
-	public Airlines addAirline(AirlineDTO airlineDTO) {
+	public Airlines addAirline(AirlineDTO airlineDTO) throws Exception {
+		if(airlineRepo.existsById(airlineDTO.getAirlineId())) {throw new Exception("Airline already exists");}
 		airlineRepo.create(airlineDTO.getAirlineId(),airlineDTO.getAirlineName());
 		Airlines airline = airlineRepo.findById(airlineDTO.getAirlineId()).orElse(null);
 
@@ -244,9 +244,19 @@ public class AdminServiceImpl implements IAdminService {
 	public String rejectUser(String username) throws UserNotFoundException {
 	    User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
 	    user.setUserStatus(UserStatus.REJECTED);
+	    user.setRole("Rejected User");
 	    userRepo.save(user);
 	    return "user rejected";
 	    
+	}
+
+	@Override
+	public String inactiveUser(String username) throws UserNotFoundException {
+		 User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
+		    user.setUserStatus(UserStatus.INACTIVE);
+		    user.setRole("Inactive User");
+		    userRepo.save(user);
+		    return "user made inactive";
 	}
 	
 	

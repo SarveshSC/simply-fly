@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.hexaware.simplyfly.dto.FlightDTO;
 import com.hexaware.simplyfly.entities.Airlines;
+import com.hexaware.simplyfly.entities.FlightStaus;
 import com.hexaware.simplyfly.entities.Flights;
 import com.hexaware.simplyfly.entities.User;
 import com.hexaware.simplyfly.exception.AirlineNotFoundException;
@@ -56,9 +57,10 @@ public class FlightServiceImpl implements IFlightService {
 			flight.setCabinWeight(flightDto.getCabinWeight());
 			flight.setCheckInWeight(flightDto.getCheckInWeight());
 			flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
+			flight.setFlightStaus(FlightStaus.Active);
 			return flightRepo.save(flight);
 		} else {
-			throw new AirlineNotFoundException(airlineId);
+			throw new AirlineNotFoundException(flightDto.getAirlineId());
 		}
 	}
 
@@ -76,6 +78,7 @@ public class FlightServiceImpl implements IFlightService {
 			flight.setCabinWeight(flightDto.getCabinWeight());
 			flight.setCheckInWeight(flightDto.getCheckInWeight());
 			flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
+			flight.setFlightStaus(flightDto.getFlightStatus());
 			return flightRepo.save(flight);
 		} else {
 			throw new AirlineNotFoundException(airlineId);
@@ -97,13 +100,11 @@ public class FlightServiceImpl implements IFlightService {
 		if(!flights.contains(flight)) {
 			throw new FlightNotFoundException(flightId);
 		}
-		if(flight.getFlightTrip().isEmpty()) {
-			flightRepo.deleteById(flightId);
+		
+			flight.setFlightStaus(FlightStaus.Inactive);
 			return "Flight deleted";
-		}
-		else {
-				throw new FlightScheduledExcpetion("This flight has more than 1 schedule, cannot be deleted now");
-			}
+		
+		
 	}
 	
 	@Override
@@ -119,7 +120,8 @@ public class FlightServiceImpl implements IFlightService {
 		                flight.getCabinWeight(),
 		                flight.getAirline().getAirlineId(),
 		                flight.getLastArrivedAirportId(),
-		                flight.getLastArrivalTime()
+		                flight.getLastArrivalTime(),
+		                flight.getFlightStaus()
 		            ))
 		            .collect(Collectors.toList());
 		}
