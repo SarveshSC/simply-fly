@@ -9,7 +9,7 @@ import com.hexaware.simplyfly.entities.Payments;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payments, String>{
 	
-	@Query(value="select paymentId from payments where bookingId = ?1",nativeQuery = true)
+	@Query(value="select payment_id from payments where booking_id = ?1",nativeQuery = true)
 	public String getPaymentId(Integer bookingId);
 
 }
