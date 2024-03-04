@@ -34,7 +34,7 @@ public class Passengers {
     @GenericGenerator(name = "custom-sequence", strategy = "com.hexaware.simplyfly.service.SequenceIdGenerator",
                       parameters = {
                           @Parameter(name = "prefix", value = "P-"),
-                          @Parameter(name = "initialValue", value = "101"),
+                          @Parameter(name = "initialValue", value = "1310"),
                           @Parameter(name = "incrementSize", value = "1")
                       })
     private String passengerId;

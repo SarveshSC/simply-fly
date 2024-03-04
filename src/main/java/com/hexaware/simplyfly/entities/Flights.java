@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -53,8 +55,8 @@ public class Flights {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flights")
 	private  Set<FlightTrip>  flightTrips = new HashSet<>(); 
 	
-	
-	
+	@Enumerated(EnumType.STRING)
+	private FlightStaus flightStaus;
 
 	public Flights(@Pattern(regexp = "[A-Z]{3}-[0-9]{3,}") String flightCode, @Min(100) Integer totalSeats,
 			Integer checkInWeight, Integer cabinWeight, Airlines airline) {
@@ -133,6 +135,22 @@ public class Flights {
 
 	public void setFlightTrip(Set<FlightTrip> flightTrip) {
 		this.flightTrips = flightTrip;
+	}
+
+	public Set<FlightTrip> getFlightTrips() {
+		return flightTrips;
+	}
+
+	public void setFlightTrips(Set<FlightTrip> flightTrips) {
+		this.flightTrips = flightTrips;
+	}
+
+	public FlightStaus getFlightStaus() {
+		return flightStaus;
+	}
+
+	public void setFlightStaus(FlightStaus flightStaus) {
+		this.flightStaus = flightStaus;
 	}
 
 	

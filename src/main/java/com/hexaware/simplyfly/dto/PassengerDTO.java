@@ -38,6 +38,16 @@ public class PassengerDTO {
 		this.flightTripId = flightTripId;
 	}
 
+	public PassengerDTO(String passengerId, @NotBlank String name, @PositiveOrZero Integer age, Gender gender,
+			@NotBlank @Pattern(regexp = "\\d+[A-F]") String seat) {
+		super();
+		this.passengerId = passengerId;
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		this.seat = seat;
+	}
+	
 	public String getPassengerId() {
 		return passengerId;
 	}

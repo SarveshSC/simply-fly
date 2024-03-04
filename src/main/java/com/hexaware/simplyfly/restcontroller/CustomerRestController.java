@@ -1,5 +1,8 @@
 package com.hexaware.simplyfly.restcontroller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +35,14 @@ import com.hexaware.simplyfly.exception.InsufficientPassengersException;
 import com.hexaware.simplyfly.exception.InvalidFlightException;
 import com.hexaware.simplyfly.exception.InvalidSeatException;
 import com.hexaware.simplyfly.exception.SeatNotVacantException;
+import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.service.IBookingService;
 import com.hexaware.simplyfly.service.ICustomerService;
+import com.hexaware.simplyfly.service.IMailService;
+import com.hexaware.simplyfly.service.IPdfGenerator;
 import com.hexaware.simplyfly.service.JwtService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/simply-fly/customers")
@@ -54,6 +61,12 @@ public class CustomerRestController {
 	
 	@Autowired
 	private AuthenticationManager authManager;
+	
+	@Autowired
+  	IPdfGenerator generator;
+	
+	@Autowired
+	IMailService mailService;
 	
 
 	@PostMapping("/create-account")
@@ -129,7 +142,38 @@ public class CustomerRestController {
 		return bookingService.getAllBookings();
 	}
 	
+	@GetMapping("/get-customer-bookings-by-username/{username}")
+	@PreAuthorize("hasAnyAuthority('Customer','Admin')")
+	public List<BookingDTO> getBookingsByCustomerUsername(@PathVariable String username) throws UserNotFoundException{
+		logger.info("the booking method is called in the controller");
+		return customerService.getBookingsByCustomerUsername(username);
+	}
+
+	@GetMapping("/getPdf/{bookingId}")
+	@PreAuthorize("hasAnyAuthority('Customer','Admin')")
+	public void generatePdf(HttpServletResponse response,@PathVariable int bookingId) throws Exception {
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+		String currentDateTime=dateFormatter.format(new Date());
+		
+		String headerKey="Content-Disposition";
+		String headerValue="attachment; filename=pdf_"+currentDateTime+".pdf";
+		response.setHeader(headerKey, headerValue);
+		generator.export(response, bookingId);
+	}
 	
+	@GetMapping("/mail-ticket/{bookingId}")
+	@PreAuthorize("hasAuthority('Customer')")
+	public void sendMail(HttpServletResponse response, @PathVariable int bookingId) throws Exception {
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+		String currentDateTime=dateFormatter.format(new Date());
+		
+		String headerKey="Content-Disposition";
+		String headerValue="attachment; filename=pdf_"+currentDateTime+".pdf";
+		response.setHeader(headerKey, headerValue);
+		mailService.sendEmail(response, bookingId);
+	}
 	
 	
 

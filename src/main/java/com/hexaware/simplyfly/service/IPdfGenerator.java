@@ -1,6 +1,6 @@
 package com.hexaware.simplyfly.service;
 
-import com.lowagie.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPTable;
 
 import jakarta.servlet.http.HttpServletResponse;
 

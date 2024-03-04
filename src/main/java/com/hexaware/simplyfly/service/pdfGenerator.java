@@ -8,16 +8,15 @@ import org.springframework.stereotype.Service;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Passengers;
 import com.hexaware.simplyfly.repository.BookingRepository;
-import com.lowagie.text.Document;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import jakarta.servlet.http.HttpServletResponse;
-
 
 @Service
 public class pdfGenerator implements IPdfGenerator{
@@ -87,14 +86,6 @@ public class pdfGenerator implements IPdfGenerator{
 		}
 		document.add(table);
 		document.close();
-		return table;
-		
-		
-		
-		
-		
-		
-		
+		return table;	
 	}
-
 }
