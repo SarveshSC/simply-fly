@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.hexaware.simplyfly.dto.BookingDTO;
 import com.hexaware.simplyfly.dto.FlightTripDTO;
 import com.hexaware.simplyfly.dto.PassengerDTO;
+
 import com.hexaware.simplyfly.entities.Airlines;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.Bookings;
@@ -191,6 +192,7 @@ logger.info("in progress of deleting");
 	                flightTrip.getFilledSeats(),
 	                flightTrip.getFlightTripId(),
 	                flightTrip.getFlights().getFlightCode()
+
 	        )).collect(Collectors.toList());
 	    } else {
 	        throw new Exception("Flight does not exist");
@@ -319,6 +321,6 @@ logger.info("in progress of deleting");
 				booking.getCustomer().getUsername(), 
 				booking.getFlightTripForBooking().getFlightTripId())).collect(Collectors.toList());
 	} 
-	}
-
+	
+}
 

@@ -29,62 +29,71 @@ import com.hexaware.simplyfly.service.IFlightTripService;
 public class FlightTripsController {
 	@Autowired
 	IFlightTripService service;
-	
-	Logger logger = LoggerFactory.getLogger(FlightTripsController.class);
 
-	
+	Logger logger = LoggerFactory.getLogger(FlightTripsController.class);
 
 	@PostMapping("/schedule-flight/{flightCode}/{sourceIata}/{destinationIata}/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
-	public FlightTrip scheduleFlight(@RequestBody FlightTripDTO flightTripsDTO,@PathVariable String flightCode, @PathVariable String sourceIata,@PathVariable String destinationIata,@PathVariable String username) throws Exception {
+	public FlightTrip scheduleFlight(@RequestBody FlightTripDTO flightTripsDTO, @PathVariable String flightCode,
+			@PathVariable String sourceIata, @PathVariable String destinationIata, @PathVariable String username)
+			throws Exception {
 		logger.info("trying to add a schedule");
-		return service.scheduleFlight(flightTripsDTO, flightCode,sourceIata,destinationIata,username);
+		return service.scheduleFlight(flightTripsDTO, flightCode, sourceIata, destinationIata, username);
 	}
-	
 
 	@PutMapping("/reschedule-flight/{username}")
 	@PreAuthorize("hasAuthority('FlightOwner')")
-	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTripDTO flightTrips,@PathVariable String username) throws Exception {
-		return service.rescheduleFlightTrip(flightTrips,username);
+
+	public FlightTrip rescheduleFlightDetails(@RequestBody FlightTripDTO flightTrips, @PathVariable String username)
+			throws Exception {
+		return service.rescheduleFlightTrip(flightTrips, username);
+
 	}
-	
 
 	@DeleteMapping("/cancel-flight/{flightTripId}/{username}")
-  	@PreAuthorize("hasAuthority('FlightOwner')")
-	public String cancelFlights(@PathVariable Integer flightTripId,@PathVariable String username) throws BookingNotFoundException, InvalidFlightException, UserNotFoundException {
-		 return service.cancelFlights(flightTripId,username);
+	@PreAuthorize("hasAuthority('FlightOwner')")
+	public String cancelFlights(@PathVariable Integer flightTripId, @PathVariable String username)
+			throws BookingNotFoundException, InvalidFlightException, UserNotFoundException {
+		return service.cancelFlights(flightTripId, username);
 	}
-	
 
-		@GetMapping("/get-by-date/{departure}")
+	@GetMapping("/get-by-date/{departure}")
 	@PreAuthorize("hasAnyAuthority('FlightOwner','Customer')")
-	public List<FlightTrip> getByDate(@PathVariable String departure){
+	public List<FlightTrip> getByDate(@PathVariable String departure) {
 		return service.getByDate(LocalDate.parse(departure));
 	}
 
+	@GetMapping("/get-all-flight-details/{flightId}")
+	@PreAuthorize("hasAuthority('FlightOwner')")
+	public List<FlightTripDTO> viewAllFlightDetails(@PathVariable String flightId) throws Exception {
+		logger.info("Flight ID: {}", flightId);
+		return service.viewAllFlightTrip(flightId);
+	}
 
-		@GetMapping("/get-all-flight-details/{flightId}")
-		@PreAuthorize("hasAuthority('FlightOwner')")
-		public  List<FlightTripDTO>  viewAllFlightDetails(@PathVariable String flightId) throws Exception{
-			logger.info("Flight ID: {}", flightId);
-			return service.viewAllFlightTrip(flightId);
-		}
-		
 
-		@GetMapping("/search-flights-by-source-and-destination/{sourceIata}/{destinationIata}")
-		@PreAuthorize("hasAnyAuthority('FlightOwner','Customer','Admin')")
-		public List<FlightTrip> viewFlightBySourceAndDestination(@PathVariable String sourceIata,@PathVariable String destinationIata) throws Exception
-		{
-			return service.viewFlightBySourceAndDestination(sourceIata, destinationIata);
-		}
+	@GetMapping("/search-flights-by-source-and-destination/{sourceIata}/{destinationIata}")
+	@PreAuthorize("hasAnyAuthority('FlightOwner','Customer','Admin')")
+	public List<FlightTrip> viewFlightBySourceAndDestination(@PathVariable String sourceIata,
+			@PathVariable String destinationIata) throws Exception {
+		return service.viewFlightBySourceAndDestination(sourceIata, destinationIata);
+	}
 
-		@GetMapping("/search-flights-by-date-source-destination/{departure}/{sourceIata}/{destinationIata}")
-		public List<FlightTrip> getByDateAndSourceDestination(@PathVariable String departure, @PathVariable String sourceIata,@PathVariable String destinationIata) throws Exception {
-			
-				return service.getByDateAndSourceDestination(LocalDate.parse(departure), sourceIata, destinationIata);
 
-			}
+	@GetMapping("/search-flights-by-date-source-destination/{departure}/{sourceIata}/{destinationIata}")
+	public List<FlightTrip> getByDateAndSourceDestination(@PathVariable String departure,
+			@PathVariable String sourceIata, @PathVariable String destinationIata) throws Exception {
+
+		return service.getByDateAndSourceDestination(LocalDate.parse(departure), sourceIata, destinationIata);
+
+	}
+//
+//	@GetMapping("/list-all-trips")
+//	@PreAuthorize("hasAuthority('FlightOwner')")
+//	public List<FlightTrip> listAllTrips(){
+//		return service.listAllTrips();
+//	}
 	
+
 
 		@GetMapping("/get-flightTrips-by-username/{username}")
 		@PreAuthorize("hasAuthority('FlightOwner')")
@@ -106,4 +115,7 @@ public class FlightTripsController {
 	}
 
 	
+
+	
+
 }

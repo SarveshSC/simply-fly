@@ -29,6 +29,7 @@ import com.hexaware.simplyfly.service.IAdminService;
 
 import jakarta.validation.Valid;
 
+
 @RestController
 @RequestMapping("/simply-fly/admin")
 public class AdminRestController {
@@ -55,12 +56,12 @@ public class AdminRestController {
 	}
 	
 	@GetMapping("/find-airport/{airportCode}")
-	@PreAuthorize("hasAnyAuthority('Admin','Customer')")
+	@PreAuthorize("hasAuthority('Admin') || hasAuthority('Customer')")
+
 	public AirportDTO findAirport(@PathVariable String airportCode) throws AirportNotFoundException {
 		return service.findAirport(airportCode);
 	}
 	
-	//had a doubt 
 	@GetMapping("/list-all-airports")
 	public List<Airports> getAllAirports(){
 		return service.getAllAirports();
@@ -95,7 +96,7 @@ public class AdminRestController {
 		return service.removeUserByUsername(username);
 	}
 	
-	@GetMapping("list-all-users")
+	@GetMapping("/list-all-users")
 	@PreAuthorize("hasAuthority('Admin')")
 	public List<User> getAllUsers(){
 		return service.getAllUsers();

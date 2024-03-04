@@ -57,11 +57,15 @@ public class FlightServiceController {
 		return service.viewAllFlightsByUsername(username);
 	}
 	
+	
+	
 
 	@GetMapping("/get-all-flights")
 	@PreAuthorize("hasAnyAuthority('FlightOwner','Admin')")
 	public List<Flights> getAllFlights(){
 		return service.viewAllFlights();
 	}
+	
+	
 
 }

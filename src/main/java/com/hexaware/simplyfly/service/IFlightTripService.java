@@ -35,9 +35,11 @@ public interface IFlightTripService {
 	
 	
 	public List<FlightTripDTO> getAllFlightsByUsername(String username) throws UserNotFoundException;
+
 	
 	public List<BookingDTO> getAllBookingsByFlightTripId(int fightTripId,String username) throws  Exception;
 	
 	public List<BookingDTO> getAllBookingsByUsername(String username) throws UserNotFoundException;
+
 
 }

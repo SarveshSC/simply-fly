@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,7 +63,6 @@ public class CustomerRestController {
   	@Autowired
   	IPdfGenerator generator;
 	
-	
 	@Autowired
 	private AuthenticationManager authManager;
 	
@@ -71,13 +71,8 @@ public class CustomerRestController {
 	public Customer createAccount(@RequestBody Customer customer) throws Exception {
 		return customerService.createAccount(customer);
 	}
-	
 
-
-
-	
-
-		@PutMapping("/update-account")
+	@PutMapping("/update-account")
 	@PreAuthorize("hasAuthority('Customer')")
 	public Customer updateAccount(@RequestBody Customer customer) {
 		return customerService.editAccountInfo(customer);
@@ -90,18 +85,19 @@ public class CustomerRestController {
 		return customerService.deleteAccount(username);
 	}	
 	
-	@PostMapping("/booking/book-flight/{username}")
+	@PostMapping("/booking/book-flight/{username}/{flightTripId}")
 	@PreAuthorize("hasAuthority('Customer')")
-	public Bookings bookFlight(@RequestBody BookingDTO bookingDTO, @PathVariable String username) throws CustomerNotFoundException, SeatNotVacantException, FlightNotFoundException, InvalidSeatException, InsufficientPassengersException {
+	public Bookings bookFlight(@RequestBody BookingDTO bookingDTO, @PathVariable String username, @PathVariable Integer flightTripId) throws CustomerNotFoundException, SeatNotVacantException, FlightNotFoundException, InvalidSeatException, InsufficientPassengersException {
+		bookingDTO.setFlightTripId(flightTripId);
 		return bookingService.bookFlight(bookingDTO, username);
 	}
 	
-	@DeleteMapping("booking/cancel-booking/{bookingId}/{customerId}")
+	@DeleteMapping("/booking/cancel-booking/{bookingId}/{customerId}")
 	public String cancelBooking(@PathVariable Integer bookingId, @PathVariable String customerId) throws BookingNotFoundException {
 		return bookingService.cancelBooking(bookingId, customerId);
 	}
 	
-	@GetMapping("booking/get-by-customer/{username}")
+	@GetMapping("/booking/get-by-customer/{username}")
 	@PreAuthorize("hasAuthority('Customer')")
 	public List<Bookings> getBookingByUsername(@PathVariable String username){
 		return  bookingService.getAllBookingsByUsername(username);
@@ -114,7 +110,8 @@ public class CustomerRestController {
 	}
 	
 
-	@GetMapping("/booking/get-all-vacnat-seats/{flightTripId}")
+
+	@GetMapping("/booking/get-all-vacant-seats/{flightTripId}")
 	@PreAuthorize("hasAuthority('Customer')")
 	public List<SeatStructure> getAllVacantSeats(@PathVariable Integer flightTripId) throws InvalidFlightException{
 		return customerService.getVacantSeats(flightTripId);
@@ -137,6 +134,13 @@ public class CustomerRestController {
 	public String giveGreeting() {
 		return "hello";
 	}
+	
+	@GetMapping("/booking/get-all-bookings")
+	@PreAuthorize("hasAuthority('Admin')")
+	public List<Bookings> getAllBookings(){
+		return bookingService.getAllBookings();
+	}
+	
 	
 	
 	@GetMapping("/get-customer-bookings-by-username/{username}")

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ import com.hexaware.simplyfly.repository.PassengerRepository;
 import com.hexaware.simplyfly.repository.PaymentRepository;
 import com.hexaware.simplyfly.repository.SeatRepository;
 import com.hexaware.simplyfly.repository.SeatStructureRepository;
-
 
 import jakarta.transaction.Transactional;
 
@@ -72,7 +70,7 @@ public class BookingServiceImpl implements IBookingService {
 	public Bookings bookFlight(BookingDTO bookingDTO, String customerId) throws CustomerNotFoundException,
 			SeatNotVacantException, FlightNotFoundException, InvalidSeatException, InsufficientPassengersException {
 		Bookings booking = new Bookings();
-		logger.info("trying to book tickets+ for customerid"+customerId);
+		logger.info("trying to book tickets for customerid "+customerId);
 		Customer customer = customerRepo.findById(customerId).orElse(null);
 		if (customer == null)
 			throw new CustomerNotFoundException(customerId);
@@ -120,7 +118,7 @@ public class BookingServiceImpl implements IBookingService {
 		booking.setAmount(ticketPrice * bookingDTO.getPassengers().size());
 		
 		//create new payment object set status and bookingId
-		Set<Payments> payments = addPayments(booking, PaymentStatus.Completed);
+		Set<Payments> payments = addPayments(booking, PaymentStatus.Completed, bookingDTO.getPaymentId());
 
 		booking.setPayments(payments);
 
@@ -141,6 +139,8 @@ public class BookingServiceImpl implements IBookingService {
 			throw new BookingNotFoundException(bookingId.toString());
 		}
 		
+		String paymentId = paymentRepo.getPaymentId(bookingId);
+		
 		Set<Passengers> passengers = booking.getPassengers();
 		// remove passengers?? or set seat mapping to null
 		// remove from seats table
@@ -153,7 +153,7 @@ public class BookingServiceImpl implements IBookingService {
 //		passengerRepo.delete(p);
 		
 		// set payment status refunded
-		Set<Payments> payments = addPayments(booking, PaymentStatus.Refunded);
+		Set<Payments> payments = addPayments(booking, PaymentStatus.Refunded, paymentId);
 
 		booking.setPayments(payments);
 
@@ -182,13 +182,18 @@ public class BookingServiceImpl implements IBookingService {
 		return passenger;
 	}
 
-	public Set<Payments> addPayments(Bookings booking, PaymentStatus status) {
+	public Set<Payments> addPayments(Bookings booking, PaymentStatus status, String paymentId) {
 		Set<Payments> payments = booking.getPayments();
 		Payments paymentTransaction = new Payments();
+		paymentTransaction.setPaymentId(paymentId);
 		paymentTransaction.setPaymentBookings(booking);
 		paymentTransaction.setStatus(status);
 		payments.add(paymentTransaction);
 
 		return payments;
+	}
+	
+	public List<Bookings> getAllBookings(){
+		return bookingRepo.findAll();
 	}
 }

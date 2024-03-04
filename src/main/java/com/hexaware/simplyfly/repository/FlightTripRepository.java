@@ -36,7 +36,6 @@ public interface FlightTripRepository extends JpaRepository<FlightTrip, Integer>
 	@Query(value="SELECT * FROM flight_trip WHERE flight_code IN (SELECT DISTINCT flight_code FROM flights WHERE airline_id = ?1)", nativeQuery = true)
 	List<FlightTrip> findByAirline(String airlineId);
 	
-		
 
 	
 }
