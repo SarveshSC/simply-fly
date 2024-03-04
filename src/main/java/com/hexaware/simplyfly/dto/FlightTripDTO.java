@@ -5,9 +5,7 @@ import java.time.LocalDateTime;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 
-public class FlightTripDTO {
-	//private Integer flightTripId;
-	
+public class FlightTripDTO {	
 	@Future
 	private LocalDateTime departure;
 	

@@ -111,7 +111,7 @@ public class AdminServiceImpl implements IAdminService {
 		
 				Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
 						() -> new AirlineNotFoundException(userDTO.getAirlineId()));
-				user.setAirline(airline);
+				user.setAirlineFromUser(airline);
 				user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 				user.setUserStatus(UserStatus.PENDING);
 		
@@ -139,7 +139,7 @@ public class AdminServiceImpl implements IAdminService {
 
 		Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
 				() -> new AirlineNotFoundException(userDTO.getAirlineId()));
-		user.setAirline(airline);
+		user.setAirlineFromUser(airline);
 		user.setPassword(userDTO.getPassword());
 
 		return userRepo.save(user);
@@ -224,11 +224,9 @@ public class AdminServiceImpl implements IAdminService {
 	@Override
 	public List<UserDTO> getUserRequests() {
 	    List<User> userRequests = userRepo.findAllByUserStatus(UserStatus.PENDING);
-	    List<UserDTO> userdto = userRequests.stream()
-	            .map(user -> new UserDTO(user.getUsername(), user.getPassword(), user.getEmail(), user.getAirline().getAirlineId(), user.getUserStatus()))
+	    return userRequests.stream()
+	            .map(user -> new UserDTO(user.getUsername(), user.getPassword(), user.getEmail(), user.getAirlineFromUser().getAirlineId(), user.getUserStatus()))
 	            .collect(Collectors.toList());
-	    
-	    return userdto; // Explicitly return the List<UserDTO>
 	}
 	
 	@Override

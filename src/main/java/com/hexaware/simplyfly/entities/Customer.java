@@ -3,8 +3,6 @@ package com.hexaware.simplyfly.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -17,9 +15,6 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Customer {
-	
-	
-	
 	@Id
 	private String username;
 	
@@ -33,13 +28,12 @@ public class Customer {
 	@Column(nullable = false)
 
 	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$") 
-	// at least one digit, one lower case, one upper case, length > 7
 	private String password;
 	
 	@Column(nullable = false, unique = true)
 	private String contact;
 	
-	private final String Roles="Customer";
+	private static final String Roles="Customer";
 	
 	@Min(value = 18)
 	private int age;

@@ -102,10 +102,6 @@ public class BookingServiceImpl implements IBookingService {
 
 			Passengers passenger = setPassenger(p, flightTrip);
 			booking.getPassengers().add(passenger);
-			
-//			newSeat.setSeatNo(passenger.getSeat().getSeatNo());
-//
-//			seatRepo.save(newSeat);
 
 			passengers.add(passenger);
 			passengerRepo.save(passenger);
@@ -131,7 +127,7 @@ public class BookingServiceImpl implements IBookingService {
 
 	@Override
 	public String cancelBooking(Integer bookingId, String customerId) throws BookingNotFoundException {
-		logger.info("trying to cancel tickets for bookingid"+bookingId);
+		logger.info("trying to cancel tickets for bookingid" + bookingId);
 		List<Bookings> listOfBookings = getAllBookingsByUsername(customerId);
 		Bookings booking = bookingRepo.findById(bookingId).orElse(null);
 		if ((booking == null) || (!listOfBookings.contains(booking))) {
@@ -141,15 +137,11 @@ public class BookingServiceImpl implements IBookingService {
 		String paymentId = paymentRepo.getPaymentId(bookingId);
 		
 		Set<Passengers> passengers = booking.getPassengers();
-		// remove passengers?? or set seat mapping to null
-		// remove from seats table
 		
 		for (Passengers p : passengers) {
 			seatRepo.delete(p.getSeat());
-//			p.getSeat().setStatus(SeatStatus.Vacant);
 			p.setSeat(null);
 		}
-//		passengerRepo.delete(p);
 		
 		// set payment status refunded
 		Set<Payments> payments = addPayments(booking, PaymentStatus.Refunded, paymentId);
@@ -165,7 +157,6 @@ public class BookingServiceImpl implements IBookingService {
 	}
 
 	public Passengers setPassenger(PassengerDTO passengerDTO, FlightTrip flightTrip) throws InvalidSeatException {
-		System.out.println("set passenger called");
 		Passengers passenger = new Passengers();
 		passenger.setName(passengerDTO.getName());
 		passenger.setAge(passengerDTO.getAge());
@@ -175,7 +166,6 @@ public class BookingServiceImpl implements IBookingService {
 			throw new InvalidSeatException();
 		}
 		Seats seat = new Seats(SeatStatus.Booked, flightTrip, seatNo);
-//		seatRepo.save(seat);
 		passenger.setSeat(seat);
 
 		return passenger;
