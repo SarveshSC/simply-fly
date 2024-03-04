@@ -40,7 +40,7 @@ public class Bookings {
 	@JoinColumn(name = "flightTripId",nullable = false)
 	private FlightTrip flightTripForBooking;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentBookings")
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "paymentBookings")
 	private Set<Payments> payments = new HashSet<>();
 
 	@ManyToOne()
