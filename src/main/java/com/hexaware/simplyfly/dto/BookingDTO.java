@@ -26,25 +26,50 @@ public class BookingDTO {
 	private Set<PassengerDTO> passengers = new HashSet<>();
 	
 	@NotNull
-	private Integer customerId;
+	private String customerId;
 	
 	@NotNull
 	private Integer flightTripId;
 	
+
+	@NotNull
+	private String paymentId;
+
+	
 	public BookingDTO() {
 		super();
 	}
-	public BookingDTO(Integer bookingId, Double amount, LocalDateTime bookingDateTime, BookingStatus status,
-			Set<PassengerDTO> passengers, Integer customerId, Integer flightTripId) {
+
+	
+	public BookingDTO(@PositiveOrZero Integer bookingId, @Positive Double amount,
+			@NotNull LocalDateTime bookingDateTime, BookingStatus status, @NotNull Set<PassengerDTO> passengers,
+			@NotNull Integer customerId, @NotNull Integer flightTripId, @NotNull String paymentId) {
+
 		super();
 		this.bookingId = bookingId;
 		this.amount = amount;
 		this.bookingDateTime = bookingDateTime;
 		this.status = status;
 		this.passengers = passengers;
-		this.customerId = customerId;
+		this.customerId = customerId.toString();
 		this.flightTripId = flightTripId;
+		this.paymentId = paymentId;
 	}
+	public BookingDTO(@PositiveOrZero Integer bookingId, @Positive Double amount,
+		    @NotNull LocalDateTime bookingDateTime, BookingStatus status,
+		    @NotNull Set<PassengerDTO> passengers, @NotNull String customerId,
+		    @NotNull Integer flightTripId) {
+		    super();
+		    this.bookingId = bookingId;
+		    this.amount = amount;
+		    this.bookingDateTime = bookingDateTime;
+		    this.status = status;
+		    this.passengers = passengers;
+		    this.customerId = customerId;
+		    this.flightTripId = flightTripId;
+		}
+
+
 	public Integer getBookingId() {
 		return bookingId;
 	}
@@ -75,10 +100,10 @@ public class BookingDTO {
 	public void setPassengers(Set<PassengerDTO> passengers) {
 		this.passengers = passengers;
 	}
-	public Integer getCustomerId() {
+	public String getCustomerId() {
 		return customerId;
 	}
-	public void setCustomerId(Integer customerId) {
+	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
 	public Integer getFlightTripId() {
@@ -87,7 +112,13 @@ public class BookingDTO {
 	public void setFlightTripId(Integer flightTripId) {
 		this.flightTripId = flightTripId;
 	}
-	
-	
+
+	public String getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
 	
 }

@@ -43,6 +43,15 @@ public class Airports {
 		this.flightsDestination = flightsDestination;
 	}
 
+	
+	
+	public Airports(@Pattern(regexp = "[A-Z]{3}") String iataCode, String name, String location) {
+		super();
+		this.iataCode = iataCode;
+		this.name = name;
+		this.location = location;
+	}
+
 	public String getName() {
 		return name;
 	}

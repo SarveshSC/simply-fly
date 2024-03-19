@@ -2,6 +2,7 @@ package com.hexaware.simplyfly.service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.hexaware.simplyfly.dto.FlightDTO;
 import com.hexaware.simplyfly.entities.Airlines;
+import com.hexaware.simplyfly.entities.FlightStaus;
 import com.hexaware.simplyfly.entities.Flights;
 import com.hexaware.simplyfly.entities.User;
 import com.hexaware.simplyfly.exception.AirlineNotFoundException;
@@ -55,9 +57,10 @@ public class FlightServiceImpl implements IFlightService {
 			flight.setCabinWeight(flightDto.getCabinWeight());
 			flight.setCheckInWeight(flightDto.getCheckInWeight());
 			flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
+			flight.setFlightStaus(FlightStaus.Active);
 			return flightRepo.save(flight);
 		} else {
-			throw new AirlineNotFoundException(airlineId);
+			throw new AirlineNotFoundException(flightDto.getAirlineId());
 		}
 	}
 
@@ -69,12 +72,13 @@ public class FlightServiceImpl implements IFlightService {
 		String airlineId = user.getAirline().getAirlineId();
 		Airlines airline = airLineRepo.findById(airlineId).orElse(null);
 		if (airline != null && user.getAirline().getAirlineId().equals(flightDto.getAirlineId())) {
-			flight = new Flights();
+			flight = flightRepo.findById(flightDto.getFlightCode()).orElseThrow(()->new FlightNotFoundException(flightDto.getFlightCode()));
 			flight.setFlightCode(flightDto.getFlightCode());
 			flight.setTotalSeats(flightDto.getTotalSeats());
 			flight.setCabinWeight(flightDto.getCabinWeight());
 			flight.setCheckInWeight(flightDto.getCheckInWeight());
 			flight.setAirline(airLineRepo.findById(airlineId).orElse(null));
+			flight.setFlightStaus(flightDto.getFlightStatus());
 			return flightRepo.save(flight);
 		} else {
 			throw new AirlineNotFoundException(airlineId);
@@ -96,24 +100,37 @@ public class FlightServiceImpl implements IFlightService {
 		if(!flights.contains(flight)) {
 			throw new FlightNotFoundException(flightId);
 		}
-		if(flight.getFlightTrip().isEmpty()) {
-			flightRepo.deleteById(flightId);
+		
+			flight.setFlightStaus(FlightStaus.Inactive);
 			return "Flight deleted";
-		}
-		else {
-				throw new FlightScheduledExcpetion("This flight has more than 1 schedule, cannot be deleted now");
-			}
+		
+		
 	}
 	
 	@Override
-	public List<Flights> viewAllFlightsByAirlineId(String airlineId) throws AirlineNotFoundException {
+	public List<FlightDTO> viewAllFlightsByUsername(String username) throws AirlineNotFoundException {
+		String airlineId=userRepo.getById(username).getAirline().getAirlineId();
 		if(airLineRepo.existsById(airlineId)) {
-			return flightRepo.findByAirline(airlineId);
+			List<Flights> flights= flightRepo.findByAirline(airlineId);
+			return flights.stream()
+		            .map(flight -> new FlightDTO(
+		                flight.getFlightCode(),
+		                flight.getTotalSeats(),
+		                flight.getCheckInWeight(),
+		                flight.getCabinWeight(),
+		                flight.getAirline().getAirlineId(),
+		                flight.getLastArrivedAirportId(),
+		                flight.getLastArrivalTime(),
+		                flight.getFlightStaus()
+		            ))
+		            .collect(Collectors.toList());
 		}
 		else {
 			throw new AirlineNotFoundException(airlineId);
 		}
 	}
+	
+
 
 	@Override
 	public List<Flights> viewAllFlights() {

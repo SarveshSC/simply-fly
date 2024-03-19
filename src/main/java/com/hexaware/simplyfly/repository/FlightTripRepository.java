@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.FlightTrip;
 
 @Repository
@@ -29,5 +30,12 @@ public interface FlightTripRepository extends JpaRepository<FlightTrip, Integer>
 
 	@Query(value="select * from flight_trip where sourceiatacode=? and destinationiatacode=? and status='Running'",nativeQuery = true)
 	List<FlightTrip> findBySourceAndDestination(String sourceIata,String destinationIata);
+
+	
+	
+	@Query(value="SELECT * FROM flight_trip WHERE flight_code IN (SELECT DISTINCT flight_code FROM flights WHERE airline_id = ?1)", nativeQuery = true)
+	List<FlightTrip> findByAirline(String airlineId);
+	
+
 	
 }

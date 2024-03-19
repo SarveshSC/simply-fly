@@ -16,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.hexaware.simplyfly.filter.JwtAuthFilter;
 import com.hexaware.simplyfly.service.UserInfoUserDetailService;
@@ -39,9 +42,10 @@ public class SecurityConfig {
 	
 	@Bean
 	public SecurityFilterChain getSecurityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf().disable()
+		return http.cors().and().csrf().disable()
 				.authorizeHttpRequests()
-				.requestMatchers("/simply-fly/customers/create-account","/simply-fly/admin/add-user","/simply-fly/customers/login","/simply-fly/customers/enter","/simply-fly/admin/add-admin").permitAll().and()
+				.requestMatchers("/simply-fly/customers/create-account","/simply-fly/admin/add-user","/simply-fly/customers/login","/simply-fly/customers/enter","/simply-fly/admin/add-admin",
+						"/simply-fly/flightTrips/search-flights-by-date-source-destination/{departure}/{sourceIata}/{destinationIata}","/simply-fly/admin/list-all-airports").permitAll().and()
 				.authorizeHttpRequests().requestMatchers("/simply-fly/customers/**",
 						"/simply-fly/admin/**","/simply-fly/flights/**","/simply-fly/flightTrips/**").authenticated()
 				.and()
@@ -50,6 +54,20 @@ public class SecurityConfig {
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(authFilter	, UsernamePasswordAuthenticationFilter.class).build();
 	}
+	
+	@Bean
+	 public CorsFilter corsFilter() {
+     CorsConfiguration config = new CorsConfiguration();
+     config.setAllowCredentials(true);
+     config.addAllowedOrigin("http://localhost:4200");
+     config.addAllowedHeader("*");
+     config.addAllowedMethod("*");
+     
+     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+     source.registerCorsConfiguration("/**", config);
+     
+     return new CorsFilter(source);
+ }
 	
 	
 	@Bean

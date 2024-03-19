@@ -2,7 +2,8 @@ package com.hexaware.simplyfly.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,26 +44,31 @@ public class AdminServiceImpl implements IAdminService {
 
 	@Autowired
 	AirlineRepository airlineRepo;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	AdminRepository adminRepository;
 
+	Logger logger = LoggerFactory.getLogger(FlightTripServiceImpl.class);
+
 	@Override
-	public Airports addAirport(AirportDTO airportDTO) {
-		Airports airport = airportRepo.create(airportDTO.getIataCode());
-		airport.setName(airportDTO.getName());
-		airport.setLocation(airportDTO.getLocation());
+	public Airports addAirport(AirportDTO airportDTO) throws Exception {
+		if (airportRepo.existsById(airportDTO.getIataCode())) {
+			throw new Exception("airport with the IATA Code " + airportDTO.getIataCode() + " already exists");
+		}
+		Airports airport = new Airports(airportDTO.getIataCode(), airportDTO.getName(), airportDTO.getLocation());
+		
+		logger.info("Airport " + airportDTO.getName() + " added.");
 
 		return airportRepo.save(airport);
 	}
 
 	@Override
 	public Airports updateAirport(AirportDTO airportDTO) throws AirportNotFoundException {
-		Airports airport = airportRepo.findById(airportDTO.getIataCode()).orElseThrow(
-				() -> new AirportNotFoundException(airportDTO.getIataCode()));
+		Airports airport = airportRepo.findById(airportDTO.getIataCode())
+				.orElseThrow(() -> new AirportNotFoundException(airportDTO.getIataCode()));
 		airport.setName(airportDTO.getName());
 		airport.setIataCode(airportDTO.getIataCode());
 		airport.setLocation(airportDTO.getLocation());
@@ -102,26 +108,23 @@ public class AdminServiceImpl implements IAdminService {
 	@Override
 	public User addUser(UserDTO userDTO) throws Exception {
 		User user = new User();
-		if(!customerRepo.existsById(userDTO.getUsername())&& !adminRepository.existsById(userDTO.getUsername()))
-		{
-			if(!userRepo.existsById(userDTO.getUsername())&&userRepo.findByAirlineId(userDTO.getAirlineId())==null)
-			{
+		if (!customerRepo.existsById(userDTO.getUsername()) && !adminRepository.existsById(userDTO.getUsername())) {
+			if (!userRepo.existsById(userDTO.getUsername())
+					&& userRepo.findByAirlineId(userDTO.getAirlineId()) == null) {
 				user.setUsername(userDTO.getUsername());
 				user.setEmail(userDTO.getEmail());
-		
-				Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
-						() -> new AirlineNotFoundException(userDTO.getAirlineId()));
+
+				Airlines airline = airlineRepo.findById(userDTO.getAirlineId())
+						.orElseThrow(() -> new AirlineNotFoundException(userDTO.getAirlineId()));
 				user.setAirline(airline);
 				user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 				user.setUserStatus(UserStatus.PENDING);
-		
+
 				return userRepo.save(user);
-			}
-			else {
+			} else {
 				throw new Exception("user already exists");
 			}
-		}
-		else {
+		} else {
 			throw new Exception("Username already exists");
 		}
 
@@ -137,8 +140,8 @@ public class AdminServiceImpl implements IAdminService {
 		user.setUsername(userDTO.getUsername());
 		user.setEmail(userDTO.getEmail());
 
-		Airlines airline = airlineRepo.findById(userDTO.getAirlineId()).orElseThrow(
-				() -> new AirlineNotFoundException(userDTO.getAirlineId()));
+		Airlines airline = airlineRepo.findById(userDTO.getAirlineId())
+				.orElseThrow(() -> new AirlineNotFoundException(userDTO.getAirlineId()));
 		user.setAirline(airline);
 		user.setPassword(userDTO.getPassword());
 
@@ -176,8 +179,11 @@ public class AdminServiceImpl implements IAdminService {
 	}
 
 	@Override
-	public Airlines addAirline(AirlineDTO airlineDTO) {
-		airlineRepo.create(airlineDTO.getAirlineId(),airlineDTO.getAirlineName());
+	public Airlines addAirline(AirlineDTO airlineDTO) throws Exception {
+		if (airlineRepo.existsById(airlineDTO.getAirlineId())) {
+			throw new Exception("Airline already exists");
+		}
+		airlineRepo.create(airlineDTO.getAirlineId(), airlineDTO.getAirlineName());
 		Airlines airline = airlineRepo.findById(airlineDTO.getAirlineId()).orElse(null);
 
 		return airlineRepo.save(airline);
@@ -201,54 +207,58 @@ public class AdminServiceImpl implements IAdminService {
 
 	@Override
 	public Admin addAdmin(AdminDTO adminDTO) throws Exception {
-		Admin admin=new Admin();
-		if(!customerRepo.existsById(adminDTO.getUsername())&& !userRepo.existsById(adminDTO.getUsername())) {
-			if(!adminRepository.existsById(adminDTO.getUsername()))
-			{
+		Admin admin = new Admin();
+		if (!customerRepo.existsById(adminDTO.getUsername()) && !userRepo.existsById(adminDTO.getUsername())) {
+			if (!adminRepository.existsById(adminDTO.getUsername())) {
 				admin.setUsername(adminDTO.getUsername());
 				admin.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
 				admin.setEmail(adminDTO.getEmail());
 				return adminRepository.save(admin);
-			}
-			else {
+			} else {
 				throw new Exception("user already exists");
+
 			}
-			
-			
-		}
-		else {
+
+		} else {
 			throw new Exception("username already exists");
 		}
 	}
 
 	@Override
 	public List<UserDTO> getUserRequests() {
-	    List<User> userRequests = userRepo.findAllByUserStatus(UserStatus.PENDING);
-	    List<UserDTO> userdto = userRequests.stream()
-	            .map(user -> new UserDTO(user.getUsername(), user.getPassword(), user.getEmail(), user.getAirline().getAirlineId(), user.getUserStatus()))
-	            .collect(Collectors.toList());
-	    
-	    return userdto; // Explicitly return the List<UserDTO>
+		List<User> userRequests = userRepo.findAllByUserStatus(UserStatus.PENDING);
+		List<UserDTO> userdto = userRequests.stream().map(user -> new UserDTO(user.getUsername(), user.getPassword(),
+				user.getEmail(), user.getAirline().getAirlineId(), user.getUserStatus())).collect(Collectors.toList());
+
+		return userdto; // Explicitly return the List<UserDTO>
 	}
-	
+
 	@Override
 	public String approveUser(String username) throws UserNotFoundException {
-	    User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
-	    user.setUserStatus(UserStatus.APPROVED);
-	    user.setRole("FlightOwner");
-	    userRepo.save(user);
-	    return "user approved";
+		User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
+		user.setUserStatus(UserStatus.APPROVED);
+		user.setRole("FlightOwner");
+		userRepo.save(user);
+		return "user approved";
 	}
-	
+
 	@Override
 	public String rejectUser(String username) throws UserNotFoundException {
-	    User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
-	    user.setUserStatus(UserStatus.REJECTED);
-	    userRepo.save(user);
-	    return "user rejected";
-	    
+		User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
+		user.setUserStatus(UserStatus.REJECTED);
+		user.setRole("Rejected User");
+		userRepo.save(user);
+		return "user rejected";
+
 	}
-	
-	
+
+	@Override
+	public String inactiveUser(String username) throws UserNotFoundException {
+		User user = userRepo.findById(username).orElseThrow(() -> new UserNotFoundException(username));
+		user.setUserStatus(UserStatus.INACTIVE);
+		user.setRole("Inactive User");
+		userRepo.save(user);
+		return "user made inactive";
+	}
 
 }
