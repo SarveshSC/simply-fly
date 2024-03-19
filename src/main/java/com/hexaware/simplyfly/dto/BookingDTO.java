@@ -31,27 +31,30 @@ public class BookingDTO {
 	@NotNull
 	private Integer flightTripId;
 	
+
 	@NotNull
 	private String paymentId;
+
 	
 	public BookingDTO() {
 		super();
 	}
+
 	
 	public BookingDTO(@PositiveOrZero Integer bookingId, @Positive Double amount,
 			@NotNull LocalDateTime bookingDateTime, BookingStatus status, @NotNull Set<PassengerDTO> passengers,
-			@NotNull String customerId, @NotNull Integer flightTripId, @NotNull String paymentId) {
+			@NotNull Integer customerId, @NotNull Integer flightTripId, @NotNull String paymentId) {
+
 		super();
 		this.bookingId = bookingId;
 		this.amount = amount;
 		this.bookingDateTime = bookingDateTime;
 		this.status = status;
 		this.passengers = passengers;
-		this.customerId = customerId;
+		this.customerId = customerId.toString();
 		this.flightTripId = flightTripId;
 		this.paymentId = paymentId;
 	}
-	
 	public BookingDTO(@PositiveOrZero Integer bookingId, @Positive Double amount,
 		    @NotNull LocalDateTime bookingDateTime, BookingStatus status,
 		    @NotNull Set<PassengerDTO> passengers, @NotNull String customerId,
@@ -65,6 +68,7 @@ public class BookingDTO {
 		    this.customerId = customerId;
 		    this.flightTripId = flightTripId;
 		}
+
 
 	public Integer getBookingId() {
 		return bookingId;

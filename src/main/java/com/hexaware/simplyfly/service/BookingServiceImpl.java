@@ -16,6 +16,7 @@ import com.hexaware.simplyfly.entities.BookingStatus;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.FlightTrip;
+import com.hexaware.simplyfly.entities.FlightTripStatus;
 import com.hexaware.simplyfly.entities.Passengers;
 import com.hexaware.simplyfly.entities.PaymentStatus;
 import com.hexaware.simplyfly.entities.Payments;
@@ -80,7 +81,7 @@ public class BookingServiceImpl implements IBookingService {
 		FlightTrip flightTrip = flightTripRepo.findById(bookingDTO.getFlightTripId()).orElse(null);
 
 
-		if (flightTrip == null)
+		if (flightTrip == null || flightTrip.getStatus().equals(FlightTripStatus.Cancelled))
 			throw new FlightNotFoundException(bookingDTO.getFlightTripId().toString());
 
 
@@ -102,6 +103,10 @@ public class BookingServiceImpl implements IBookingService {
 
 			Passengers passenger = setPassenger(p, flightTrip);
 			booking.getPassengers().add(passenger);
+			
+//			newSeat.setSeatNo(passenger.getSeat().getSeatNo());
+//
+//			seatRepo.save(newSeat);
 
 			passengers.add(passenger);
 			passengerRepo.save(passenger);
@@ -127,21 +132,31 @@ public class BookingServiceImpl implements IBookingService {
 
 	@Override
 	public String cancelBooking(Integer bookingId, String customerId) throws BookingNotFoundException {
-		logger.info("trying to cancel tickets for bookingid" + bookingId);
+		logger.info("trying to cancel tickets for bookingid"+bookingId);
 		List<Bookings> listOfBookings = getAllBookingsByUsername(customerId);
 		Bookings booking = bookingRepo.findById(bookingId).orElse(null);
 		if ((booking == null) || (!listOfBookings.contains(booking))) {
+			logger.info("booking not found");
 			throw new BookingNotFoundException(bookingId.toString());
+		}
+		if(booking.getStatus()==BookingStatus.Cancelled) {
+			return ("Booking Cancelled");
 		}
 		
 		String paymentId = paymentRepo.getPaymentId(bookingId);
 		
 		Set<Passengers> passengers = booking.getPassengers();
+		// remove passengers?? or set seat mapping to null
+		// remove from seats table
 		
 		for (Passengers p : passengers) {
+			logger.info("trying to get the seat");
 			seatRepo.delete(p.getSeat());
+			logger.info("we got the seat");
+//			p.getSeat().setStatus(SeatStatus.Vacant);
 			p.setSeat(null);
 		}
+//		passengerRepo.delete(p);
 		
 		// set payment status refunded
 		Set<Payments> payments = addPayments(booking, PaymentStatus.Refunded, paymentId);
@@ -150,13 +165,16 @@ public class BookingServiceImpl implements IBookingService {
 
 		// set status cancelled
 		booking.setStatus(BookingStatus.Cancelled);
+		logger.info("changing the status to cancelled");
 		FlightTrip flightTrip = booking.getFlightTripForBooking();
 		flightTrip.setFilledSeats(flightTrip.getFilledSeats() - passengers.size());
+		logger.info("Booking Cancelled, Payment Refund in process");
 		bookingRepo.save(booking);
 		return "Booking Cancelled, Payment Refund in process";
 	}
 
 	public Passengers setPassenger(PassengerDTO passengerDTO, FlightTrip flightTrip) throws InvalidSeatException {
+		System.out.println("set passenger called");
 		Passengers passenger = new Passengers();
 		passenger.setName(passengerDTO.getName());
 		passenger.setAge(passengerDTO.getAge());
@@ -166,6 +184,7 @@ public class BookingServiceImpl implements IBookingService {
 			throw new InvalidSeatException();
 		}
 		Seats seat = new Seats(SeatStatus.Booked, flightTrip, seatNo);
+//		seatRepo.save(seat);
 		passenger.setSeat(seat);
 
 		return passenger;
@@ -184,5 +203,9 @@ public class BookingServiceImpl implements IBookingService {
 	
 	public List<Bookings> getAllBookings(){
 		return bookingRepo.findAll();
+	}
+	
+	public String getMaxId() {
+		return passengerRepo.getMaxPassengerId();
 	}
 }

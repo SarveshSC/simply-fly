@@ -1,14 +1,20 @@
 package com.hexaware.simplyfly.entities;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class User {
@@ -86,6 +92,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Airlines getAirline() {
+		return airlineFromUser;
+	}
+
+	public void setAirline(Airlines airline) {
+		this.airlineFromUser = airline;
 	}
 
 	public Airlines getAirlineFromUser() {

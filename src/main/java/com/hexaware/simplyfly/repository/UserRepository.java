@@ -20,4 +20,10 @@ public interface UserRepository extends JpaRepository<User, String> {
 	public User findByUsername(String username);
 	public List<User> findAllByUserStatus(UserStatus userStatus);
 	
+	@Query(value="select count(*) from user where email=?1",nativeQuery = true)
+	public Integer existsByEmail(String email);
+	
+	
+	
+	
 }

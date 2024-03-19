@@ -2,6 +2,7 @@ package com.hexaware.simplyfly.dto;
 
 import org.hibernate.validator.constraints.UniqueElements;
 
+import com.hexaware.simplyfly.entities.Roles;
 import com.hexaware.simplyfly.entities.UserStatus;
 
 import jakarta.validation.constraints.Email;
@@ -100,17 +101,5 @@ public class UserDTO {
 	public void setAirlineId(String airline) {
 		this.airlineId = airline;
 	}
-
-
-	public UserStatus getUserStatus() {
-		return userStatus;
-	}
-
-
-	public void setUserStatus(UserStatus userStatus) {
-		this.userStatus = userStatus;
-	}
-	
-	
 	
 }

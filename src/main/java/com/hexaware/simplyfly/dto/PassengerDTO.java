@@ -1,5 +1,7 @@
 package com.hexaware.simplyfly.dto;
 
+import java.util.Optional;
+
 import com.hexaware.simplyfly.entities.Gender;
 
 import jakarta.validation.constraints.NotBlank;
@@ -47,7 +49,7 @@ public class PassengerDTO {
 		this.gender = gender;
 		this.seat = seat;
 	}
-	
+
 	public String getPassengerId() {
 		return passengerId;
 	}

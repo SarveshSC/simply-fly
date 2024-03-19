@@ -39,7 +39,7 @@ public class AdminRestController {
 	
 	@PostMapping("/add-airport")
 	@PreAuthorize("hasAuthority('Admin')")
-	public Airports addAirport(@RequestBody AirportDTO airportDTO) {
+	public Airports addAirport(@RequestBody AirportDTO airportDTO) throws Exception {
 		return service.addAirport(airportDTO);
 	}
 	
@@ -57,6 +57,7 @@ public class AdminRestController {
 	
 	@GetMapping("/find-airport/{airportCode}")
 	@PreAuthorize("hasAuthority('Admin') || hasAuthority('Customer')")
+
 	public AirportDTO findAirport(@PathVariable String airportCode) throws AirportNotFoundException {
 		return service.findAirport(airportCode);
 	}
@@ -109,7 +110,7 @@ public class AdminRestController {
 	
 	@PostMapping("/add-airline")
 	@PreAuthorize("hasAuthority('Admin')")
-	public Airlines addAirline(@Valid @RequestBody AirlineDTO airlineDTO) {
+	public Airlines addAirline(@Valid @RequestBody AirlineDTO airlineDTO) throws Exception {
 		return service.addAirline(airlineDTO);
 	}
 	
@@ -131,9 +132,15 @@ public class AdminRestController {
 		return service.approveUser(username);
 	}
 	
-	@PutMapping("/reject-user/username")
+	@PutMapping("/reject-user/{username}")
 	@PreAuthorize("hasAuthority('Admin')")
 	public String rejectUser(@PathVariable String username) throws UserNotFoundException{
 		return service.rejectUser(username);
+	}
+	
+	@PutMapping("/make-user-inactive/{username}")
+	@PreAuthorize("hasAuthority('Admin')")
+	public String inactiveUser(@PathVariable String username) throws UserNotFoundException {
+		return service.inactiveUser(username);
 	}
 }

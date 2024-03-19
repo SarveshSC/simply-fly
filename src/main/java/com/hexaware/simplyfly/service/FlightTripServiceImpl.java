@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,7 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.simplyfly.dto.BookingDTO;
 import com.hexaware.simplyfly.dto.FlightTripDTO;
+import com.hexaware.simplyfly.dto.PassengerDTO;
+
 import com.hexaware.simplyfly.entities.Airlines;
 import com.hexaware.simplyfly.entities.Airports;
 import com.hexaware.simplyfly.entities.Bookings;
@@ -29,6 +33,7 @@ import com.hexaware.simplyfly.exception.InvalidFlightException;
 import com.hexaware.simplyfly.exception.InvalidTimingException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.repository.AirportRepository;
+import com.hexaware.simplyfly.repository.BookingRepository;
 import com.hexaware.simplyfly.repository.FlightRepository;
 import com.hexaware.simplyfly.repository.FlightTripRepository;
 import com.hexaware.simplyfly.repository.UserRepository;
@@ -53,6 +58,9 @@ public class FlightTripServiceImpl implements IFlightTripService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	BookingRepository bookingRepository;
 
 	Logger logger = LoggerFactory.getLogger(FlightTripServiceImpl.class);
 
@@ -61,8 +69,9 @@ public class FlightTripServiceImpl implements IFlightTripService {
 			String destinationIata,String username) throws Exception {
 		FlightTrip flightTrip = null;
 		Flights flight = flightRepository.findById(flightCode).orElse(null);
+		//if(flightTripRepository.existsById(flightTripDTO.getFlightTripId()))throw new Exception("flight details  already exists");
 		User user=userRepository.findById(username).orElseThrow(()->new UserNotFoundException(username));
-		if (flight != null && flight.getAirline()==user.getAirlineFromUser()) {
+		if (flight != null && flight.getAirline()==user.getAirline()) {
 			Airports source = airportRepository.findById(sourceIata).orElse(null);
 			Airports destination = airportRepository.findById(destinationIata).orElse(null);
 			if (source != null && destination != null) {
@@ -104,7 +113,7 @@ public class FlightTripServiceImpl implements IFlightTripService {
 		String flightCode = flight.getFlightCode();
 		User user=userRepository.findById(username).orElseThrow(()->new UserNotFoundException(username));
 		if(flightRepository.existsById(flightCode) && presentStatus.equals(FlightTripStatus.Running.toString())
-				&&flight.getAirline().equals(user.getAirlineFromUser())) {
+				&&flight.getAirline().equals(user.getAirline())) {
 			flight.setLastArrivalTime(flightTripDto.getArrival());
 			FlightTrip trip = flightTripRepository.findById(flightTripDto.getFlightTripId())
 				    .orElseThrow(() -> new FlightNotFoundException(flightCode));
@@ -121,12 +130,16 @@ public class FlightTripServiceImpl implements IFlightTripService {
 
 	@Override
 	public String cancelFlights(Integer flightTripId,String username) throws BookingNotFoundException, InvalidFlightException, UserNotFoundException {
+		logger.info("checking for flight trip");
 		FlightTrip flightTrip = flightTripRepository.findById(flightTripId).orElse(null);
+		logger.info("checking for user");
 		User user=userRepository.findById(username).orElseThrow(()->new UserNotFoundException(username));
 		
-		if (flightTrip == null || flightTrip.getFlights().getAirline()!=user.getAirlineFromUser()) {
+		if (flightTrip == null || flightTrip.getFlights().getAirline()!=user.getAirline()) {
+			logger.info("here ");
 			throw new InvalidFlightException(flightTripId.toString());
 		}
+		System.out.println(flightTrip.getBookings());
 logger.info("in progress of deleting");
 
 		Set<Bookings> Bookings = flightTrip.getBookings();
@@ -180,7 +193,9 @@ logger.info("in progress of deleting");
 	                flightTrip.getDestination().getLocation(),
 	                flightTrip.getStatus().toString(),
 	                flightTrip.getFilledSeats(),
-	                flightTrip.getFlightTripId()
+	                flightTrip.getFlightTripId(),
+	                flightTrip.getFlights().getFlightCode()
+
 	        )).collect(Collectors.toList());
 	    } else {
 	        throw new Exception("Flight does not exist");
@@ -251,7 +266,7 @@ logger.info("in progress of deleting");
 	@Override
 	public List<FlightTripDTO> getAllFlightsByUsername(String username) throws UserNotFoundException {
 		User user=userRepository.findById(username).orElseThrow(()-> new UserNotFoundException(username));
-		String airlineId=user.getAirlineFromUser().getAirlineId();
+		String airlineId=user.getAirline().getAirlineId();
 		List<FlightTrip> list=flightTripRepository.findByAirline(airlineId);
 		return list.stream().map(flightTrip -> new FlightTripDTO(
                 flightTrip.getDeparture(), 
@@ -260,8 +275,55 @@ logger.info("in progress of deleting");
                 flightTrip.getSource().getIataCode(), 
                 flightTrip.getDestination().getIataCode(),
                 flightTrip.getStatus().toString(),
+                flightTrip.getFilledSeats(),
                 flightTrip.getFlightTripId(),
-                flightTrip.getFilledSeats()
+                flightTrip.getFlights().getFlightCode()
         )).collect(Collectors.toList());
-    } 
+    }
+
+	@Override
+	public List<BookingDTO> getAllBookingsByFlightTripId(int flightTripId,String username) throws Exception {
+		User user=userRepository.findById(username).orElseThrow(()->new UserNotFoundException(username));
+		FlightTrip flightTrip=flightTripRepository.findById(flightTripId).orElseThrow(()->new Exception("flight trip not found"));
+		if(!user.getAirline().getFlights().contains(flightTrip.getFlights())) {
+			throw new Exception("flight trip not found");
+		}
+		List<Bookings> list=bookingRepository.findBookingsByFlightTripId(flightTripId);
+		return list.stream().map(booking->new BookingDTO(booking.getBookingId(), 
+				booking.getAmount(), 
+				booking.getBookingDateTime(), 
+				booking.getStatus(), 
+				booking.getPassengers().stream().map(passenger->new PassengerDTO(passenger.getPassengerId(),
+						passenger.getName(),
+						passenger.getAge(),
+						passenger.getGender(),
+						 Optional.ofNullable(passenger.getSeat())
+                         .map(Object::toString)
+                         .orElse("no seat"))).collect(Collectors.toSet()),
+				booking.getCustomer().getUsername(), 
+				booking.getFlightTripForBooking().getFlightTripId())).collect(Collectors.toList());
+		
+		
 	}
+
+	@Override
+	public List<BookingDTO> getAllBookingsByUsername(String username) throws UserNotFoundException {
+		User user=userRepository.findById(username).orElseThrow(()->new UserNotFoundException(username));
+		List<Bookings> list=bookingRepository.findBookingsByUserName(username);
+		return list.stream().map(booking->new BookingDTO(booking.getBookingId(), 
+				booking.getAmount(), 
+				booking.getBookingDateTime(), 
+				booking.getStatus(), 
+				booking.getPassengers().stream().map(passenger->new PassengerDTO(passenger.getPassengerId(),
+						passenger.getName(),
+						passenger.getAge(),
+						passenger.getGender(),
+						 Optional.ofNullable(passenger.getSeat())
+                         .map(seat->seat.getSeatNo().getSeatNo())
+                         .orElse("no seat"))).collect(Collectors.toSet()),
+				booking.getCustomer().getUsername(), 
+				booking.getFlightTripForBooking().getFlightTripId())).collect(Collectors.toList());
+	} 
+	
+}
+

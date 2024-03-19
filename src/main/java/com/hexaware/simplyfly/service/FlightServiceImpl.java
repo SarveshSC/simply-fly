@@ -48,9 +48,9 @@ public class FlightServiceImpl implements IFlightService {
 		User user = userRepo.findUserByUsername(username);
 		if(user == null) throw new UserNotFoundException(username);
 		if(flightRepo.existsById(flightDto.getFlightCode())) throw new Exception("flight already exists");
-		String airlineId = user.getAirlineFromUser().getAirlineId();
+		String airlineId = user.getAirline().getAirlineId();
 		Airlines airline = airLineRepo.findById(airlineId).orElse(null);
-		if (airline != null && user.getAirlineFromUser().getAirlineId().equals(flightDto.getAirlineId())) {
+		if (airline != null && user.getAirline().getAirlineId().equals(flightDto.getAirlineId())) {
 			flight = new Flights();
 			flight.setFlightCode(flightDto.getFlightCode());
 			flight.setTotalSeats(flightDto.getTotalSeats());
@@ -69,9 +69,9 @@ public class FlightServiceImpl implements IFlightService {
 		Flights flight = null;
 		if(!flightRepo.existsById(flightDto.getFlightCode())) throw new Exception("flight not exists");
 		User user = userRepo.findById(username).orElseThrow(()->new UserNotFoundException(username));
-		String airlineId = user.getAirlineFromUser().getAirlineId();
+		String airlineId = user.getAirline().getAirlineId();
 		Airlines airline = airLineRepo.findById(airlineId).orElse(null);
-		if (airline != null && user.getAirlineFromUser().getAirlineId().equals(flightDto.getAirlineId())) {
+		if (airline != null && user.getAirline().getAirlineId().equals(flightDto.getAirlineId())) {
 			flight = flightRepo.findById(flightDto.getFlightCode()).orElseThrow(()->new FlightNotFoundException(flightDto.getFlightCode()));
 			flight.setFlightCode(flightDto.getFlightCode());
 			flight.setTotalSeats(flightDto.getTotalSeats());
@@ -91,7 +91,7 @@ public class FlightServiceImpl implements IFlightService {
 		User user = userRepo.findUserByUsername(username);
 		if(user == null) throw new UserNotFoundException(username);
 		
-		String airlineId = user.getAirlineFromUser().getAirlineId();
+		String airlineId = user.getAirline().getAirlineId();
 		Airlines airline=airLineRepo.findById(airlineId).orElse(null);
 		
 		Set<Flights> flights = airline.getFlights();
@@ -109,7 +109,7 @@ public class FlightServiceImpl implements IFlightService {
 	
 	@Override
 	public List<FlightDTO> viewAllFlightsByUsername(String username) throws AirlineNotFoundException {
-		String airlineId=userRepo.getById(username).getAirlineFromUser().getAirlineId();
+		String airlineId=userRepo.getById(username).getAirline().getAirlineId();
 		if(airLineRepo.existsById(airlineId)) {
 			List<Flights> flights= flightRepo.findByAirline(airlineId);
 			return flights.stream()

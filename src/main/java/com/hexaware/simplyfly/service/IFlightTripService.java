@@ -3,6 +3,7 @@ package com.hexaware.simplyfly.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.hexaware.simplyfly.dto.BookingDTO;
 import com.hexaware.simplyfly.dto.FlightTripDTO;
 import com.hexaware.simplyfly.entities.FlightTrip;
 import com.hexaware.simplyfly.exception.AirportNotFoundException;
@@ -34,5 +35,11 @@ public interface IFlightTripService {
 	
 	
 	public List<FlightTripDTO> getAllFlightsByUsername(String username) throws UserNotFoundException;
+
+	
+	public List<BookingDTO> getAllBookingsByFlightTripId(int fightTripId,String username) throws  Exception;
+	
+	public List<BookingDTO> getAllBookingsByUsername(String username) throws UserNotFoundException;
+
 
 }
