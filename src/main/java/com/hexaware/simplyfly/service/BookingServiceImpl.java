@@ -42,8 +42,8 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class BookingServiceImpl implements IBookingService {
-	
-	Logger logger=LoggerFactory.getLogger(BookingServiceImpl.class);
+
+	Logger logger = LoggerFactory.getLogger(BookingServiceImpl.class);
 
 	@Autowired
 	BookingRepository bookingRepo;
@@ -70,7 +70,7 @@ public class BookingServiceImpl implements IBookingService {
 	public Bookings bookFlight(BookingDTO bookingDTO, String customerId) throws CustomerNotFoundException,
 			SeatNotVacantException, FlightNotFoundException, InvalidSeatException, InsufficientPassengersException {
 		Bookings booking = new Bookings();
-		logger.info("trying to book tickets for customerid "+customerId);
+		logger.info("Trying to book tickets for customerid " + customerId);
 		Customer customer = customerRepo.findById(customerId).orElse(null);
 		if (customer == null)
 			throw new CustomerNotFoundException(customerId);
@@ -80,10 +80,8 @@ public class BookingServiceImpl implements IBookingService {
 		booking.setBookingId(bookingDTO.getBookingId());
 		FlightTrip flightTrip = flightTripRepo.findById(bookingDTO.getFlightTripId()).orElse(null);
 
-
 		if (flightTrip == null || flightTrip.getStatus().equals(FlightTripStatus.Cancelled))
 			throw new FlightNotFoundException(bookingDTO.getFlightTripId().toString());
-
 
 		booking.setFlightTripForBooking(flightTrip);
 		booking.setBookingDateTime(LocalDateTime.now());
@@ -96,32 +94,29 @@ public class BookingServiceImpl implements IBookingService {
 			Seats newSeat = new Seats();
 			newSeat.setFlightTripId(flightTrip);
 			SeatStatus status = seatRepo.getSeatStatus(p.getSeat(), flightTrip.getFlightTripId());
-			if (status == SeatStatus.Booked)
+			if (status == SeatStatus.Booked) {
+				logger.warn("Seat " + p.getSeat() + " already booked.");
 				throw new SeatNotVacantException(p.getSeat());
+			}
 
 			newSeat.setStatus(SeatStatus.Booked);
 
 			Passengers passenger = setPassenger(p, flightTrip);
 			booking.getPassengers().add(passenger);
-			
-//			newSeat.setSeatNo(passenger.getSeat().getSeatNo());
-//
-//			seatRepo.save(newSeat);
-
 			passengers.add(passenger);
 			passengerRepo.save(passenger);
 		}
 		flightTrip.setFilledSeats(flightTrip.getFilledSeats() + passengers.size());
 		flightTripRepo.save(flightTrip);
-		
+
 		double ticketPrice = flightTrip.getTicketPrice();
 		booking.setAmount(ticketPrice * bookingDTO.getPassengers().size());
-		
-		//create new payment object set status and bookingId
+
+		// create new payment object set status and bookingId
 		Set<Payments> payments = addPayments(booking, PaymentStatus.Completed, bookingDTO.getPaymentId());
 
 		booking.setPayments(payments);
-
+		logger.info("Payment details updation underway");
 		return bookingRepo.save(booking);
 	}
 
@@ -132,32 +127,32 @@ public class BookingServiceImpl implements IBookingService {
 
 	@Override
 	public String cancelBooking(Integer bookingId, String customerId) throws BookingNotFoundException {
-		logger.info("trying to cancel tickets for bookingid"+bookingId);
+		logger.info("Trying to cancel tickets for bookingid " + bookingId);
 		List<Bookings> listOfBookings = getAllBookingsByUsername(customerId);
 		Bookings booking = bookingRepo.findById(bookingId).orElse(null);
 		if ((booking == null) || (!listOfBookings.contains(booking))) {
 			logger.info("booking not found");
 			throw new BookingNotFoundException(bookingId.toString());
 		}
-		if(booking.getStatus()==BookingStatus.Cancelled) {
+		if (booking.getStatus() == BookingStatus.Cancelled) {
 			return ("Booking Cancelled");
 		}
-		
+
 		String paymentId = paymentRepo.getPaymentId(bookingId);
-		
+
 		Set<Passengers> passengers = booking.getPassengers();
 		// remove passengers?? or set seat mapping to null
 		// remove from seats table
-		
+
 		for (Passengers p : passengers) {
-			logger.info("trying to get the seat");
+			logger.info("Trying to get the seat");
 			seatRepo.delete(p.getSeat());
-			logger.info("we got the seat");
+			logger.info("We got the seat");
 //			p.getSeat().setStatus(SeatStatus.Vacant);
 			p.setSeat(null);
 		}
 //		passengerRepo.delete(p);
-		
+
 		// set payment status refunded
 		Set<Payments> payments = addPayments(booking, PaymentStatus.Refunded, paymentId);
 
@@ -174,7 +169,6 @@ public class BookingServiceImpl implements IBookingService {
 	}
 
 	public Passengers setPassenger(PassengerDTO passengerDTO, FlightTrip flightTrip) throws InvalidSeatException {
-		System.out.println("set passenger called");
 		Passengers passenger = new Passengers();
 		passenger.setName(passengerDTO.getName());
 		passenger.setAge(passengerDTO.getAge());
@@ -184,7 +178,7 @@ public class BookingServiceImpl implements IBookingService {
 			throw new InvalidSeatException();
 		}
 		Seats seat = new Seats(SeatStatus.Booked, flightTrip, seatNo);
-//		seatRepo.save(seat);
+		logger.info("Passenger info set");
 		passenger.setSeat(seat);
 
 		return passenger;
@@ -198,13 +192,14 @@ public class BookingServiceImpl implements IBookingService {
 		paymentTransaction.setStatus(status);
 		payments.add(paymentTransaction);
 
+		logger.info("Payment " + paymentId + " logged successfully");
 		return payments;
 	}
-	
-	public List<Bookings> getAllBookings(){
+
+	public List<Bookings> getAllBookings() {
 		return bookingRepo.findAll();
 	}
-	
+
 	public String getMaxId() {
 		return passengerRepo.getMaxPassengerId();
 	}

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,8 @@ public class FlightServiceImpl implements IFlightService {
 
 	@Autowired
 	AirportRepository airPortRepo;
+	
+	Logger logger = LoggerFactory.getLogger(FlightServiceImpl.class);
 
 	@Override
 	public Flights addFlights(FlightDTO flightDto, String username) throws Exception {
@@ -60,6 +64,7 @@ public class FlightServiceImpl implements IFlightService {
 			flight.setFlightStaus(FlightStaus.Active);
 			return flightRepo.save(flight);
 		} else {
+			logger.warn("Airline " + flightDto.getAirlineId() + " not found");
 			throw new AirlineNotFoundException(flightDto.getAirlineId());
 		}
 	}
@@ -81,6 +86,7 @@ public class FlightServiceImpl implements IFlightService {
 			flight.setFlightStaus(flightDto.getFlightStatus());
 			return flightRepo.save(flight);
 		} else {
+			logger.warn("Airline " + airlineId + " not found");
 			throw new AirlineNotFoundException(airlineId);
 		}
 
@@ -98,6 +104,7 @@ public class FlightServiceImpl implements IFlightService {
 		
 		Flights flight = flightRepo.findById(flightId).orElse(null);
 		if(!flights.contains(flight)) {
+			logger.warn("Flight " + flightId + " not found");
 			throw new FlightNotFoundException(flightId);
 		}
 		
@@ -111,7 +118,7 @@ public class FlightServiceImpl implements IFlightService {
 	public List<FlightDTO> viewAllFlightsByUsername(String username) throws AirlineNotFoundException {
 		String airlineId=userRepo.getById(username).getAirline().getAirlineId();
 		if(airLineRepo.existsById(airlineId)) {
-			List<Flights> flights= flightRepo.findByAirline(airlineId);
+			List<Flights> flights = flightRepo.findByAirline(airlineId);
 			return flights.stream()
 		            .map(flight -> new FlightDTO(
 		                flight.getFlightCode(),

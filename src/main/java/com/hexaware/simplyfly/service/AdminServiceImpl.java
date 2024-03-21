@@ -51,12 +51,13 @@ public class AdminServiceImpl implements IAdminService {
 	@Autowired
 	AdminRepository adminRepository;
 
-	Logger logger = LoggerFactory.getLogger(FlightTripServiceImpl.class);
+	Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
 
 	@Override
 	public Airports addAirport(AirportDTO airportDTO) throws Exception {
 		if (airportRepo.existsById(airportDTO.getIataCode())) {
-			throw new Exception("airport with the IATA Code " + airportDTO.getIataCode() + " already exists");
+			logger.warn("Airport with the IATA Code " + airportDTO.getIataCode() + " already exists");
+			throw new Exception("Airport with the IATA Code " + airportDTO.getIataCode() + " already exists");
 		}
 		Airports airport = new Airports(airportDTO.getIataCode(), airportDTO.getName(), airportDTO.getLocation());
 		
@@ -72,6 +73,8 @@ public class AdminServiceImpl implements IAdminService {
 		airport.setName(airportDTO.getName());
 		airport.setIataCode(airportDTO.getIataCode());
 		airport.setLocation(airportDTO.getLocation());
+		
+		logger.info("Airport " + airportDTO.getIataCode() + " updation.");
 
 		return airportRepo.save(airport);
 	}
@@ -82,6 +85,7 @@ public class AdminServiceImpl implements IAdminService {
 			throw new AirportNotFoundException(airportCode);
 		}
 		airportRepo.deleteById(airportCode);
+		logger.info("Airport " + airportCode + " deletion.");
 		return "Airport with code " + airportCode + " deleted successfully";
 
 	}
@@ -122,9 +126,11 @@ public class AdminServiceImpl implements IAdminService {
 
 				return userRepo.save(user);
 			} else {
-				throw new Exception("user already exists");
+				logger.warn("User already exists");
+				throw new Exception("User already exists");
 			}
 		} else {
+			logger.warn("Username already exists");
 			throw new Exception("Username already exists");
 		}
 
@@ -144,7 +150,9 @@ public class AdminServiceImpl implements IAdminService {
 				.orElseThrow(() -> new AirlineNotFoundException(userDTO.getAirlineId()));
 		user.setAirline(airline);
 		user.setPassword(userDTO.getPassword());
-
+		
+		logger.info("User " + userDTO.getUsername() + " profile updation in process.");
+		
 		return userRepo.save(user);
 	}
 
@@ -156,6 +164,7 @@ public class AdminServiceImpl implements IAdminService {
 			throw new UserNotFoundException(username);
 		}
 		userRepo.removeUserByUsername(username);
+		logger.info("User with username " + username + " deleted");
 		return "User with username " + username + " deleted";
 	}
 
@@ -196,6 +205,8 @@ public class AdminServiceImpl implements IAdminService {
 			throw new AirlineNotFoundException(airlineDTO.getAirlineId());
 		airline.setAirlineId(airlineDTO.getAirlineId());
 		airline.setAirlineName(airlineDTO.getAirlineName());
+		
+		logger.info("Airline " + airlineDTO.getAirlineId() + " modification underway.");
 
 		return airlineRepo.save(airline);
 	}
@@ -215,11 +226,13 @@ public class AdminServiceImpl implements IAdminService {
 				admin.setEmail(adminDTO.getEmail());
 				return adminRepository.save(admin);
 			} else {
+				logger.warn("User already exists");
 				throw new Exception("user already exists");
 
 			}
 
 		} else {
+			logger.warn("Username alreay exists");
 			throw new Exception("username already exists");
 		}
 	}
@@ -239,6 +252,7 @@ public class AdminServiceImpl implements IAdminService {
 		user.setUserStatus(UserStatus.APPROVED);
 		user.setRole("FlightOwner");
 		userRepo.save(user);
+		logger.info("Flightowner " + username + " status approved.");
 		return "user approved";
 	}
 
@@ -248,6 +262,7 @@ public class AdminServiceImpl implements IAdminService {
 		user.setUserStatus(UserStatus.REJECTED);
 		user.setRole("Rejected User");
 		userRepo.save(user);
+		logger.info("Flightowner " + username + " status rejected.");
 		return "user rejected";
 
 	}
@@ -258,6 +273,7 @@ public class AdminServiceImpl implements IAdminService {
 		user.setUserStatus(UserStatus.INACTIVE);
 		user.setRole("Inactive User");
 		userRepo.save(user);
+		logger.info("Flightowner " + username + " status inactive.");
 		return "user made inactive";
 	}
 
