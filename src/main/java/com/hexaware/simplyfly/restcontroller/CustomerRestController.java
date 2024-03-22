@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.simplyfly.dto.AuthRequest;
 import com.hexaware.simplyfly.dto.BookingDTO;
+import com.hexaware.simplyfly.dto.UpdateProfileDTO;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.SeatStructure;
@@ -39,6 +40,7 @@ import com.hexaware.simplyfly.exception.SeatNotVacantException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.service.IBookingService;
 import com.hexaware.simplyfly.service.ICustomerService;
+import com.hexaware.simplyfly.service.IMailService;
 import com.hexaware.simplyfly.service.IPdfGenerator;
 import com.hexaware.simplyfly.service.JwtService;
 import com.hexaware.simplyfly.service.pdfGenerator;
@@ -62,6 +64,9 @@ public class CustomerRestController {
   	
   	@Autowired
   	IPdfGenerator generator;
+  	
+  	@Autowired
+	IMailService mailService;
 	
 	@Autowired
 	private AuthenticationManager authManager;
@@ -92,10 +97,7 @@ public class CustomerRestController {
 		return bookingService.bookFlight(bookingDTO, username);
 	}
 	
-	@DeleteMapping("/booking/cancel-booking/{bookingId}/{customerId}")
-	public String cancelBooking(@PathVariable Integer bookingId, @PathVariable String customerId) throws BookingNotFoundException {
-		return bookingService.cancelBooking(bookingId, customerId);
-	}
+	
 	
 	@GetMapping("/booking/get-by-customer/{username}")
 	@PreAuthorize("hasAuthority('Customer')")
@@ -126,6 +128,19 @@ public class CustomerRestController {
 		}
 		else {
 			throw new UsernameNotFoundException(authRequest.getUsername());
+		}
+	
+	}
+	
+	@PutMapping("/update-password")
+	@PreAuthorize("hasAnyAuthority('Customer','Admin','FlightOwner')")
+	public String updatePassword(@RequestBody AuthRequest authRequest) throws Exception {
+		Authentication authentication=authManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+		if(authentication.isAuthenticated()) {
+			return customerService.updatePassword(authRequest);
+		}
+		else {
+			throw new Exception("the password is incorrect");
 		}
 	
 	}
@@ -163,4 +178,34 @@ public class CustomerRestController {
 		generator.export(response, bookingId);
 	}
 	
+	@PutMapping("/update-profile/{username}")
+	@PreAuthorize("hasAnyAuthority('Customer','Admin','FlightOwner')")
+	public String updateProfile(@RequestBody UpdateProfileDTO updateProfileDTO,@PathVariable String username) throws Exception {
+	return customerService.updateProfile(updateProfileDTO, username);
+	}
+	
+	@GetMapping("/get-profile/{username}")
+	@PreAuthorize("hasAnyAuthority('Customer','Admin','FlightOwner')")
+	public UpdateProfileDTO getProfille(@PathVariable String username) {
+	return customerService.getProfille(username);
+	}
+	
+	@GetMapping("/mail-ticket/{bookingId}")
+	@PreAuthorize("hasAuthority('Customer')")
+	public void sendMail(HttpServletResponse response, @PathVariable int bookingId) throws Exception {
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+		String currentDateTime=dateFormatter.format(new Date());
+		
+		String headerKey="Content-Disposition";
+		String headerValue="attachment; filename=pdf_"+currentDateTime+".pdf";
+		response.setHeader(headerKey, headerValue);
+		mailService.sendEmail(response, bookingId);
+	}
+		
+	
+	
+	
+	
 }
+

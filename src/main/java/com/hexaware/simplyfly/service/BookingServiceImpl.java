@@ -136,7 +136,11 @@ public class BookingServiceImpl implements IBookingService {
 		List<Bookings> listOfBookings = getAllBookingsByUsername(customerId);
 		Bookings booking = bookingRepo.findById(bookingId).orElse(null);
 		if ((booking == null) || (!listOfBookings.contains(booking))) {
+			logger.info("booking not found");
 			throw new BookingNotFoundException(bookingId.toString());
+		}
+		if(booking.getStatus()==BookingStatus.Cancelled) {
+			return ("Booking Cancelled");
 		}
 		
 		String paymentId = paymentRepo.getPaymentId(bookingId);
@@ -146,7 +150,9 @@ public class BookingServiceImpl implements IBookingService {
 		// remove from seats table
 		
 		for (Passengers p : passengers) {
+			logger.info("trying to get the seat");
 			seatRepo.delete(p.getSeat());
+			logger.info("we got the seat");
 //			p.getSeat().setStatus(SeatStatus.Vacant);
 			p.setSeat(null);
 		}
@@ -159,8 +165,10 @@ public class BookingServiceImpl implements IBookingService {
 
 		// set status cancelled
 		booking.setStatus(BookingStatus.Cancelled);
+		logger.info("changing the status to cancelled");
 		FlightTrip flightTrip = booking.getFlightTripForBooking();
 		flightTrip.setFilledSeats(flightTrip.getFilledSeats() - passengers.size());
+		logger.info("Booking Cancelled, Payment Refund in process");
 		bookingRepo.save(booking);
 		return "Booking Cancelled, Payment Refund in process";
 	}
@@ -195,5 +203,9 @@ public class BookingServiceImpl implements IBookingService {
 	
 	public List<Bookings> getAllBookings(){
 		return bookingRepo.findAll();
+	}
+	
+	public String getMaxId() {
+		return passengerRepo.getMaxPassengerId();
 	}
 }

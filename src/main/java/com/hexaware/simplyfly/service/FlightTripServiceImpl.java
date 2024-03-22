@@ -130,10 +130,13 @@ public class FlightTripServiceImpl implements IFlightTripService {
 
 	@Override
 	public String cancelFlights(Integer flightTripId,String username) throws BookingNotFoundException, InvalidFlightException, UserNotFoundException {
+		logger.info("checking for flight trip");
 		FlightTrip flightTrip = flightTripRepository.findById(flightTripId).orElse(null);
+		logger.info("checking for user");
 		User user=userRepository.findById(username).orElseThrow(()->new UserNotFoundException(username));
 		
 		if (flightTrip == null || flightTrip.getFlights().getAirline()!=user.getAirline()) {
+			logger.info("here ");
 			throw new InvalidFlightException(flightTripId.toString());
 		}
 		System.out.println(flightTrip.getBookings());
@@ -315,8 +318,8 @@ logger.info("in progress of deleting");
 						passenger.getName(),
 						passenger.getAge(),
 						passenger.getGender(),
-						 Optional.ofNullable(passenger.getSeat().getSeatNo().getSeatNo())
-                         .map(Object::toString)
+						 Optional.ofNullable(passenger.getSeat())
+                         .map(seat->seat.getSeatNo().getSeatNo())
                          .orElse("no seat"))).collect(Collectors.toSet()),
 				booking.getCustomer().getUsername(), 
 				booking.getFlightTripForBooking().getFlightTripId())).collect(Collectors.toList());

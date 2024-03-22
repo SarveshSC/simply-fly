@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -42,6 +43,12 @@ public class User {
 	@OneToOne()
 	@JoinColumn(name="airlineId")
 	private Airlines airlineFromUser;
+	
+	@Lob
+	@Column(length = 16 * 1024 * 1024)
+	private byte[] logo;
+	
+	private String logoContentTtype;
 	
 	
 	@Enumerated(EnumType.STRING)
@@ -121,6 +128,24 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	public byte[] getLogo() {
+		return logo;
+	}
+
+	public void setLogo(byte[] logo) {
+		this.logo = logo;
+	}
+
+	public String getLogoContentTtype() {
+		return logoContentTtype;
+	}
+
+	public void setLogoContentTtype(String logoContentTtype) {
+		this.logoContentTtype = logoContentTtype;
+	}
+	
+	
 	
 	
 }

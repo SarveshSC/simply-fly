@@ -2,7 +2,11 @@ package com.hexaware.simplyfly.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.hexaware.simplyfly.dto.AuthRequest;
 import com.hexaware.simplyfly.dto.BookingDTO;
+import com.hexaware.simplyfly.dto.UpdateProfileDTO;
 import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.SeatStructure;
@@ -17,4 +21,9 @@ public interface ICustomerService {
 	
 	
 	public List<BookingDTO> getBookingsByCustomerUsername(String username);
+	
+	public String updateProfile(UpdateProfileDTO updateProfileDTO,String  username) throws Exception;
+	
+	public UpdateProfileDTO getProfille( String username);
+	public String updatePassword(AuthRequest authRequest);
 }

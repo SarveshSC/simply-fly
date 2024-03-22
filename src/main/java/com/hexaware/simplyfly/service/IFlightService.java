@@ -1,6 +1,9 @@
 package com.hexaware.simplyfly.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.simplyfly.dto.FlightDTO;
 import com.hexaware.simplyfly.entities.Flights;
@@ -19,4 +22,7 @@ public interface IFlightService  {
 	public List<FlightDTO> viewAllFlightsByUsername(String username) throws AirlineNotFoundException;
 
 	public List<Flights> viewAllFlights();
+	
+	public String uploadLogo(String username,MultipartFile file) throws UserNotFoundException, IOException;
+	public byte[] downloadLogo(String username) throws UserNotFoundException ;
 }
